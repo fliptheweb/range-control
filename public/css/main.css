@@ -259,6 +259,17 @@ ul {
   background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.73) -118.63%, rgba(255, 255, 255, 0.73) 31.37%);
   background-image: -o-linear-gradient(bottom, rgba(0, 0, 0, 0.73) -118.63%, rgba(255, 255, 255, 0.73) 31.37%);
   background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.73) -118.63%, rgba(255, 255, 255, 0.73) 31.37%);
+  -webkit-transition: box-shadow 0.3s;
+  -moz-transition: box-shadow 0.3s;
+  -o-transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s;
+}
+.range-control__left:hover, .range-control__left:focus,
+.range-control__right:hover,
+.range-control__right:focus {
+  -webkit-box-shadow: 0 0 5px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
+  -moz-box-shadow: 0 0 5px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
+  box-shadow: 0 0 5px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
 }
 
 .range-control__left {

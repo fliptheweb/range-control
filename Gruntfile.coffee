@@ -16,7 +16,7 @@ module.exports = (grunt) ->
     connect:
       test:
         options:
-          port: 8011
+          port: 8888
           base: '.'
           keepalive: true
 
@@ -53,7 +53,7 @@ module.exports = (grunt) ->
         options:
           join: true
         files:
-          'public/js/main.js': 'src/*.coffee'
+          'public/js/main.js': 'src/coffee/*.coffee'
       dev:
         options:
           sourceMap: true
@@ -62,15 +62,15 @@ module.exports = (grunt) ->
           'public/js/main.js': 'src/*.coffee'
       test:
         files:
-          'test/test.*.js':'test/test.*.coffee'
+          'test/tests.js':'test/test.*.coffee'
 
     # Watch for coffee, sass
     watch:
       scripts:
-        files: 'src/*.coffee'
+        files: 'src/coffee/*.coffee'
         tasks: 'coffee:dev'
       styles:
-        files: 'sass/*.scss'
+        files: 'src/sass/*.scss'
         tasks: 'sass:dev'
 
     # Mocha client-side tests
@@ -86,9 +86,7 @@ module.exports = (grunt) ->
           slow: 200
           timeout: 1000
 
-
-
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
 
-  grunt.registerTask 'default', ['concat', 'uglify']
+  grunt.registerTask 'default', ['coffee:dev', 'concat', 'uglify']
   grunt.registerTask 'test', ['coffee:test', 'simplemocha:test']

@@ -3,15 +3,14 @@ module.exports = (grunt) ->
     concat:
       main:
         src: [
-          'js/libs/jquery.js'
-          'js/mylibs/**/*.js'
+          'public/js/**/*.js'
         ]
-        dest: 'build/scripts.js'
+        dest: 'public/js/main.js'
 
     uglify:
       main:
         files:
-          'build/scripts.min.js': '<%= concat.main.dest %>'
+          'public/js/main.min.js': '<%= concat.main.dest %>'
 
     # Run simple server for static
     connect:
@@ -54,13 +53,13 @@ module.exports = (grunt) ->
         options:
           join: true
         files:
-          'js/main.js': 'js/*.coffee'
+          'public/js/main.js': 'src/*.coffee'
       dev:
         options:
           sourceMap: true
           join: true
         files:
-          'js/main.js': 'js/*.coffee'
+          'public/js/main.js': 'src/*.coffee'
       test:
         files:
           'test/test.*.js':'test/test.*.coffee'
@@ -68,10 +67,10 @@ module.exports = (grunt) ->
     # Watch for coffee, sass
     watch:
       scripts:
-        files: 'js/*.coffee'
+        files: 'src/*.coffee'
         tasks: 'coffee:dev'
       styles:
-        files: 'css/sass/*.scss'
+        files: 'sass/*.scss'
         tasks: 'sass:dev'
 
     # Mocha client-side tests

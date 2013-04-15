@@ -71,7 +71,7 @@ module.exports = (grunt) ->
         tasks: 'coffee:dev'
       styles:
         files: 'src/sass/*.scss'
-        tasks: 'sass:dev'
+        tasks: 'compass:dev'
 
     # Mocha client-side tests
     mocha:

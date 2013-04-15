@@ -1,3 +1,20 @@
-.range-control {
+$block: "range-control";
+
+.#{$block} {
 
 }
+
+.#{$block}__left,
+.#{$block}__right {
+	width: 66px;
+	height: 24px;
+	border: 1px solid #c3c3c3;
+	background-color: #d7d7d7;
+	@include border-radius(3px);
+	@include background-clip(padding-box);
+	@include box-shadow(0 1px 3px rgba(0,0,0,.15), inset 0 1px 0 #fff);
+	@include background-image(linear-gradient(bottom, rgba(0,0,0,.73) -118.63%, rgba(255,255,255,.73) 31.37%));
+}
+
+
+

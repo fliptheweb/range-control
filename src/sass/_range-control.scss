@@ -23,10 +23,11 @@ $b: "range-control";
 	@include text-shadow(0 1px 0 #fff);
 	@include box-shadow(0 1px 3px rgba(0,0,0,.15), inset 0 1px 0 #fff);
 	@include background-image(linear-gradient(bottom, rgba(#000, .73) -118.63%, rgba(#fff, .73) 31.37%));
-	@include transition(box-shadow .3s);
+	@include transition(box-shadow .3s, color .3s);
 	&:hover,
 	&:focus {
 		@include box-shadow(0 0 5px rgba(#95D1FF, .7), inset 0 1px 0 #fff);
+		color: #0074cd;
 	}
 }
 

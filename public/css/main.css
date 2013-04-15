@@ -230,20 +230,27 @@ ul {
   padding: 0;
 }
 
+.range-control {
+  position: relative;
+  height: 24px;
+}
+
 .range-control__left,
 .range-control__right {
   width: 66px;
-  height: 24px;
   border: 1px solid #c3c3c3;
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
   background-color: #d7d7d7;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-background-clip: padding;
-  -moz-background-clip: padding;
-  background-clip: padding-box;
+  color: #7c7c7c;
+  font-family: Arial, Tahoma, sans-serif;
+  font-size: 11px;
+  line-height: 24px;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+  text-shadow: 0 1px 0 white;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 white;
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 white;
@@ -254,8 +261,36 @@ ul {
   background-image: linear-gradient(bottom, rgba(0, 0, 0, 0.73) -118.63%, rgba(255, 255, 255, 0.73) 31.37%);
 }
 
+.range-control__left {
+  -webkit-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px 0 0 3px;
+  -ms-border-radius: 3px 0 0 3px;
+  -o-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
+  left: 0;
+}
+
+.range-control__right {
+  -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  -ms-border-radius: 0 3px 3px 0;
+  -o-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+  right: 0;
+}
+
+.range-control__range {
+  height: 100%;
+  -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.35);
+  -moz-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.35);
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.35);
+}
+
 .wrap {
   width: 500px;
   padding-top: 100px;
   margin: 0 auto;
+}
+.wrap > div {
+  margin-bottom: 100px;
 }

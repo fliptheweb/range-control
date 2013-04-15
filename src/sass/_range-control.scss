@@ -1,19 +1,43 @@
-$block: "range-control";
+$b: "range-control";
 
-.#{$block} {
-
+.#{$b} {
+	position: relative;
+	height: 24px;
 }
 
-.#{$block}__left,
-.#{$block}__right {
+.#{$b}__left,
+.#{$b}__right {
 	width: 66px;
-	height: 24px;
 	border: 1px solid #c3c3c3;
+	position: absolute;
+	top: -1px;
+	bottom: -1px;
 	background-color: #d7d7d7;
-	@include border-radius(3px);
-	@include background-clip(padding-box);
+	color: #7c7c7c;
+	font-family: Arial, Tahoma, sans-serif;
+	font-size: 11px;
+	line-height: 24px;
+	text-align: center;
+	cursor: pointer;
+	white-space: nowrap;
+	@include text-shadow(0 1px 0 #fff);
 	@include box-shadow(0 1px 3px rgba(0,0,0,.15), inset 0 1px 0 #fff);
-	@include background-image(linear-gradient(bottom, rgba(0,0,0,.73) -118.63%, rgba(255,255,255,.73) 31.37%));
+	@include background-image(linear-gradient(bottom, rgba(#000, .73) -118.63%, rgba(#fff, .73) 31.37%));
+}
+
+.#{$b}__left {
+	@include border-radius(3px 0 0 3px);
+	left: 0;
+}
+
+.#{$b}__right {
+	@include border-radius(0 3px 3px 0);
+	right: 0;
+}
+
+.#{$b}__range {
+	height: 100%;
+	@include box-shadow(inset 0 0 3px rgba(0,0,0,.35));
 }
 
 

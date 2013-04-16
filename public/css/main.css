@@ -240,6 +240,7 @@ ul {
   width: 66px;
   border: 1px solid #c3c3c3;
   position: absolute;
+  z-index: 1;
   top: -1px;
   bottom: -1px;
   background-color: #d7d7d7;
@@ -300,6 +301,17 @@ ul {
 .range-control__range table {
   width: 100%;
   height: 24px;
+}
+.range-control__range table td {
+  position: relative;
+}
+.range-control__range table td div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #288bf0;
 }
 
 .wrap {

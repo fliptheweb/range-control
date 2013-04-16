@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "main.js",
+  "sourceRoot": "../../src/coffee/",
+  "sources": [
+    "rangeControl.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;CAAA,KAAA,MAAA;;CAAA,CAAM;CACS,CAAA,CAAA,CAAA,kBAAE;CACb,CAAA,CADa,CAAA,EAAD;CACZ,CAAA,CAAA,CAAa,EAAb,CAAO;CADT,IAAa;;CAAb;;CADF;CAAA"
+}

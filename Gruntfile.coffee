@@ -59,7 +59,7 @@ module.exports = (grunt) ->
           sourceMap: true
           join: true
         files:
-          'public/js/main.js': 'src/*.coffee'
+          'public/js/main.js': 'src/coffee/*.coffee'
       test:
         files:
           'test/tests.js':'test/test.*.coffee'

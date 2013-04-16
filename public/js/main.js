@@ -12,4 +12,6 @@
 
   })();
 
+  new RangeControl($(".range-control"));
+
 }).call(this);

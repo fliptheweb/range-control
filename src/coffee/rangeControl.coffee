@@ -29,11 +29,20 @@ class RangeTable
       @colorizeCell cell
 
   colorizeCell: (cell) ->
-    colorRange =
+    # @todo extract to options
+    colorRanges = {
       "light-green":  [0, 100]
-      "middle-green": [100, 1000]
-      "green":        [1000, 10000]
-      "yellow":       [10000]
+      "middle-green": [101, 1000]
+      "green":        [1001, 10000]
+      "yellow":       [10001]
+    }
+    for colorRange of colorRanges
+      if colorRanges[colorRange][0] <= cell.data("rate") <= colorRanges[colorRange][1]
+        cell.addClass(colorRange)
+        break
+      if !colorRanges[colorRange][1] && colorRanges[colorRange][0] <= cell.data("rate")
+        cell.addClass(colorRange)
+        break
 
 
 

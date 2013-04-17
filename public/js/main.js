@@ -19,7 +19,7 @@
   RangeTable = (function() {
     function RangeTable(el) {
       this.el = el;
-      this.rangeCells = this.el.find("td");
+      this.cells = this.el.find("td");
       this.data = [];
       this.height = this.el.height();
       this.buildDataFromCells();
@@ -31,11 +31,11 @@
       var x,
         _this = this;
 
-      this.rangeCells.each(function(i, rangeCell) {
-        rangeCell = $(rangeCell);
+      this.cells.each(function(i, cell) {
+        cell = $(cell);
         return _this.data.push({
-          volume: rangeCell.data("volume"),
-          rate: rangeCell.data("rate")
+          volume: cell.data("volume"),
+          rate: cell.data("rate")
         });
       });
       return this.maxVolume = Math.max.apply(null, (function() {
@@ -54,19 +54,33 @@
     RangeTable.prototype.buildCells = function() {
       var _this = this;
 
-      return this.rangeCells.each(function(i, rangeCell) {
-        rangeCell = $(rangeCell);
-        return $("<div/>").appendTo(rangeCell).height((100 / _this.maxVolume * rangeCell.data("volume")) * _this.height / 100);
+      return this.cells.each(function(i, cell) {
+        var cellInner;
+
+        cell = $(cell);
+        return cellInner = $("<div/>").appendTo(cell).height((100 / _this.maxVolume * cell.data("volume")) * _this.height / 100);
       });
     };
 
     RangeTable.prototype.bindHoverToCells = function() {
-      return this.rangeCells.on("mouseover", function() {});
+      return this.cells.on("mouseover", function(cell) {
+        return console.log(utilities.shortenVolume($(cell).data("volume")));
+      });
     };
+
+    RangeTable.prototype.getCellPosition = function(cell) {};
 
     return RangeTable;
 
   })();
+
+  ({
+    utilities: {
+      shortenVolume: function(volume) {
+        return volume;
+      }
+    }
+  });
 
   new RangeControl($(".range-control"));
 

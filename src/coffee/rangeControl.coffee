@@ -5,12 +5,9 @@ class RangeControl
   buildRangeTable: ->
     @rangeTable = new RangeTable(@el.find(".range-control__range table"))
 
-#      rangeCell.on "mouseover", ->
-#        console.log($(@).data("rate"))
-
 class RangeTable
   constructor: (@el) ->
-    @rangeCells = @el.find("td")
+    @cells = @el.find("td")
     @data = []
     @height = @el.height()
     @buildDataFromCells()
@@ -18,23 +15,32 @@ class RangeTable
     @bindHoverToCells()
 
   buildDataFromCells: ->
-    @rangeCells.each (i, rangeCell) =>
-      rangeCell = $(rangeCell)
+    @cells.each (i, cell) =>
+      cell = $(cell)
       @data.push
-        volume: rangeCell.data "volume"
-        rate:   rangeCell.data "rate"
+        volume: cell.data "volume"
+        rate:   cell.data "rate"
 
     @maxVolume = Math.max.apply null, (x.volume for x in @data)
 
   buildCells: ->
-    @rangeCells.each (i, rangeCell) =>
-      rangeCell = $(rangeCell)
-      $("<div/>").appendTo(rangeCell).height (100/@maxVolume * rangeCell.data("volume")) * @height/100
+    @cells.each (i, cell) =>
+      cell = $(cell)
+      cellInner = $("<div/>").appendTo(cell).height (100/@maxVolume * cell.data("volume")) * @height/100
 
   bindHoverToCells: ->
-    @rangeCells.on "mouseover", ->
+    @cells.on "mouseover", (cell) ->
+      console.log(utilities.shortenVolume($(cell).data("volume")))
 #      $(@).append($("<div />").text($(@).data("volume")))
 #      console.log()
+
+  getCellPosition: (cell) ->
+
+
+
+utilities:
+  shortenVolume: (volume) ->
+    volume
 
 
 

@@ -44,6 +44,7 @@ $b: "range-control";
 
 .#{$b}__range {
 	height: 100%;
+	margin: 0 66px;
 	@include box-shadow(inset 0 0 3px rgba(0,0,0,.35));
 	
 	table {

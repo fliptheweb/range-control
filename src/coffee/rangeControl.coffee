@@ -39,7 +39,7 @@ class RangeTable
     for colorRange of colorRanges
       leftColorRange  = colorRanges[colorRange][0]
       rightColorRange = colorRanges[colorRange][1]
-      if  (leftColorRange <= cell.data("rate") <= rightColorRange) || (leftColorRange <= cell.data("rate") && !rightColorRange)
+      if (leftColorRange <= cell.data("rate") <= rightColorRange) || (leftColorRange <= cell.data("rate") && !rightColorRange)
         cell.addClass(colorRange)
         break
 

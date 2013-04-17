@@ -114,6 +114,10 @@ $b: "range-control";
 			&.yellow {
 				@include background(linear-gradient(bottom, #fee29b 0%, #fed46d 100%));
 			}
+
+			&.is-disabled {
+				background: #f6f6f6 !important;
+			}
 		}
 	}
 }

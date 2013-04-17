@@ -376,6 +376,9 @@ ul {
   background: -o-linear-gradient(bottom, #fee29b 0%, #fed46d 100%);
   background: linear-gradient(bottom, #fee29b 0%, #fed46d 100%);
 }
+.range-control__range table td.is-disabled {
+  background: #f6f6f6 !important;
+}
 
 .wrap {
   max-width: 600px;

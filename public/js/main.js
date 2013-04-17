@@ -51,7 +51,7 @@
         var cellInner;
 
         cell = $(cell);
-        cellInner = $("<div/>").appendTo(cell).height((100 / _this.maxVolume * cell.data("volume")) * _this.height / 100);
+        cellInner = $("<div/>").appendTo(cell).height(100 / _this.maxVolume * cell.data("volume") + "%");
         return _this.colorizeCell(cell);
       });
     };

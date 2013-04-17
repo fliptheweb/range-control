@@ -22,7 +22,7 @@ class RangeTable
   buildCells: ->
     @cells.each (i, cell) =>
       cell = $(cell)
-      cellInner = $("<div/>").appendTo(cell).height (100/@maxVolume * cell.data("volume")) * @height/100
+      cellInner = $("<div/>").appendTo(cell).height (100/@maxVolume * cell.data("volume") + "%")
       @colorizeCell cell
 #      @bindHoverToCell cell
 

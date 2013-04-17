@@ -3,8 +3,6 @@
   var RangeControl, RangeTable;
 
   RangeControl = (function() {
-    RangeControl.rangeTable;
-
     function RangeControl(el) {
       this.el = el;
       this.buildRangeTable();
@@ -19,8 +17,6 @@
   })();
 
   RangeTable = (function() {
-    RangeTable.data;
-
     function RangeTable(el) {
       this.el = el;
       this.rangeCells = this.el.find("td");

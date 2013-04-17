@@ -58,7 +58,13 @@ $b: "range-control";
 				left: 0;
 				right: 0;
 				bottom: 0;
-				background: #288bf0;
+				background: #38a9ff;
+			}
+
+			&:hover {
+				div {
+					background: #288bf0;
+				}
 			}
 		}
 	}

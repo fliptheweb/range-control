@@ -310,6 +310,9 @@ ul {
   left: 0;
   right: 0;
   bottom: 0;
+  background: #38a9ff;
+}
+.range-control__range table td:hover div {
   background: #288bf0;
 }
 

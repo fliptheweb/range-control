@@ -1,6 +1,4 @@
 class RangeControl
-  @rangeTable
-
   constructor: (@el) ->
     @buildRangeTable()
 
@@ -11,8 +9,6 @@ class RangeControl
 #        console.log($(@).data("rate"))
 
 class RangeTable
-  @data
-
   constructor: (@el) ->
     @rangeCells = @el.find("td")
     @data = []

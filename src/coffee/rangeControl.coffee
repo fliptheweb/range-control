@@ -29,7 +29,7 @@ class RangeTable
   buildCells: ->
     @rangeCells.each (i, rangeCell) =>
       rangeCell = $(rangeCell)
-      $("<div/>").appendTo(rangeCell).height((100/@maxVolume * rangeCell.data("volume")) * @height/100)
+      $("<div/>").appendTo(rangeCell).height (100/@maxVolume * rangeCell.data("volume")) * @height/100
 
   bindHoverToCells: ->
     @rangeCells.on "mouseover", ->

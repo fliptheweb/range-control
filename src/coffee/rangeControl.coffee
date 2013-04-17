@@ -15,12 +15,11 @@ class RangeTable
     @bindHoverToCells()
 
   buildDataFromCells: ->
-    @cells.each (i, cell) =>
-      cell = $(cell)
-      @data.push
-        volume: cell.data "volume"
-        rate:   cell.data "rate"
-
+    @data = @cells.map (i, cell) ->
+      return {
+        volume: $(cell).data "volume"
+        rate:   $(cell).data "rate"
+      }
     @maxVolume = Math.max.apply null, (x.volume for x in @data)
 
   buildCells: ->

@@ -32,7 +32,10 @@
 
           positionInParent = stopPoint - zeroCoordinate - shiftX;
           if ((positionInParent >= 0) && (positionInParent + _this.controlWidth <= _this.rightControl.offset().left - zeroCoordinate)) {
-            return _this.leftControl.css("left", positionInParent);
+            _this.leftControl.css("left", positionInParent);
+          }
+          if (positionInParent < 0) {
+            return _this.leftControl.css("left", 0);
           }
         };
         return $(document).on("mousemove", function(event) {
@@ -50,7 +53,10 @@
 
           positionInParent = stopPoint - zeroCoordinate - shiftX;
           if ((positionInParent + _this.controlWidth < _this.el.width() - 1) && (positionInParent >= _this.leftControl.offset().left + _this.controlWidth - zeroCoordinate)) {
-            return _this.rightControl.css("left", positionInParent);
+            _this.rightControl.css("left", positionInParent);
+          }
+          if (positionInParent + _this.controlWidth > _this.el.width()) {
+            return _this.rightControl.css("left", _this.el.width() - _this.controlWidth);
           }
         };
         return $(document).on("mousemove", function(event) {

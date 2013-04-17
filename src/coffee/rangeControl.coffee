@@ -24,12 +24,30 @@ class RangeControl
       $(document).on "mousemove", (event) =>
         moveTo(event.clientX)
 
+    @rightControl.on "mousedown", (event) =>
+      @rightControl.addClass("is-dragged")
+      zeroCoordinate = @el.offset().left
+      shiftX = event.clientX - @rightControl.offset().left
+
+      moveTo = (stopPoint) =>
+        positionInParent = stopPoint - zeroCoordinate - shiftX
+        if (positionInParent >= 0) && (positionInParent >= @leftControl.offset().left + @controlWidth - zeroCoordinate)
+          @rightControl.css "left", positionInParent
+
+      $(document).on "mousemove", (event) =>
+        moveTo(event.clientX)
+
     @leftControl.on "mouseup", =>
       @leftControl.removeClass("is-dragged")
       $(document).off "mousemove"
 
+    @rightControl.on "mouseup", =>
+      @rightControl.removeClass("is-dragged")
+      $(document).off "mousemove"
+
     @el.on "mouseleave", =>
       @leftControl.removeClass("is-dragged")
+      @rightControl.removeClass("is-dragged")
       $(document).off "mousemove"
 
 

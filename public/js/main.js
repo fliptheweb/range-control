@@ -39,12 +39,35 @@
           return moveTo(event.clientX);
         });
       });
+      this.rightControl.on("mousedown", function(event) {
+        var moveTo, shiftX, zeroCoordinate;
+
+        _this.rightControl.addClass("is-dragged");
+        zeroCoordinate = _this.el.offset().left;
+        shiftX = event.clientX - _this.rightControl.offset().left;
+        moveTo = function(stopPoint) {
+          var positionInParent;
+
+          positionInParent = stopPoint - zeroCoordinate - shiftX;
+          if ((positionInParent >= 0) && (positionInParent >= _this.leftControl.offset().left + _this.controlWidth - zeroCoordinate)) {
+            return _this.rightControl.css("left", positionInParent);
+          }
+        };
+        return $(document).on("mousemove", function(event) {
+          return moveTo(event.clientX);
+        });
+      });
       this.leftControl.on("mouseup", function() {
         _this.leftControl.removeClass("is-dragged");
         return $(document).off("mousemove");
       });
+      this.rightControl.on("mouseup", function() {
+        _this.rightControl.removeClass("is-dragged");
+        return $(document).off("mousemove");
+      });
       return this.el.on("mouseleave", function() {
         _this.leftControl.removeClass("is-dragged");
+        _this.rightControl.removeClass("is-dragged");
         return $(document).off("mousemove");
       });
     };

@@ -16,23 +16,29 @@ class RangeTable
   constructor: (@el) ->
     @rangeCells = @el.find("td")
     @data = []
+    @height = @el.height()
     @buildDataFromCells()
+    @buildCells()
     @bindHoverToCells()
 
   buildDataFromCells: ->
-    @rangeCells.each (i, rangeCell)=>
+    @rangeCells.each (i, rangeCell) =>
       rangeCell = $(rangeCell)
       @data.push
         volume: rangeCell.data "volume"
         rate:   rangeCell.data "rate"
 
     @maxVolume = Math.max.apply null, (x.volume for x in @data)
-    console.log @maxVolume
+
+  buildCells: ->
+    @rangeCells.each (i, rangeCell) =>
+      rangeCell = $(rangeCell)
+      $("<div/>").appendTo(rangeCell).height((100/@maxVolume * rangeCell.data("volume")) * @height/100)
 
   bindHoverToCells: ->
     @rangeCells.on "mouseover", ->
-      $(@).append($("<div />").text($(@).data("volume")))
-      console.log()
+#      $(@).append($("<div />").text($(@).data("volume")))
+#      console.log()
 
 
 

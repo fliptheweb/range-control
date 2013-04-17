@@ -25,7 +25,9 @@
       this.el = el;
       this.rangeCells = this.el.find("td");
       this.data = [];
+      this.height = this.el.height();
       this.buildDataFromCells();
+      this.buildCells();
       this.bindHoverToCells();
     }
 
@@ -40,7 +42,7 @@
           rate: rangeCell.data("rate")
         });
       });
-      this.maxVolume = Math.max.apply(null, (function() {
+      return this.maxVolume = Math.max.apply(null, (function() {
         var _i, _len, _ref, _results;
 
         _ref = this.data;
@@ -51,14 +53,19 @@
         }
         return _results;
       }).call(this));
-      return console.log(this.maxVolume);
+    };
+
+    RangeTable.prototype.buildCells = function() {
+      var _this = this;
+
+      return this.rangeCells.each(function(i, rangeCell) {
+        rangeCell = $(rangeCell);
+        return $("<div/>").appendTo(rangeCell).height((100 / _this.maxVolume * rangeCell.data("volume")) * _this.height / 100);
+      });
     };
 
     RangeTable.prototype.bindHoverToCells = function() {
-      return this.rangeCells.on("mouseover", function() {
-        $(this).append($("<div />").text($(this).data("volume")));
-        return console.log();
-      });
+      return this.rangeCells.on("mouseover", function() {});
     };
 
     return RangeTable;

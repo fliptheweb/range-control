@@ -1,6 +1,6 @@
 //@ sourceMappingURL=main.map
 (function() {
-  var RangeControl, RangeTable;
+  var RangeControl, RangeTable, utilities;
 
   RangeControl = (function() {
     function RangeControl(el) {
@@ -58,8 +58,20 @@
         var cellInner;
 
         cell = $(cell);
-        return cellInner = $("<div/>").appendTo(cell).height((100 / _this.maxVolume * cell.data("volume")) * _this.height / 100);
+        cellInner = $("<div/>").appendTo(cell).height((100 / _this.maxVolume * cell.data("volume")) * _this.height / 100);
+        return _this.colorizeCell(cell);
       });
+    };
+
+    RangeTable.prototype.colorizeCell = function(cell) {
+      var colorRange;
+
+      return colorRange = {
+        "light-green": [0, 100],
+        "middle-green": [100, 1000],
+        "green": [1000, 10000],
+        "yellow": [10000]
+      };
     };
 
     RangeTable.prototype.bindHoverToCells = function() {
@@ -74,13 +86,11 @@
 
   })();
 
-  ({
-    utilities: {
-      shortenVolume: function(volume) {
-        return volume;
-      }
+  utilities = {
+    shortenVolume: function(volume) {
+      return volume;
     }
-  });
+  };
 
   new RangeControl($(".range-control"));
 

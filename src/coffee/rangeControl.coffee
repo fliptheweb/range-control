@@ -27,6 +27,16 @@ class RangeTable
     @cells.each (i, cell) =>
       cell = $(cell)
       cellInner = $("<div/>").appendTo(cell).height (100/@maxVolume * cell.data("volume")) * @height/100
+      @colorizeCell cell
+
+  colorizeCell: (cell) ->
+    colorRange =
+      "light-green":  [0, 100]
+      "middle-green": [100, 1000]
+      "green":        [1000, 10000]
+      "yellow":       [10000]
+
+
 
   bindHoverToCells: ->
     @cells.on "mouseover", (cell) ->
@@ -36,9 +46,7 @@ class RangeTable
 
   getCellPosition: (cell) ->
 
-
-
-utilities:
+utilities =
   shortenVolume: (volume) ->
     volume
 

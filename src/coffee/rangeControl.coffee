@@ -10,7 +10,6 @@ class RangeTable
     @height = @el.height()
     @buildDataFromCells()
     @buildCells()
-    @bindHoverToCells()
 
   buildDataFromCells: ->
     @data = @cells.map (i, cell) ->
@@ -25,6 +24,7 @@ class RangeTable
       cell = $(cell)
       cellInner = $("<div/>").appendTo(cell).height (100/@maxVolume * cell.data("volume")) * @height/100
       @colorizeCell cell
+#      @bindHoverToCell cell
 
   colorizeCell: (cell) ->
     # @todo extract to options
@@ -46,14 +46,9 @@ class RangeTable
 
   getCellByPosition: (x) ->
 
-  bindHoverToCells: ->
-    @cells.hover(
-              (event) ->
-                console.log("!")
-                cell = event.currentTarget
-              ,(event) ->
-                console.log("unhover")
-                )
+  bindHoverToCell: (cell) ->
+    cell = $(cell)
+    cell.hover()
 
 #      $(@).append($("<div />").text($(@).data("volume")))
 #      console.log()

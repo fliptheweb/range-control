@@ -20,7 +20,6 @@
       this.height = this.el.height();
       this.buildDataFromCells();
       this.buildCells();
-      this.bindHoverToCells();
     }
 
     RangeTable.prototype.buildDataFromCells = function() {
@@ -86,15 +85,9 @@
 
     RangeTable.prototype.getCellByPosition = function(x) {};
 
-    RangeTable.prototype.bindHoverToCells = function() {
-      return this.cells.hover(function(event) {
-        var cell;
-
-        console.log("!");
-        return cell = event.currentTarget;
-      }, function(event) {
-        return console.log("unhover");
-      });
+    RangeTable.prototype.bindHoverToCell = function(cell) {
+      cell = $(cell);
+      return cell.hover();
     };
 
     return RangeTable;

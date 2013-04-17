@@ -4,28 +4,31 @@ class RangeControl
     @bindControls()
 
   bindControls: ->
-    @leftControl = @el.find(".range-control__left")
+    @leftControl  = @el.find(".range-control__left")
     @rightControl = @el.find(".range-control__right")
     @controlWidth = @leftControl.width()
 
-    @leftControl.on "dragstart", ->
-      return false
+    @leftControl.on  "dragstart", -> return false
+    @rightControl.on "dragstart", -> return false
 
     @leftControl.on "mousedown", (event) =>
-      startPoint = event.clientX
-      console.log("mousedown")
+      @leftControl.addClass("is-dragged")
+      zeroCoordinate = @el.offset().left
+      shiftX = event.clientX - @leftControl.offset().left
+      console.log(shiftX)
+
       moveTo = (stopPoint) =>
-        @leftControl.css "left", stopPoint - startPoint
+        @leftControl.css "left", stopPoint - shiftX - zeroCoordinate
+
       $(document).on "mousemove", (event) =>
         moveTo(event.clientX)
 
     @leftControl.on "mouseup", =>
+      @leftControl.removeClass("is-dragged")
       $(document).off "mousemove"
 
     @el.on "mouseleft", =>
       $(document).off "mousemove"
-
-
 
 
 class RangeTable
@@ -89,5 +92,5 @@ utilities =
       return "#{volume/1000000}".replace(".",",") + " млн."
 
 
-
-new RangeControl($(".range-control"))
+$(".range-control").each (i, control) ->
+  new RangeControl($(control))

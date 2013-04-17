@@ -276,6 +276,10 @@ ul {
   color: #0074cd;
   outline: none;
 }
+.range-control__left.is-dragged,
+.range-control__right.is-dragged {
+  cursor: col-resize;
+}
 
 .range-control__left {
   -webkit-border-radius: 3px 0 0 3px;

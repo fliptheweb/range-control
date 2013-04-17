@@ -33,6 +33,9 @@ $b: "range-control";
 		color: #0074cd;
 		outline: none;
 	}
+	&.is-dragged {
+		cursor: col-resize;
+	}
 }
 
 .#{$b}__left {

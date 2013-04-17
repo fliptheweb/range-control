@@ -18,19 +18,25 @@
       this.leftControl.on("dragstart", function() {
         return false;
       });
+      this.rightControl.on("dragstart", function() {
+        return false;
+      });
       this.leftControl.on("mousedown", function(event) {
-        var moveTo, startPoint;
+        var moveTo, shiftX, zeroCoordinate;
 
-        startPoint = event.clientX;
-        console.log("mousedown");
+        _this.leftControl.addClass("is-dragged");
+        zeroCoordinate = _this.el.offset().left;
+        shiftX = event.clientX - _this.leftControl.offset().left;
+        console.log(shiftX);
         moveTo = function(stopPoint) {
-          return _this.leftControl.css("left", stopPoint - startPoint);
+          return _this.leftControl.css("left", stopPoint - shiftX - zeroCoordinate);
         };
         return $(document).on("mousemove", function(event) {
           return moveTo(event.clientX);
         });
       });
       this.leftControl.on("mouseup", function() {
+        _this.leftControl.removeClass("is-dragged");
         return $(document).off("mousemove");
       });
       return this.el.on("mouseleft", function() {
@@ -138,6 +144,8 @@
     }
   };
 
-  new RangeControl($(".range-control"));
+  $(".range-control").each(function(i, control) {
+    return new RangeControl($(control));
+  });
 
 }).call(this);

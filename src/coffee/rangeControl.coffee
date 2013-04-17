@@ -22,6 +22,8 @@ class RangeControl
           @leftControl.css "left", positionInParent
         if (positionInParent < 0)
           @leftControl.css "left", 0
+        if (positionInParent + @controlWidth > @rightControl.offset().left - zeroCoordinate)
+          @leftControl.css "left", @rightControl.offset().left - zeroCoordinate - @controlWidth - 2
 
       $(document).on "mousemove", (event) =>
         moveTo(event.clientX)
@@ -35,8 +37,10 @@ class RangeControl
         positionInParent = stopPoint - zeroCoordinate - shiftX
         if (positionInParent + @controlWidth < @el.width() - 1) && (positionInParent >= @leftControl.offset().left + @controlWidth - zeroCoordinate)
           @rightControl.css "left", positionInParent
-        if (positionInParent + @controlWidth > @el.width() )
+        if (positionInParent + @controlWidth > @el.width())
           @rightControl.css "left", @el.width() - @controlWidth
+        if (positionInParent < @leftControl.offset().left + @controlWidth - zeroCoordinate)
+          @rightControl.css "left", @leftControl.offset().left + @controlWidth - zeroCoordinate + 1
 
       $(document).on "mousemove", (event) =>
         moveTo(event.clientX)

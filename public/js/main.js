@@ -35,7 +35,10 @@
             _this.leftControl.css("left", positionInParent);
           }
           if (positionInParent < 0) {
-            return _this.leftControl.css("left", 0);
+            _this.leftControl.css("left", 0);
+          }
+          if (positionInParent + _this.controlWidth > _this.rightControl.offset().left - zeroCoordinate) {
+            return _this.leftControl.css("left", _this.rightControl.offset().left - zeroCoordinate - _this.controlWidth - 2);
           }
         };
         return $(document).on("mousemove", function(event) {
@@ -56,7 +59,10 @@
             _this.rightControl.css("left", positionInParent);
           }
           if (positionInParent + _this.controlWidth > _this.el.width()) {
-            return _this.rightControl.css("left", _this.el.width() - _this.controlWidth);
+            _this.rightControl.css("left", _this.el.width() - _this.controlWidth);
+          }
+          if (positionInParent < _this.leftControl.offset().left + _this.controlWidth - zeroCoordinate) {
+            return _this.rightControl.css("left", _this.leftControl.offset().left + _this.controlWidth - zeroCoordinate + 1);
           }
         };
         return $(document).on("mousemove", function(event) {

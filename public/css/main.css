@@ -239,6 +239,7 @@ ul {
 .range-control__right {
   width: 66px;
   padding: 0;
+  margin: 0;
   border: 1px solid #c3c3c3;
   position: absolute;
   z-index: 1;
@@ -269,9 +270,9 @@ ul {
 .range-control__left:hover, .range-control__left:focus,
 .range-control__right:hover,
 .range-control__right:focus {
-  -webkit-box-shadow: 0 0 5px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
-  -moz-box-shadow: 0 0 5px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
-  box-shadow: 0 0 5px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
+  -webkit-box-shadow: 0 0 5px 1px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
+  -moz-box-shadow: 0 0 5px 1px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
+  box-shadow: 0 0 5px 1px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
   color: #0074cd;
   outline: none;
 }

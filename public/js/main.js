@@ -107,7 +107,15 @@
 
   utilities = {
     shortenVolume: function(volume) {
-      return volume;
+      if (volume < 1000) {
+        volume;
+      }
+      if (volume < 1000000) {
+        volume / 1000 + "тыс.";
+      }
+      if (volume >= 1000000) {
+        return volume / 1000000 + "млн.";
+      }
     }
   };
 

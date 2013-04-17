@@ -1,6 +1,31 @@
 class RangeControl
   constructor: (@el) ->
     @rangeTable = new RangeTable(@el.find(".range-control__range table"))
+    @bindControls()
+
+  bindControls: ->
+    @leftControl = @el.find(".range-control__left")
+    @rightControl = @el.find(".range-control__right")
+    @controlWidth = @leftControl.width()
+
+    @leftControl.on "dragstart", ->
+      return false
+
+    @leftControl.on "mousedown", (event) =>
+      startPoint = event.clientX
+      console.log("mousedown")
+      moveTo = (stopPoint) =>
+        @leftControl.css "left", stopPoint - startPoint
+      $(document).on "mousemove", (event) =>
+        moveTo(event.clientX)
+
+    @leftControl.on "mouseup", =>
+      $(document).off "mousemove"
+
+    @el.on "mouseleft", =>
+      $(document).off "mousemove"
+
+
 
 
 class RangeTable
@@ -39,7 +64,7 @@ class RangeTable
       rightColorRange = colorRanges[colorRange][1]
       if (leftColorRange <= cell.data("rate") <= rightColorRange) || (leftColorRange <= cell.data("rate") && !rightColorRange)
         cell.addClass(colorRange)
-        console.log(utilities.shortenVolume(cell.data("rate")))
+#        console.log(utilities.shortenVolume(cell.data("rate")))
         break
 
   getVolumeByPosition: (x) ->

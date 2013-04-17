@@ -6,7 +6,37 @@
     function RangeControl(el) {
       this.el = el;
       this.rangeTable = new RangeTable(this.el.find(".range-control__range table"));
+      this.bindControls();
     }
+
+    RangeControl.prototype.bindControls = function() {
+      var _this = this;
+
+      this.leftControl = this.el.find(".range-control__left");
+      this.rightControl = this.el.find(".range-control__right");
+      this.controlWidth = this.leftControl.width();
+      this.leftControl.on("dragstart", function() {
+        return false;
+      });
+      this.leftControl.on("mousedown", function(event) {
+        var moveTo, startPoint;
+
+        startPoint = event.clientX;
+        console.log("mousedown");
+        moveTo = function(stopPoint) {
+          return _this.leftControl.css("left", stopPoint - startPoint);
+        };
+        return $(document).on("mousemove", function(event) {
+          return moveTo(event.clientX);
+        });
+      });
+      this.leftControl.on("mouseup", function() {
+        return $(document).off("mousemove");
+      });
+      return this.el.on("mouseleft", function() {
+        return $(document).off("mousemove");
+      });
+    };
 
     return RangeControl;
 
@@ -71,7 +101,6 @@
         rightColorRange = colorRanges[colorRange][1];
         if (((leftColorRange <= (_ref = cell.data("rate")) && _ref <= rightColorRange)) || (leftColorRange <= cell.data("rate") && !rightColorRange)) {
           cell.addClass(colorRange);
-          console.log(utilities.shortenVolume(cell.data("rate")));
           break;
         } else {
           _results.push(void 0);

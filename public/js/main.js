@@ -28,7 +28,12 @@
         zeroCoordinate = _this.el.offset().left;
         shiftX = event.clientX - _this.leftControl.offset().left;
         moveTo = function(stopPoint) {
-          return _this.leftControl.css("left", stopPoint - shiftX - zeroCoordinate);
+          var positionInParent;
+
+          positionInParent = stopPoint - zeroCoordinate - shiftX;
+          if ((positionInParent >= 0) && (positionInParent + _this.controlWidth <= _this.rightControl.offset().left - zeroCoordinate)) {
+            return _this.leftControl.css("left", positionInParent);
+          }
         };
         return $(document).on("mousemove", function(event) {
           return moveTo(event.clientX);

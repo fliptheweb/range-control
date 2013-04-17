@@ -17,7 +17,9 @@ class RangeControl
       shiftX = event.clientX - @leftControl.offset().left
 
       moveTo = (stopPoint) =>
-        @leftControl.css "left", stopPoint - shiftX - zeroCoordinate
+        positionInParent = stopPoint - zeroCoordinate - shiftX
+        if (positionInParent >= 0) && (positionInParent + @controlWidth <= @rightControl.offset().left - zeroCoordinate)
+          @leftControl.css "left", positionInParent
 
       $(document).on "mousemove", (event) =>
         moveTo(event.clientX)

@@ -65,10 +65,9 @@
         _this.rightControl.removeClass("is-dragged");
         return $(document).off("mousemove");
       });
-      return this.el.on("mouseleave", function() {
-        _this.leftControl.removeClass("is-dragged");
-        _this.rightControl.removeClass("is-dragged");
-        return $(document).off("mousemove");
+      return $(document).on("mouseup", function() {
+        _this.leftControl.trigger("mouseup");
+        return _this.rightControl.trigger("mouseup");
       });
     };
 

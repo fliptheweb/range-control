@@ -42,29 +42,29 @@ $b: "range-control";
 	@include border-radius(3px 0 0 3px);
 	left: 0;
 
-	@include after {
-		width: 4px;
-		position: absolute;
-		top: -1px;
-		bottom: 0;
-		right: -1px;
-		background: #38a9ff;
-	}
+	//@include after {
+	//	width: 4px;
+	//	position: absolute;
+	//	top: -1px;
+	//	bottom: 0;
+	//	right: -1px;
+	//	background: #38a9ff;
+	//}
 }
 
 .#{$b}__right {
 	@include border-radius(0 3px 3px 0);
 	right: 0;
 
-	@include after {
-		width: 4px;
-		position: absolute;
-		top: -1px;
-		bottom: 0;
-		left: -1px;
-		right: auto;
-		background: #38a9ff;
-	}
+	//@include after {
+	//	width: 4px;
+	//	position: absolute;
+	//	top: -1px;
+	//	bottom: 0;
+	//	left: -1px;
+	//	right: auto;
+	//	background: #38a9ff;
+	//}
 }
 
 .#{$b}__range {
@@ -86,6 +86,7 @@ $b: "range-control";
 				right: 0;
 				bottom: 0;
 				background: #38a9ff;
+				border-top: 1px solid #288bf0;
 			}
 
 			&:hover {

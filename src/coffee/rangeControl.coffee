@@ -45,10 +45,9 @@ class RangeControl
       @rightControl.removeClass("is-dragged")
       $(document).off "mousemove"
 
-    @el.on "mouseleave", =>
-      @leftControl.removeClass("is-dragged")
-      @rightControl.removeClass("is-dragged")
-      $(document).off "mousemove"
+    $(document).on "mouseup", =>
+      @leftControl.trigger "mouseup"
+      @rightControl.trigger "mouseup"
 
 
 class RangeTable

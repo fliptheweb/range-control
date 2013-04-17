@@ -15,7 +15,6 @@ class RangeControl
       @leftControl.addClass("is-dragged")
       zeroCoordinate = @el.offset().left
       shiftX = event.clientX - @leftControl.offset().left
-      console.log(shiftX)
 
       moveTo = (stopPoint) =>
         @leftControl.css "left", stopPoint - shiftX - zeroCoordinate
@@ -27,7 +26,8 @@ class RangeControl
       @leftControl.removeClass("is-dragged")
       $(document).off "mousemove"
 
-    @el.on "mouseleft", =>
+    @el.on "mouseleave", =>
+      @leftControl.removeClass("is-dragged")
       $(document).off "mousemove"
 
 

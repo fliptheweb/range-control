@@ -27,7 +27,6 @@
         _this.leftControl.addClass("is-dragged");
         zeroCoordinate = _this.el.offset().left;
         shiftX = event.clientX - _this.leftControl.offset().left;
-        console.log(shiftX);
         moveTo = function(stopPoint) {
           return _this.leftControl.css("left", stopPoint - shiftX - zeroCoordinate);
         };
@@ -39,7 +38,8 @@
         _this.leftControl.removeClass("is-dragged");
         return $(document).off("mousemove");
       });
-      return this.el.on("mouseleft", function() {
+      return this.el.on("mouseleave", function() {
+        _this.leftControl.removeClass("is-dragged");
         return $(document).off("mousemove");
       });
     };

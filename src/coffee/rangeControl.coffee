@@ -39,6 +39,7 @@ class RangeTable
       rightColorRange = colorRanges[colorRange][1]
       if (leftColorRange <= cell.data("rate") <= rightColorRange) || (leftColorRange <= cell.data("rate") && !rightColorRange)
         cell.addClass(colorRange)
+        console.log(utilities.shortenVolume(cell.data("rate")))
         break
 
   getVolumeByPosition: (x) ->
@@ -56,11 +57,11 @@ class RangeTable
 utilities =
   shortenVolume: (volume) ->
     if volume < 1000
-      volume
+      return volume
     if volume < 1000000
-      volume/1000 + "тыс."
+      return "#{volume/1000}".replace(".",",") + " тыс."
     if volume >= 1000000
-      volume/1000000 + "млн."
+      return "#{volume/1000000}".replace(".",",") + " млн."
 
 
 

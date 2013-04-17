@@ -71,6 +71,7 @@
         rightColorRange = colorRanges[colorRange][1];
         if (((leftColorRange <= (_ref = cell.data("rate")) && _ref <= rightColorRange)) || (leftColorRange <= cell.data("rate") && !rightColorRange)) {
           cell.addClass(colorRange);
+          console.log(utilities.shortenVolume(cell.data("rate")));
           break;
         } else {
           _results.push(void 0);
@@ -97,13 +98,13 @@
   utilities = {
     shortenVolume: function(volume) {
       if (volume < 1000) {
-        volume;
+        return volume;
       }
       if (volume < 1000000) {
-        volume / 1000 + "тыс.";
+        return ("" + (volume / 1000)).replace(".", ",") + " тыс.";
       }
       if (volume >= 1000000) {
-        return volume / 1000000 + "млн.";
+        return ("" + (volume / 1000000)).replace(".", ",") + " млн.";
       }
     }
   };

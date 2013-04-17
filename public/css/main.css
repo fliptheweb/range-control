@@ -238,6 +238,7 @@ ul {
 .range-control__left,
 .range-control__right {
   width: 66px;
+  padding: 0;
   border: 1px solid #c3c3c3;
   position: absolute;
   z-index: 1;
@@ -272,6 +273,7 @@ ul {
   -moz-box-shadow: 0 0 5px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
   box-shadow: 0 0 5px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
   color: #0074cd;
+  outline: none;
 }
 
 .range-control__left {

@@ -8,6 +8,8 @@ $b: "range-control";
 .#{$b}__left,
 .#{$b}__right {
 	width: 66px;
+	padding: 0;
+	margin: 0;
 	border: 1px solid #c3c3c3;
 	position: absolute;
 	z-index: 1;
@@ -29,6 +31,7 @@ $b: "range-control";
 	&:focus {
 		@include box-shadow(0 0 5px rgba(#95d1ff, .7), inset 0 1px 0 #fff);
 		color: #0074cd;
+		outline: none;
 	}
 }
 

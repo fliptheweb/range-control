@@ -62,7 +62,7 @@
     };
 
     RangeTable.prototype.colorizeCell = function(cell) {
-      var colorRange, colorRanges, _ref, _results;
+      var colorRange, colorRanges, leftRange, rightRange, _ref, _results;
 
       colorRanges = {
         "light-green": [0, 100],
@@ -72,11 +72,9 @@
       };
       _results = [];
       for (colorRange in colorRanges) {
-        if ((colorRanges[colorRange][0] <= (_ref = cell.data("rate")) && _ref <= colorRanges[colorRange][1])) {
-          cell.addClass(colorRange);
-          break;
-        }
-        if (!colorRanges[colorRange][1] && colorRanges[colorRange][0] <= cell.data("rate")) {
+        leftRange = colorRanges[colorRange][0];
+        rightRange = colorRanges[colorRange][1];
+        if (((leftRange <= (_ref = cell.data("rate")) && _ref <= rightRange)) || (leftRange <= cell.data("rate") && !rightRange)) {
           cell.addClass(colorRange);
           break;
         } else {

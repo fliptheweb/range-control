@@ -84,13 +84,22 @@
       return _results;
     };
 
-    RangeTable.prototype.bindHoverToCells = function() {
-      return this.cells.on("mouseover", function(cell) {
-        return console.log(utilities.shortenVolume($(cell).data("volume")));
-      });
+    RangeTable.prototype.getVolumeByPosition = function(x) {
+      return $(this.getCellByPosition(x)).data("volume");
     };
 
-    RangeTable.prototype.getCellPosition = function(cell) {};
+    RangeTable.prototype.getCellByPosition = function(x) {};
+
+    RangeTable.prototype.bindHoverToCells = function() {
+      return this.cells.hover(function(event) {
+        var cell;
+
+        console.log("!");
+        return cell = event.currentTarget;
+      }, function(event) {
+        return console.log("unhover");
+      });
+    };
 
     return RangeTable;
 

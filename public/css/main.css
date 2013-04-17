@@ -282,6 +282,16 @@ ul {
   border-radius: 3px 0 0 3px;
   left: 0;
 }
+.range-control__left:after {
+  content: "";
+  display: block;
+  width: 4px;
+  position: absolute;
+  top: -1px;
+  bottom: 0;
+  right: -1px;
+  background: #38a9ff;
+}
 
 .range-control__right {
   -webkit-border-radius: 0 3px 3px 0;
@@ -290,6 +300,17 @@ ul {
   -o-border-radius: 0 3px 3px 0;
   border-radius: 0 3px 3px 0;
   right: 0;
+}
+.range-control__right:after {
+  content: "";
+  display: block;
+  width: 4px;
+  position: absolute;
+  top: -1px;
+  bottom: 0;
+  left: -1px;
+  right: auto;
+  background: #38a9ff;
 }
 
 .range-control__range {
@@ -316,6 +337,20 @@ ul {
 }
 .range-control__range table td:hover div {
   background: #288bf0;
+}
+.range-control__range table td:hover:after {
+  display: block;
+  content: attr(data-rate);
+  position: absolute;
+  top: -17px;
+  left: 48%;
+  height: 14px;
+  padding-left: 2px;
+  color: rgba(61, 61, 61, 0.7);
+  border-left: 1px solid #838383;
+  font-size: 11px;
+  line-height: 10px;
+  width: 100px;
 }
 .range-control__range table td.light-green {
   background: #e6ead4;

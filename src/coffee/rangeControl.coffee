@@ -30,12 +30,12 @@ class RangeTable
 
   colorizeCell: (cell) ->
     # @todo extract to options
-    colorRanges = {
+    colorRanges =
       "light-green":  [0, 100]
       "middle-green": [101, 1000]
       "green":        [1001, 10000]
       "yellow":       [10001]
-    }
+
     for colorRange of colorRanges
       leftColorRange  = colorRanges[colorRange][0]
       rightColorRange = colorRanges[colorRange][1]
@@ -43,15 +43,22 @@ class RangeTable
         cell.addClass(colorRange)
         break
 
+  getVolumeByPosition: (x) ->
+    $(@getCellByPosition(x)).data("volume")
 
+  getCellByPosition: (x) ->
 
   bindHoverToCells: ->
-    @cells.on "mouseover", (cell) ->
-      console.log(utilities.shortenVolume($(cell).data("volume")))
+    @cells.hover(
+              (event) ->
+                console.log("!")
+                cell = event.currentTarget
+              ,(event) ->
+                console.log("unhover")
+                )
+
 #      $(@).append($("<div />").text($(@).data("volume")))
 #      console.log()
-
-  getCellPosition: (cell) ->
 
 utilities =
   shortenVolume: (volume) ->

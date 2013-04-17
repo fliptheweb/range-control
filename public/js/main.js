@@ -5,12 +5,8 @@
   RangeControl = (function() {
     function RangeControl(el) {
       this.el = el;
-      this.buildRangeTable();
+      this.rangeTable = new RangeTable(this.el.find(".range-control__range table"));
     }
-
-    RangeControl.prototype.buildRangeTable = function() {
-      return this.rangeTable = new RangeTable(this.el.find(".range-control__range table"));
-    };
 
     return RangeControl;
 

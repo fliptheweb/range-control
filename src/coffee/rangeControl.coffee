@@ -1,9 +1,7 @@
 class RangeControl
   constructor: (@el) ->
-    @buildRangeTable()
-
-  buildRangeTable: ->
     @rangeTable = new RangeTable(@el.find(".range-control__range table"))
+
 
 class RangeTable
   constructor: (@el) ->

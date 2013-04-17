@@ -24,7 +24,7 @@ $b: "range-control";
 	cursor: pointer;
 	white-space: nowrap;
 	@include text-shadow(0 1px 0 #fff);
-	@include box-shadow(0 1px 3px rgba(#000, .15), inset 0 1px 0 #fff);
+	@include box-shadow(0 0 3px rgba(#000, .15), inset 0 1px 0 #fff);
 	@include background-image(linear-gradient(bottom, #dcdcdc 0%, #f4f4f4 100%));
 	@include transition(box-shadow .3s, color .3s);
 	&:hover,

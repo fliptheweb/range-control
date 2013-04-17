@@ -254,9 +254,9 @@ ul {
   cursor: pointer;
   white-space: nowrap;
   text-shadow: 0 1px 0 white;
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 white;
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 white;
+  -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 white;
+  -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 white;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 white;
   background-image: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #dcdcdc), color-stop(100%, #f4f4f4));
   background-image: -webkit-linear-gradient(bottom, #dcdcdc 0%, #f4f4f4 100%);
   background-image: -moz-linear-gradient(bottom, #dcdcdc 0%, #f4f4f4 100%);

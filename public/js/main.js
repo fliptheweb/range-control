@@ -49,7 +49,7 @@
           var positionInParent;
 
           positionInParent = stopPoint - zeroCoordinate - shiftX;
-          if ((positionInParent >= 0) && (positionInParent >= _this.leftControl.offset().left + _this.controlWidth - zeroCoordinate)) {
+          if ((positionInParent + _this.controlWidth < _this.el.width()) && (positionInParent >= _this.leftControl.offset().left + _this.controlWidth - zeroCoordinate)) {
             return _this.rightControl.css("left", positionInParent);
           }
         };

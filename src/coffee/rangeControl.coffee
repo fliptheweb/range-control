@@ -31,7 +31,7 @@ class RangeControl
 
       moveTo = (stopPoint) =>
         positionInParent = stopPoint - zeroCoordinate - shiftX
-        if (positionInParent >= 0) && (positionInParent >= @leftControl.offset().left + @controlWidth - zeroCoordinate)
+        if (positionInParent + @controlWidth < @el.width()) && (positionInParent >= @leftControl.offset().left + @controlWidth - zeroCoordinate)
           @rightControl.css "left", positionInParent
 
       $(document).on "mousemove", (event) =>

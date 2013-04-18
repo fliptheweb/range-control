@@ -4,6 +4,7 @@ $b: "range-control";
 	position: relative;
 	height: 24px;
 	background: #f6f6f6;
+	@include box-shadow(inset 0 0 3px rgba(#f6f6f6, .35));
 }
 
 .#{$b}__left,
@@ -53,7 +54,6 @@ $b: "range-control";
 .#{$b}__range {
 	height: 24px;
 	margin: 0 66px;
-	@include box-shadow(inset 0 0 3px rgba(#f6f6f6, .35));
 
 	div {
 		float: left;

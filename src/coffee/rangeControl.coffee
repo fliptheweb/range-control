@@ -13,41 +13,38 @@ class RangeControl
     @leftControl.on "mousedown", (event) =>
       @leftControl.addClass("is-dragged")
       zeroCoordinate = @el.offset().left
-      controlWidth   = @leftControl.outerWidth()
       shiftX = event.clientX - @leftControl.offset().left
       leftLimit = 0
       rightLimit = @rightControl.offset().left - zeroCoordinate
 
-      moveTo = (stopPoint) =>
-        leftBorderPosition = stopPoint - zeroCoordinate - shiftX
-        rightBorderPosition = stopPoint - zeroCoordinate - shiftX + controlWidth
-        if leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit
-          @leftControl.css "left", leftBorderPosition
-        if leftBorderPosition < leftLimit
-          @leftControl.css "left", leftLimit
-        if rightBorderPosition > rightLimit
-          @leftControl.css "left", rightLimit - controlWidth
-
       $(document).on "mousemove", (event) =>
-        moveTo(event.clientX)
+        @controlMoveTo(
+          @leftControl,
+          event.clientX,
+          zeroCoordinate,
+          shiftX,
+          leftLimit,
+          rightLimit
+          )
 
     @rightControl.on "mousedown", (event) =>
       @rightControl.addClass("is-dragged")
       zeroCoordinate = @el.offset().left
       controlWidth   = @rightControl.outerWidth()
       shiftX = event.clientX - @rightControl.offset().left
-
-      moveTo = (stopPoint) =>
-        positionInParent = stopPoint - zeroCoordinate - shiftX
-        if (positionInParent + controlWidth < @el.width() - 1) && (positionInParent >= @leftControl.offset().left + controlWidth - zeroCoordinate)
-          @rightControl.css "left", positionInParent
-        if (positionInParent + controlWidth > @el.width())
-          @rightControl.css "left", @el.width() - controlWidth
-        if (positionInParent < @leftControl.offset().left + controlWidth - zeroCoordinate)
-          @rightControl.css "left", @leftControl.offset().left + controlWidth - zeroCoordinate + 1
+      leftLimit = @leftControl.offset().left - zeroCoordinate + @leftControl.outerWidth()
+      rightLimit = @el.width()
 
       $(document).on "mousemove", (event) =>
-        moveTo(event.clientX)
+        $(document).on "mousemove", (event) =>
+        @controlMoveTo(
+          @rightControl,
+          event.clientX,
+          zeroCoordinate,
+          shiftX,
+          leftLimit,
+          rightLimit
+        )
 
     @leftControl.on "mouseup", =>
       @leftControl.removeClass("is-dragged")
@@ -60,6 +57,17 @@ class RangeControl
     $(document).on "mouseup", =>
       @leftControl.triggerHandler "mouseup"
       @rightControl.triggerHandler "mouseup"
+
+  controlMoveTo: (control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) ->
+    controlWidth = control.outerWidth()
+    leftBorderPosition = stopPoint - zeroCoordinate - shiftX
+    rightBorderPosition = stopPoint - zeroCoordinate - shiftX + controlWidth
+    if leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit
+      control.css "left", leftBorderPosition
+    if leftBorderPosition < leftLimit
+      control.css "left", leftLimit
+    if rightBorderPosition > rightLimit
+      control.css "left", rightLimit - controlWidth
 
 
 class RangeTable

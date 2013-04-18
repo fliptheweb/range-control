@@ -21,56 +21,29 @@
         return false;
       });
       this.leftControl.on("mousedown", function(event) {
-        var controlWidth, leftLimit, moveTo, rightLimit, shiftX, zeroCoordinate;
+        var leftLimit, rightLimit, shiftX, zeroCoordinate;
 
         _this.leftControl.addClass("is-dragged");
         zeroCoordinate = _this.el.offset().left;
-        controlWidth = _this.leftControl.outerWidth();
         shiftX = event.clientX - _this.leftControl.offset().left;
         leftLimit = 0;
         rightLimit = _this.rightControl.offset().left - zeroCoordinate;
-        moveTo = function(stopPoint) {
-          var leftBorderPosition, rightBorderPosition;
-
-          leftBorderPosition = stopPoint - zeroCoordinate - shiftX;
-          rightBorderPosition = stopPoint - zeroCoordinate - shiftX + controlWidth;
-          if (leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit) {
-            _this.leftControl.css("left", leftBorderPosition);
-          }
-          if (leftBorderPosition < leftLimit) {
-            _this.leftControl.css("left", leftLimit);
-          }
-          if (rightBorderPosition > rightLimit) {
-            return _this.leftControl.css("left", rightLimit - controlWidth);
-          }
-        };
         return $(document).on("mousemove", function(event) {
-          return moveTo(event.clientX);
+          return _this.controlMoveTo(_this.leftControl, event.clientX, zeroCoordinate, shiftX, leftLimit, rightLimit);
         });
       });
       this.rightControl.on("mousedown", function(event) {
-        var controlWidth, moveTo, shiftX, zeroCoordinate;
+        var controlWidth, leftLimit, rightLimit, shiftX, zeroCoordinate;
 
         _this.rightControl.addClass("is-dragged");
         zeroCoordinate = _this.el.offset().left;
         controlWidth = _this.rightControl.outerWidth();
         shiftX = event.clientX - _this.rightControl.offset().left;
-        moveTo = function(stopPoint) {
-          var positionInParent;
-
-          positionInParent = stopPoint - zeroCoordinate - shiftX;
-          if ((positionInParent + controlWidth < _this.el.width() - 1) && (positionInParent >= _this.leftControl.offset().left + controlWidth - zeroCoordinate)) {
-            _this.rightControl.css("left", positionInParent);
-          }
-          if (positionInParent + controlWidth > _this.el.width()) {
-            _this.rightControl.css("left", _this.el.width() - controlWidth);
-          }
-          if (positionInParent < _this.leftControl.offset().left + controlWidth - zeroCoordinate) {
-            return _this.rightControl.css("left", _this.leftControl.offset().left + controlWidth - zeroCoordinate + 1);
-          }
-        };
+        leftLimit = _this.leftControl.offset().left - zeroCoordinate + _this.leftControl.outerWidth();
+        rightLimit = _this.el.width();
         return $(document).on("mousemove", function(event) {
-          return moveTo(event.clientX);
+          $(document).on("mousemove", function(event) {});
+          return _this.controlMoveTo(_this.rightControl, event.clientX, zeroCoordinate, shiftX, leftLimit, rightLimit);
         });
       });
       this.leftControl.on("mouseup", function() {
@@ -85,6 +58,23 @@
         _this.leftControl.triggerHandler("mouseup");
         return _this.rightControl.triggerHandler("mouseup");
       });
+    };
+
+    RangeControl.prototype.controlMoveTo = function(control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) {
+      var controlWidth, leftBorderPosition, rightBorderPosition;
+
+      controlWidth = control.outerWidth();
+      leftBorderPosition = stopPoint - zeroCoordinate - shiftX;
+      rightBorderPosition = stopPoint - zeroCoordinate - shiftX + controlWidth;
+      if (leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit) {
+        control.css("left", leftBorderPosition);
+      }
+      if (leftBorderPosition < leftLimit) {
+        control.css("left", leftLimit);
+      }
+      if (rightBorderPosition > rightLimit) {
+        return control.css("left", rightLimit - controlWidth);
+      }
     };
 
     return RangeControl;

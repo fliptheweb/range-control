@@ -1,6 +1,6 @@
 class RangeControl
   constructor: (@el) ->
-    @rangeTable = new RangeTable(@el.find(".range-control__range table"))
+    @rangeTable = new RangeTable(@el.find(".range-control__range"))
     @bindControls()
 
   bindControls: ->
@@ -73,8 +73,9 @@ class RangeControl
 
 class RangeTable
   constructor: (@el) ->
-    @cells = @el.find("td")
+    @cells = @el.find("div")
     @cellHoverEl = $("<div/>").addClass("range-control__cell-hover").insertBefore(@el)
+    @cellWidth = 100/@cells.size()
     @data = []
     @height = @el.height()
     @buildDataFromCells()
@@ -92,9 +93,10 @@ class RangeTable
   buildCells: ->
     @cells.each (i, cell) =>
       cell = $(cell)
-      cellInner = $("<div/>").appendTo(cell).height (100/@maxVolume * cell.data("volume") + "%")
+      cell.height (100/@maxVolume * cell.data("volume") + "%")
+      cell.width @cellWidth + "%"
       @colorizeCell cell
-      @bindHoverToCell cell
+#      @bindHoverToCell cell
 
   colorizeCell: (cell) ->
     # @todo extract to options

@@ -5,7 +5,7 @@
   RangeControl = (function() {
     function RangeControl(el) {
       this.el = el;
-      this.rangeTable = new RangeTable(this.el.find(".range-control__range table"));
+      this.rangeTable = new RangeTable(this.el.find(".range-control__range"));
       this.bindControls();
     }
 
@@ -84,8 +84,9 @@
   RangeTable = (function() {
     function RangeTable(el) {
       this.el = el;
-      this.cells = this.el.find("td");
+      this.cells = this.el.find("div");
       this.cellHoverEl = $("<div/>").addClass("range-control__cell-hover").insertBefore(this.el);
+      this.cellWidth = 100 / this.cells.size();
       this.data = [];
       this.height = this.el.height();
       this.buildDataFromCells();
@@ -118,12 +119,10 @@
       var _this = this;
 
       return this.cells.each(function(i, cell) {
-        var cellInner;
-
         cell = $(cell);
-        cellInner = $("<div/>").appendTo(cell).height(100 / _this.maxVolume * cell.data("volume") + "%");
-        _this.colorizeCell(cell);
-        return _this.bindHoverToCell(cell);
+        cell.height(100 / _this.maxVolume * cell.data("volume") + "%");
+        cell.width(_this.cellWidth + "%");
+        return _this.colorizeCell(cell);
       });
     };
 

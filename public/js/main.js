@@ -76,11 +76,15 @@
         control.css("left", rightLimit - controlWidth);
       }
       if (control === this.leftControl) {
-        this.rangeTable.getVolumeByPosition(control.position().left);
+        this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left));
       }
       if (control === this.rightControl) {
-        return this.rangeTable.getVolumeByPosition(control.position().left - controlWidth);
+        return this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left - controlWidth));
       }
+    };
+
+    RangeControl.prototype.changeControlRateText = function(control, text) {
+      return control.find("span").text(utilities.shortenVolumeToName(text));
     };
 
     return RangeControl;
@@ -156,12 +160,15 @@
       return _results;
     };
 
-    RangeTable.prototype.getVolumeByPosition = function(x) {
-      return $(this.getCellByPosition(x)).data("volume");
+    RangeTable.prototype.getRateByPosition = function(x) {
+      return $(this.getCellByPosition(x)).data("rate");
     };
 
     RangeTable.prototype.getCellByPosition = function(x) {
-      return console.log(x);
+      var cellWidthInPx;
+
+      cellWidthInPx = this.el.width() / 100 * this.cellWidth;
+      return this.cells.eq(Math.ceil(x / cellWidthInPx) - 1);
     };
 
     RangeTable.prototype.bindHoverToCell = function(cell) {

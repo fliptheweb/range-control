@@ -71,9 +71,12 @@ class RangeControl
       control.css "left", rightLimit - controlWidth
 
     if control == @leftControl
-      @rangeTable.getVolumeByPosition(control.position().left)
+      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left)
     if control == @rightControl
-      @rangeTable.getVolumeByPosition(control.position().left - controlWidth)
+      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left - controlWidth)
+
+  changeControlRateText: (control, text) ->
+    control.find("span").text(utilities.shortenVolumeToName(text))
 
 
 class RangeTable
@@ -85,7 +88,6 @@ class RangeTable
     @height = @el.height()
     @buildDataFromCells()
     @buildCells()
-
 
   buildDataFromCells: ->
     @data = @cells.map (i, cell) ->
@@ -119,11 +121,12 @@ class RangeTable
 #        console.log(utilities.shortenVolumeToName(cell.data("rate")))
         break
 
-  getVolumeByPosition: (x) ->
-    $(@getCellByPosition(x)).data("volume")
+  getRateByPosition: (x) ->
+    $(@getCellByPosition(x)).data("rate")
 
   getCellByPosition: (x) ->
-    console.log(x)
+    cellWidthInPx = @el.width()/100 * @cellWidth
+    @cells.eq(Math.ceil(x / cellWidthInPx) - 1)
 
   bindHoverToCell: (cell) ->
     cell = $(cell)

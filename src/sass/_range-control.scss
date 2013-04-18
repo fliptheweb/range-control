@@ -57,8 +57,7 @@ $b: "range-control";
 
 	div {
 		float: left;
-		height: 23px;
-		padding-top: 1px;
+		height: 24px;
 		position: relative;
 
 		i {
@@ -68,7 +67,7 @@ $b: "range-control";
 			left: 0;
 			right: 0;
 			background: #38a9ff;
-			border-top: 1px solid #288bf0;
+			//border-top: 1px solid #288bf0;
 		}
 
 		&:hover {

@@ -120,7 +120,7 @@
 
       return this.cells.each(function(i, cell) {
         cell = $(cell);
-        cell.height(100 / _this.maxVolume * cell.data("volume") + "%");
+        $("<i/>").appendTo(cell).height(100 / _this.maxVolume * cell.data("volume") + "%");
         cell.width(_this.cellWidth + "%");
         return _this.colorizeCell(cell);
       });

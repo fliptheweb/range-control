@@ -93,7 +93,7 @@ class RangeTable
   buildCells: ->
     @cells.each (i, cell) =>
       cell = $(cell)
-      cell.height (100/@maxVolume * cell.data("volume") + "%")
+      $("<i/>").appendTo(cell).height (100/@maxVolume * cell.data("volume") + "%")
       cell.width @cellWidth + "%"
       @colorizeCell cell
 #      @bindHoverToCell cell

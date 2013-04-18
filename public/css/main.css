@@ -298,18 +298,28 @@ ul {
 }
 
 .range-control__range {
-  height: 22px;
+  height: 24px;
   margin: 0 66px;
   -webkit-box-shadow: inset 0 0 3px rgba(246, 246, 246, 0.35);
   -moz-box-shadow: inset 0 0 3px rgba(246, 246, 246, 0.35);
   box-shadow: inset 0 0 3px rgba(246, 246, 246, 0.35);
 }
 .range-control__range div {
+  float: left;
+  height: 23px;
+  padding-top: 1px;
+  position: relative;
+}
+.range-control__range div i {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   background: #38a9ff;
   border-top: 1px solid #288bf0;
-  float: left;
 }
-.range-control__range div:hover {
+.range-control__range div:hover i {
   background: #288bf0;
 }
 .range-control__range div.light-green {

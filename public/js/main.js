@@ -76,10 +76,10 @@
         control.css("left", rightLimit - controlWidth);
       }
       if (control === this.leftControl) {
-        this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left));
+        this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left + 1));
       }
       if (control === this.rightControl) {
-        return this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left - controlWidth));
+        return this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left - controlWidth - 1));
       }
     };
 

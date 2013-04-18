@@ -71,9 +71,9 @@ class RangeControl
       control.css "left", rightLimit - controlWidth
 
     if control == @leftControl
-      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left)
+      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left + 1)
     if control == @rightControl
-      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left - controlWidth)
+      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left - controlWidth - 1)
 
   changeControlRateText: (control, text) ->
     control.find("span").text(utilities.shortenVolumeToName(text))

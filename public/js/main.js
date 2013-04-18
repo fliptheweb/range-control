@@ -85,10 +85,14 @@
       leftGrayCell = this.rangeTable.getCellByPosition(this.leftControl.position().left).index() - 3;
       rightGrayCell = this.rangeTable.getCellByPosition(this.rightControl.position().left - controlWidth).index() + 3;
       if (leftGrayCell >= 0) {
-        return this.rangeTable.cells.slice(leftGrayCell, rightGrayCell).removeClass("is-disabled");
+        this.rangeTable.cells.slice(leftGrayCell, rightGrayCell).removeClass("is-disabled");
       } else {
-        return this.rangeTable.cells.slice(0, rightGrayCell).removeClass("is-disabled");
+        this.rangeTable.cells.slice(0, rightGrayCell).removeClass("is-disabled");
       }
+      return console.log({
+        left: this.rangeTable.getRateByPosition(this.leftControl.position().left),
+        right: this.rangeTable.getRateByPosition(this.rightControl.position().left - controlWidth)
+      });
     };
 
     RangeControl.prototype.changeControlRateText = function(control, text) {

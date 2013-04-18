@@ -84,6 +84,11 @@ class RangeControl
     else
       @rangeTable.cells.slice(0, rightGrayCell).removeClass("is-disabled")
 
+    console.log
+      left: @rangeTable.getRateByPosition(@leftControl.position().left)
+      right: @rangeTable.getRateByPosition(@rightControl.position().left - controlWidth)
+
+
   changeControlRateText: (control, text) ->
     control.find("span").text(utilities.shortenVolumeToName(text))
 

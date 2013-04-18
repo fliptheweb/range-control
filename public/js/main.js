@@ -14,7 +14,6 @@
 
       this.leftControl = this.el.find(".range-control__left");
       this.rightControl = this.el.find(".range-control__right");
-      this.controlWidth = this.leftControl.width();
       this.leftControl.on("dragstart", function() {
         return false;
       });
@@ -22,23 +21,27 @@
         return false;
       });
       this.leftControl.on("mousedown", function(event) {
-        var moveTo, shiftX, zeroCoordinate;
+        var controlWidth, leftLimit, moveTo, rightLimit, shiftX, zeroCoordinate;
 
         _this.leftControl.addClass("is-dragged");
         zeroCoordinate = _this.el.offset().left;
+        controlWidth = _this.leftControl.outerWidth();
         shiftX = event.clientX - _this.leftControl.offset().left;
+        leftLimit = 0;
+        rightLimit = _this.rightControl.offset().left - zeroCoordinate;
         moveTo = function(stopPoint) {
-          var positionInParent;
+          var leftBorderPosition, rightBorderPosition;
 
-          positionInParent = stopPoint - zeroCoordinate - shiftX;
-          if ((positionInParent >= 0) && (positionInParent + _this.controlWidth <= _this.rightControl.offset().left - zeroCoordinate)) {
-            _this.leftControl.css("left", positionInParent);
+          leftBorderPosition = stopPoint - zeroCoordinate - shiftX;
+          rightBorderPosition = stopPoint - zeroCoordinate - shiftX + controlWidth;
+          if (leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit) {
+            _this.leftControl.css("left", leftBorderPosition);
           }
-          if (positionInParent < 0) {
-            _this.leftControl.css("left", 0);
+          if (leftBorderPosition < leftLimit) {
+            _this.leftControl.css("left", leftLimit);
           }
-          if (positionInParent + _this.controlWidth > _this.rightControl.offset().left - zeroCoordinate) {
-            return _this.leftControl.css("left", _this.rightControl.offset().left - zeroCoordinate - _this.controlWidth - 2);
+          if (rightBorderPosition > rightLimit) {
+            return _this.leftControl.css("left", rightLimit - controlWidth);
           }
         };
         return $(document).on("mousemove", function(event) {
@@ -46,23 +49,24 @@
         });
       });
       this.rightControl.on("mousedown", function(event) {
-        var moveTo, shiftX, zeroCoordinate;
+        var controlWidth, moveTo, shiftX, zeroCoordinate;
 
         _this.rightControl.addClass("is-dragged");
         zeroCoordinate = _this.el.offset().left;
+        controlWidth = _this.rightControl.outerWidth();
         shiftX = event.clientX - _this.rightControl.offset().left;
         moveTo = function(stopPoint) {
           var positionInParent;
 
           positionInParent = stopPoint - zeroCoordinate - shiftX;
-          if ((positionInParent + _this.controlWidth < _this.el.width() - 1) && (positionInParent >= _this.leftControl.offset().left + _this.controlWidth - zeroCoordinate)) {
+          if ((positionInParent + controlWidth < _this.el.width() - 1) && (positionInParent >= _this.leftControl.offset().left + controlWidth - zeroCoordinate)) {
             _this.rightControl.css("left", positionInParent);
           }
-          if (positionInParent + _this.controlWidth > _this.el.width()) {
-            _this.rightControl.css("left", _this.el.width() - _this.controlWidth);
+          if (positionInParent + controlWidth > _this.el.width()) {
+            _this.rightControl.css("left", _this.el.width() - controlWidth);
           }
-          if (positionInParent < _this.leftControl.offset().left + _this.controlWidth - zeroCoordinate) {
-            return _this.rightControl.css("left", _this.leftControl.offset().left + _this.controlWidth - zeroCoordinate + 1);
+          if (positionInParent < _this.leftControl.offset().left + controlWidth - zeroCoordinate) {
+            return _this.rightControl.css("left", _this.leftControl.offset().left + controlWidth - zeroCoordinate + 1);
           }
         };
         return $(document).on("mousemove", function(event) {
@@ -78,8 +82,8 @@
         return $(document).off("mousemove");
       });
       return $(document).on("mouseup", function() {
-        _this.leftControl.trigger("mouseup");
-        return _this.rightControl.trigger("mouseup");
+        _this.leftControl.triggerHandler("mouseup");
+        return _this.rightControl.triggerHandler("mouseup");
       });
     };
 

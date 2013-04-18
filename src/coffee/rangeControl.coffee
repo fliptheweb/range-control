@@ -70,6 +70,11 @@ class RangeControl
     if rightBorderPosition > rightLimit
       control.css "left", rightLimit - controlWidth
 
+    if control == @leftControl
+      @rangeTable.getVolumeByPosition(control.position().left)
+    if control == @rightControl
+      @rangeTable.getVolumeByPosition(control.position().left - controlWidth)
+
 
 class RangeTable
   constructor: (@el) ->
@@ -111,13 +116,14 @@ class RangeTable
       rightColorRange = colorRanges[colorRange][1]
       if (leftColorRange <= cell.data("rate") <= rightColorRange) || (leftColorRange <= cell.data("rate") && !rightColorRange)
         cell.addClass(colorRange)
-#        console.log(utilities.shortenVolume(cell.data("rate")))
+#        console.log(utilities.shortenVolumeToName(cell.data("rate")))
         break
 
   getVolumeByPosition: (x) ->
     $(@getCellByPosition(x)).data("volume")
 
   getCellByPosition: (x) ->
+    console.log(x)
 
   bindHoverToCell: (cell) ->
     cell = $(cell)
@@ -132,7 +138,7 @@ class RangeTable
 #      console.log()
 
 utilities =
-  shortenVolume: (volume) ->
+  shortenVolumeToName: (volume) ->
     if volume < 1000
       return volume
     if volume < 1000000

@@ -73,7 +73,13 @@
         control.css("left", leftLimit);
       }
       if (rightBorderPosition > rightLimit) {
-        return control.css("left", rightLimit - controlWidth);
+        control.css("left", rightLimit - controlWidth);
+      }
+      if (control === this.leftControl) {
+        this.rangeTable.getVolumeByPosition(control.position().left);
+      }
+      if (control === this.rightControl) {
+        return this.rangeTable.getVolumeByPosition(control.position().left - controlWidth);
       }
     };
 
@@ -154,7 +160,9 @@
       return $(this.getCellByPosition(x)).data("volume");
     };
 
-    RangeTable.prototype.getCellByPosition = function(x) {};
+    RangeTable.prototype.getCellByPosition = function(x) {
+      return console.log(x);
+    };
 
     RangeTable.prototype.bindHoverToCell = function(cell) {
       var cellHoverEl, position;
@@ -174,7 +182,7 @@
   })();
 
   utilities = {
-    shortenVolume: function(volume) {
+    shortenVolumeToName: function(volume) {
       if (volume < 1000) {
         return volume;
       }

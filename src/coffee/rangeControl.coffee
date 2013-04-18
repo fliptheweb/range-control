@@ -96,7 +96,7 @@ class RangeTable
       $("<i/>").appendTo(cell).height (100/@maxVolume * cell.data("volume") + "%")
       cell.width @cellWidth + "%"
       @colorizeCell cell
-#      @bindHoverToCell cell
+      @bindHoverToCell cell
 
   colorizeCell: (cell) ->
     # @todo extract to options
@@ -121,7 +121,7 @@ class RangeTable
 
   bindHoverToCell: (cell) ->
     cell = $(cell)
-    position = cell.find("div").offset().left
+    position = cell.position().left
     cellHoverEl = @cellHoverEl
     cell.hover(
       -> cellHoverEl.show().css("left", position).text(cell.data("volume")),

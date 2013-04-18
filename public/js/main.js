@@ -122,7 +122,8 @@
         cell = $(cell);
         $("<i/>").appendTo(cell).height(100 / _this.maxVolume * cell.data("volume") + "%");
         cell.width(_this.cellWidth + "%");
-        return _this.colorizeCell(cell);
+        _this.colorizeCell(cell);
+        return _this.bindHoverToCell(cell);
       });
     };
 
@@ -159,7 +160,7 @@
       var cellHoverEl, position;
 
       cell = $(cell);
-      position = cell.find("div").offset().left;
+      position = cell.position().left;
       cellHoverEl = this.cellHoverEl;
       return cell.hover(function() {
         return cellHoverEl.show().css("left", position).text(cell.data("volume"));

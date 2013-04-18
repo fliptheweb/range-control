@@ -76,10 +76,10 @@
         control.css("left", rightLimit - controlWidth);
       }
       if (control === this.leftControl) {
-        this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left + 1));
+        this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left));
       }
       if (control === this.rightControl) {
-        return this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left - controlWidth - 1));
+        return this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left - controlWidth));
       }
     };
 
@@ -165,10 +165,14 @@
     };
 
     RangeTable.prototype.getCellByPosition = function(x) {
-      var cellWidthInPx;
+      var cellNum, cellWidthInPx;
 
       cellWidthInPx = this.el.width() / 100 * this.cellWidth;
-      return this.cells.eq(Math.ceil(x / cellWidthInPx) - 1);
+      cellNum = Math.ceil(x / cellWidthInPx);
+      if (cellNum >= this.cells.size()) {
+        return this.cells.last();
+      }
+      return this.cells.eq(cellNum);
     };
 
     RangeTable.prototype.bindHoverToCell = function(cell) {

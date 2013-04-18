@@ -71,9 +71,9 @@ class RangeControl
       control.css "left", rightLimit - controlWidth
 
     if control == @leftControl
-      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left + 1)
+      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left)
     if control == @rightControl
-      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left - controlWidth - 1)
+      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left - controlWidth)
 
   changeControlRateText: (control, text) ->
     control.find("span").text(utilities.shortenVolumeToName(text))
@@ -126,7 +126,10 @@ class RangeTable
 
   getCellByPosition: (x) ->
     cellWidthInPx = @el.width()/100 * @cellWidth
-    @cells.eq(Math.ceil(x / cellWidthInPx) - 1)
+    cellNum = Math.ceil(x / cellWidthInPx)
+    if cellNum >= @cells.size()
+      return  @cells.last()
+    @cells.eq(cellNum)
 
   bindHoverToCell: (cell) ->
     cell = $(cell)

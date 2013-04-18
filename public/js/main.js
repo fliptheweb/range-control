@@ -85,6 +85,7 @@
     function RangeTable(el) {
       this.el = el;
       this.cells = this.el.find("td");
+      this.cellHoverEl = $("<div/>").addClass("range-control__cell-hover").insertBefore(this.el);
       this.data = [];
       this.height = this.el.height();
       this.buildDataFromCells();
@@ -121,7 +122,8 @@
 
         cell = $(cell);
         cellInner = $("<div/>").appendTo(cell).height(100 / _this.maxVolume * cell.data("volume") + "%");
-        return _this.colorizeCell(cell);
+        _this.colorizeCell(cell);
+        return _this.bindHoverToCell(cell);
       });
     };
 
@@ -155,8 +157,16 @@
     RangeTable.prototype.getCellByPosition = function(x) {};
 
     RangeTable.prototype.bindHoverToCell = function(cell) {
+      var cellHoverEl, position;
+
       cell = $(cell);
-      return cell.hover();
+      position = cell.find("div").offset().left;
+      cellHoverEl = this.cellHoverEl;
+      return cell.hover(function() {
+        return cellHoverEl.show().css("left", position).text(cell.data("volume"));
+      }, function() {
+        return cellHoverEl.hide();
+      });
     };
 
     return RangeTable;

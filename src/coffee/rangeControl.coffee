@@ -75,6 +75,15 @@ class RangeControl
     if control == @rightControl
       @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left - controlWidth)
 
+    # @todo extract to separate methid of rangetable
+    @rangeTable.cells.addClass("is-disabled")
+    leftGrayCell = @rangeTable.getCellByPosition(@leftControl.position().left).index() - 3
+    rightGrayCell = @rangeTable.getCellByPosition(@rightControl.position().left - controlWidth).index() + 3
+    if leftGrayCell >= 0
+      @rangeTable.cells.slice(leftGrayCell, rightGrayCell).removeClass("is-disabled")
+    else
+      @rangeTable.cells.slice(0, rightGrayCell).removeClass("is-disabled")
+
   changeControlRateText: (control, text) ->
     control.find("span").text(utilities.shortenVolumeToName(text))
 

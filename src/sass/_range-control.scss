@@ -91,6 +91,9 @@ $b: "range-control";
 
 		&.is-disabled {
 			background: #f6f6f6 !important;
+			i {
+				background: #c7c7c7;
+			}
 		}
 	}
 }

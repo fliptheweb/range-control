@@ -61,7 +61,7 @@
     };
 
     RangeControl.prototype.controlMoveTo = function(control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) {
-      var controlWidth, leftBorderPosition, rightBorderPosition;
+      var controlWidth, leftBorderPosition, leftGrayCell, rightBorderPosition, rightGrayCell;
 
       controlWidth = control.outerWidth();
       leftBorderPosition = stopPoint - zeroCoordinate - shiftX;
@@ -79,7 +79,15 @@
         this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left));
       }
       if (control === this.rightControl) {
-        return this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left - controlWidth));
+        this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left - controlWidth));
+      }
+      this.rangeTable.cells.addClass("is-disabled");
+      leftGrayCell = this.rangeTable.getCellByPosition(this.leftControl.position().left).index() - 3;
+      rightGrayCell = this.rangeTable.getCellByPosition(this.rightControl.position().left - controlWidth).index() + 3;
+      if (leftGrayCell >= 0) {
+        return this.rangeTable.cells.slice(leftGrayCell, rightGrayCell).removeClass("is-disabled");
+      } else {
+        return this.rangeTable.cells.slice(0, rightGrayCell).removeClass("is-disabled");
       }
     };
 

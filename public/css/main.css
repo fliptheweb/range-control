@@ -347,6 +347,9 @@ ul {
 .range-control__range div.is-disabled {
   background: #f6f6f6 !important;
 }
+.range-control__range div.is-disabled i {
+  background: #c7c7c7;
+}
 
 .range-control__cell-hover {
   display: none;

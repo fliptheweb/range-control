@@ -136,7 +136,7 @@ class RangeTable
     position = cell.position().left
     cellHoverEl = @cellHoverEl
     cell.hover(
-      -> cellHoverEl.show().css("left", position).text(cell.data("rate")),
+      -> cellHoverEl.show().css("left", position).text(utilities.splitVolumeBySpace(cell.data("rate"))),
       -> cellHoverEl.hide()
     )
 
@@ -151,6 +151,8 @@ utilities =
       return "#{volume/1000}".replace(".",",") + " тыс."
     if volume >= 1000000
       return "#{volume/1000000}".replace(".",",") + " млн."
+  splitVolumeBySpace: (volume) ->
+    volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
 
 $(".range-control").each (i, control) ->

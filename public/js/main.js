@@ -182,7 +182,7 @@
       position = cell.position().left;
       cellHoverEl = this.cellHoverEl;
       return cell.hover(function() {
-        return cellHoverEl.show().css("left", position).text(cell.data("rate"));
+        return cellHoverEl.show().css("left", position).text(utilities.splitVolumeBySpace(cell.data("rate")));
       }, function() {
         return cellHoverEl.hide();
       });
@@ -203,6 +203,9 @@
       if (volume >= 1000000) {
         return ("" + (volume / 1000000)).replace(".", ",") + " млн.";
       }
+    },
+    splitVolumeBySpace: function(volume) {
+      return volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }
   };
 

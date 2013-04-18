@@ -136,7 +136,7 @@ class RangeTable
     position = cell.position().left
     cellHoverEl = @cellHoverEl
     cell.hover(
-      -> cellHoverEl.show().css("left", position).text(cell.data("volume")),
+      -> cellHoverEl.show().css("left", position).text(cell.data("rate")),
       -> cellHoverEl.hide()
     )
 

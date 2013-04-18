@@ -182,7 +182,7 @@
       position = cell.position().left;
       cellHoverEl = this.cellHoverEl;
       return cell.hover(function() {
-        return cellHoverEl.show().css("left", position).text(cell.data("volume"));
+        return cellHoverEl.show().css("left", position).text(cell.data("rate"));
       }, function() {
         return cellHoverEl.hide();
       });

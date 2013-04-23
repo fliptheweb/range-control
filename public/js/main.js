@@ -196,10 +196,10 @@
     };
 
     RangeCells.prototype.getCellByPosition = function(x) {
-      var cellNum, cellWidthInPx;
+      var cellNum;
 
-      cellWidthInPx = this.el.width() / 100 * this.cellWidth;
-      cellNum = Math.ceil(x / cellWidthInPx);
+      this.cellWidthInPx = this.el.width() / 100 * this.cellWidth;
+      cellNum = Math.ceil(x / this.cellWidthInPx);
       if (cellNum >= this.cells.size()) {
         return this.cells.last();
       }
@@ -216,6 +216,10 @@
 
     RangeCells.prototype.getLastCell = function() {
       return this.getCellByOrder(this.cells.size());
+    };
+
+    RangeCells.prototype.getPositionByCellOrder = function(order) {
+      return this.cellWidthInPx * order;
     };
 
     RangeCells.prototype.bindHoverToCell = function(cell) {

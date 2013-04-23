@@ -154,8 +154,8 @@ class RangeCells
     $(@getCellByPosition(x)).data("rate")
 
   getCellByPosition: (x) ->
-    cellWidthInPx = @el.width()/100 * @cellWidth
-    cellNum = Math.ceil(x / cellWidthInPx)
+    @cellWidthInPx = @el.width()/100 * @cellWidth
+    cellNum = Math.ceil(x / @cellWidthInPx)
     if cellNum >= @cells.size()
       return  @cells.last()
     @cells.eq(cellNum)
@@ -168,6 +168,9 @@ class RangeCells
 
   getLastCell: ->
     @getCellByOrder(@cells.size())
+
+  getPositionByCellOrder: (order) ->
+    @cellWidthInPx * order
 
   bindHoverToCell: (cell) ->
     cell = $(cell)

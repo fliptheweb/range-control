@@ -1,13 +1,13 @@
 //@ sourceMappingURL=main.map
 (function() {
-  var RangeControl, RangeTable, utilities;
+  var RangeCells, RangeControl, utilities;
 
   RangeControl = (function() {
     RangeControl.dragged = false;
 
     function RangeControl(el) {
       this.el = el;
-      this.rangeTable = new RangeTable(this.el.find(".range-control__range"), this);
+      this.rangeTable = new RangeCells(this.el.find(".range-control__range"), this);
       this.initControls();
     }
 
@@ -117,8 +117,8 @@
 
   })();
 
-  RangeTable = (function() {
-    function RangeTable(el, rangeControl) {
+  RangeCells = (function() {
+    function RangeCells(el, rangeControl) {
       this.el = el;
       this.rangeControl = rangeControl;
       this.cells = this.el.find("div");
@@ -130,7 +130,7 @@
       this.buildCells();
     }
 
-    RangeTable.prototype.buildDataFromCells = function() {
+    RangeCells.prototype.buildDataFromCells = function() {
       var x;
 
       this.data = this.cells.map(function(i, cell) {
@@ -152,7 +152,7 @@
       }).call(this));
     };
 
-    RangeTable.prototype.buildCells = function() {
+    RangeCells.prototype.buildCells = function() {
       var _this = this;
 
       return this.cells.each(function(i, cell) {
@@ -164,7 +164,7 @@
       });
     };
 
-    RangeTable.prototype.colorizeCell = function(cell) {
+    RangeCells.prototype.colorizeCell = function(cell) {
       var colorRange, colorRanges, leftColorRange, rightColorRange, _ref, _results;
 
       colorRanges = {
@@ -187,15 +187,15 @@
       return _results;
     };
 
-    RangeTable.prototype.getRateOfCell = function(cell) {
+    RangeCells.prototype.getRateOfCell = function(cell) {
       return cell.data("rate");
     };
 
-    RangeTable.prototype.getRateByPosition = function(x) {
+    RangeCells.prototype.getRateByPosition = function(x) {
       return $(this.getCellByPosition(x)).data("rate");
     };
 
-    RangeTable.prototype.getCellByPosition = function(x) {
+    RangeCells.prototype.getCellByPosition = function(x) {
       var cellNum, cellWidthInPx;
 
       cellWidthInPx = this.el.width() / 100 * this.cellWidth;
@@ -206,19 +206,19 @@
       return this.cells.eq(cellNum);
     };
 
-    RangeTable.prototype.getCellByOrder = function(order) {
+    RangeCells.prototype.getCellByOrder = function(order) {
       return this.cells.eq(order - 1);
     };
 
-    RangeTable.prototype.getFirstCell = function() {
+    RangeCells.prototype.getFirstCell = function() {
       return this.getCellByOrder(1);
     };
 
-    RangeTable.prototype.getLastCell = function() {
+    RangeCells.prototype.getLastCell = function() {
       return this.getCellByOrder(this.cells.size());
     };
 
-    RangeTable.prototype.bindHoverToCell = function(cell) {
+    RangeCells.prototype.bindHoverToCell = function(cell) {
       var cellHoverEl, position,
         _this = this;
 
@@ -236,7 +236,7 @@
       });
     };
 
-    return RangeTable;
+    return RangeCells;
 
   })();
 

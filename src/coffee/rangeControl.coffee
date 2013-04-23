@@ -2,7 +2,7 @@ class RangeControl
   @dragged = false
 
   constructor: (@el) ->
-    @rangeTable = new RangeTable(@el.find(".range-control__range"), @)
+    @rangeTable = new RangeCells(@el.find(".range-control__range"), @)
     @initControls()
 
   initControls: ->
@@ -106,7 +106,7 @@ class RangeControl
     control.find("i").text(utilities.shortenVolumeToName(text))
 
 
-class RangeTable
+class RangeCells
   constructor: (@el, @rangeControl) ->
     @cells = @el.find("div")
     @cellHoverEl = $("<div/>").addClass("range-control__cell-hover").insertBefore(@el)

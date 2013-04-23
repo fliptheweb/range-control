@@ -3,12 +3,15 @@ class RangeControl
 
   constructor: (@el) ->
     @rangeTable = new RangeTable(@el.find(".range-control__range"), @)
-    @bindControls()
+    @initControls()
 
-  bindControls: ->
+  initControls: ->
     # @todo refactor all in this method
     @leftControl  = @el.find(".range-control__left")
     @rightControl = @el.find(".range-control__right")
+
+    @changeControlRateText(@leftControl, @rangeTable.getRateOfCell(@rangeTable.getFirstCell()))
+    @changeControlRateText(@rightControl, @rangeTable.getRateOfCell(@rangeTable.getLastCell()))
 
     @leftControl.on  "dragstart", -> return false
     @rightControl.on "dragstart", -> return false
@@ -144,6 +147,9 @@ class RangeTable
         cell.addClass(colorRange)
         break
 
+  getRateOfCell: (cell) ->
+    cell.data("rate")
+
   getRateByPosition: (x) ->
     $(@getCellByPosition(x)).data("rate")
 
@@ -153,6 +159,15 @@ class RangeTable
     if cellNum >= @cells.size()
       return  @cells.last()
     @cells.eq(cellNum)
+
+  getCellByOrder: (order) ->
+    @cells.eq(order - 1)
+
+  getFirstCell: ->
+    @getCellByOrder(1)
+
+  getLastCell: ->
+    @getCellByOrder(@cells.size())
 
   bindHoverToCell: (cell) ->
     cell = $(cell)

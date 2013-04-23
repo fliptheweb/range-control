@@ -8,14 +8,16 @@
     function RangeControl(el) {
       this.el = el;
       this.rangeTable = new RangeTable(this.el.find(".range-control__range"), this);
-      this.bindControls();
+      this.initControls();
     }
 
-    RangeControl.prototype.bindControls = function() {
+    RangeControl.prototype.initControls = function() {
       var _this = this;
 
       this.leftControl = this.el.find(".range-control__left");
       this.rightControl = this.el.find(".range-control__right");
+      this.changeControlRateText(this.leftControl, this.rangeTable.getRateOfCell(this.rangeTable.getFirstCell()));
+      this.changeControlRateText(this.rightControl, this.rangeTable.getRateOfCell(this.rangeTable.getLastCell()));
       this.leftControl.on("dragstart", function() {
         return false;
       });
@@ -185,6 +187,10 @@
       return _results;
     };
 
+    RangeTable.prototype.getRateOfCell = function(cell) {
+      return cell.data("rate");
+    };
+
     RangeTable.prototype.getRateByPosition = function(x) {
       return $(this.getCellByPosition(x)).data("rate");
     };
@@ -198,6 +204,18 @@
         return this.cells.last();
       }
       return this.cells.eq(cellNum);
+    };
+
+    RangeTable.prototype.getCellByOrder = function(order) {
+      return this.cells.eq(order - 1);
+    };
+
+    RangeTable.prototype.getFirstCell = function() {
+      return this.getCellByOrder(1);
+    };
+
+    RangeTable.prototype.getLastCell = function() {
+      return this.getCellByOrder(this.cells.size());
     };
 
     RangeTable.prototype.bindHoverToCell = function(cell) {

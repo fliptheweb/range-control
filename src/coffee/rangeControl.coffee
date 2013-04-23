@@ -94,7 +94,7 @@ class RangeControl
 
 
   changeControlRateText: (control, text) ->
-    control.find("span").text(utilities.shortenVolumeToName(text))
+    control.find("i").text(utilities.shortenVolumeToName(text))
 
 
 class RangeTable

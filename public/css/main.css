@@ -261,11 +261,11 @@ ul {
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 white;
   -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 white;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), inset 0 1px 0 white;
-  background-image: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #dcdcdc), color-stop(100%, #f4f4f4));
-  background-image: -webkit-linear-gradient(bottom, #dcdcdc 0%, #f4f4f4 100%);
-  background-image: -moz-linear-gradient(bottom, #dcdcdc 0%, #f4f4f4 100%);
-  background-image: -o-linear-gradient(bottom, #dcdcdc 0%, #f4f4f4 100%);
-  background-image: linear-gradient(bottom, #dcdcdc 0%, #f4f4f4 100%);
+  background: gainsboro -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #dcdcdc), color-stop(100%, #f4f4f4));
+  background: gainsboro -webkit-linear-gradient(bottom, #dcdcdc 0%, #f4f4f4 100%);
+  background: gainsboro -moz-linear-gradient(bottom, #dcdcdc 0%, #f4f4f4 100%);
+  background: gainsboro -o-linear-gradient(bottom, #dcdcdc 0%, #f4f4f4 100%);
+  background: gainsboro linear-gradient(bottom, #dcdcdc 0%, #f4f4f4 100%);
   -webkit-transition: box-shadow 0.3s, color 0.3s;
   -moz-transition: box-shadow 0.3s, color 0.3s;
   -o-transition: box-shadow 0.3s, color 0.3s;
@@ -280,6 +280,26 @@ ul {
   box-shadow: 0 0 5px 1px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
   color: #0074cd;
   outline: none;
+  padding: 0 !important;
+}
+.range-control__left span,
+.range-control__right span {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.range-control__left i,
+.range-control__right i {
+  font-style: normal;
+}
+.range-control__left noindex:-o-prefocus, .range-control__left span,
+.range-control__right noindex:-o-prefocus,
+.range-control__right span {
+  position: absolute;
+  top: 0;
 }
 
 .range-control__left {

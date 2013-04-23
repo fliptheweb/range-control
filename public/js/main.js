@@ -23,6 +23,9 @@
       this.leftControl.on("mousedown", function(event) {
         var leftLimit, rightLimit, shiftX, zeroCoordinate;
 
+        if (event.which !== 1) {
+          return;
+        }
         _this.leftControl.addClass("is-dragged");
         zeroCoordinate = _this.el.offset().left;
         shiftX = event.clientX - _this.leftControl.offset().left;
@@ -35,6 +38,9 @@
       this.rightControl.on("mousedown", function(event) {
         var controlWidth, leftLimit, rightLimit, shiftX, zeroCoordinate;
 
+        if (event.which !== 1) {
+          return;
+        }
         _this.rightControl.addClass("is-dragged");
         zeroCoordinate = _this.el.offset().left;
         controlWidth = _this.rightControl.outerWidth();

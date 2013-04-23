@@ -12,6 +12,8 @@ class RangeControl
     @rightControl.on "dragstart", -> return false
 
     @leftControl.on "mousedown", (event) =>
+      if event.which != 1
+        return
       @leftControl.addClass("is-dragged")
       zeroCoordinate = @el.offset().left
       shiftX = event.clientX - @leftControl.offset().left
@@ -29,6 +31,8 @@ class RangeControl
           )
 
     @rightControl.on "mousedown", (event) =>
+      if event.which != 1
+        return
       @rightControl.addClass("is-dragged")
       zeroCoordinate = @el.offset().left
       controlWidth   = @rightControl.outerWidth()

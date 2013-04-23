@@ -3,11 +3,12 @@
   var RangeControl, RangeTable, utilities;
 
   RangeControl = (function() {
+    RangeControl.dragged = false;
+
     function RangeControl(el) {
       this.el = el;
       this.rangeTable = new RangeTable(this.el.find(".range-control__range"), this);
       this.bindControls();
-      this.dragged = false;
     }
 
     RangeControl.prototype.bindControls = function() {

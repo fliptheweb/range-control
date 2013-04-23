@@ -1,9 +1,9 @@
 class RangeControl
+  @dragged = false
 
   constructor: (@el) ->
     @rangeTable = new RangeTable(@el.find(".range-control__range"), @)
     @bindControls()
-    @dragged = false
 
   bindControls: ->
     # @todo refactor all in this method

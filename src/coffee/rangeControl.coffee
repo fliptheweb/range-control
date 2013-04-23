@@ -1,7 +1,9 @@
 class RangeControl
+
   constructor: (@el) ->
-    @rangeTable = new RangeTable(@el.find(".range-control__range"))
+    @rangeTable = new RangeTable(@el.find(".range-control__range"), @)
     @bindControls()
+    @dragged = false
 
   bindControls: ->
     # @todo refactor all in this method
@@ -15,6 +17,7 @@ class RangeControl
       if event.which != 1
         return
       @leftControl.addClass("is-dragged")
+      @dragged = true
       zeroCoordinate = @el.offset().left
       shiftX = event.clientX - @leftControl.offset().left
       leftLimit = 0
@@ -34,6 +37,7 @@ class RangeControl
       if event.which != 1
         return
       @rightControl.addClass("is-dragged")
+      @dragged = true
       zeroCoordinate = @el.offset().left
       controlWidth   = @rightControl.outerWidth()
       shiftX = event.clientX - @rightControl.offset().left
@@ -52,10 +56,12 @@ class RangeControl
         )
 
     @leftControl.on "mouseup", =>
+      @dragged = false
       @leftControl.removeClass("is-dragged")
       $(document).off "mousemove"
 
     @rightControl.on "mouseup", =>
+      @dragged = false
       @rightControl.removeClass("is-dragged")
       $(document).off "mousemove"
 
@@ -98,7 +104,7 @@ class RangeControl
 
 
 class RangeTable
-  constructor: (@el) ->
+  constructor: (@el, @rangeControl) ->
     @cells = @el.find("div")
     @cellHoverEl = $("<div/>").addClass("range-control__cell-hover").insertBefore(@el)
     @cellWidth = 100/@cells.size()
@@ -153,13 +159,13 @@ class RangeTable
     cell = $(cell)
     position = cell.position().left
     cellHoverEl = @cellHoverEl
-    cell.hover(
-      -> cellHoverEl.show().css("left", position).text(utilities.splitVolumeBySpace(cell.data("rate"))),
-      -> cellHoverEl.hide()
-    )
-
-#      $(@).append($("<div />").text($(@).data("volume")))
-#      console.log()
+    cell.on "mouseover", =>
+      console.log(@rangeControl.dragged)
+      if @rangeControl.dragged
+        return
+      cellHoverEl.show().css("left", position).text(utilities.splitVolumeBySpace(cell.data("rate")))
+    cell.on "mouseleave", =>
+      cellHoverEl.hide()
 
 utilities =
   shortenVolumeToName: (volume) ->

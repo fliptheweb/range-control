@@ -5,8 +5,9 @@
   RangeControl = (function() {
     function RangeControl(el) {
       this.el = el;
-      this.rangeTable = new RangeTable(this.el.find(".range-control__range"));
+      this.rangeTable = new RangeTable(this.el.find(".range-control__range"), this);
       this.bindControls();
+      this.dragged = false;
     }
 
     RangeControl.prototype.bindControls = function() {
@@ -27,6 +28,7 @@
           return;
         }
         _this.leftControl.addClass("is-dragged");
+        _this.dragged = true;
         zeroCoordinate = _this.el.offset().left;
         shiftX = event.clientX - _this.leftControl.offset().left;
         leftLimit = 0;
@@ -42,6 +44,7 @@
           return;
         }
         _this.rightControl.addClass("is-dragged");
+        _this.dragged = true;
         zeroCoordinate = _this.el.offset().left;
         controlWidth = _this.rightControl.outerWidth();
         shiftX = event.clientX - _this.rightControl.offset().left;
@@ -53,10 +56,12 @@
         });
       });
       this.leftControl.on("mouseup", function() {
+        _this.dragged = false;
         _this.leftControl.removeClass("is-dragged");
         return $(document).off("mousemove");
       });
       this.rightControl.on("mouseup", function() {
+        _this.dragged = false;
         _this.rightControl.removeClass("is-dragged");
         return $(document).off("mousemove");
       });
@@ -110,8 +115,9 @@
   })();
 
   RangeTable = (function() {
-    function RangeTable(el) {
+    function RangeTable(el, rangeControl) {
       this.el = el;
+      this.rangeControl = rangeControl;
       this.cells = this.el.find("div");
       this.cellHoverEl = $("<div/>").addClass("range-control__cell-hover").insertBefore(this.el);
       this.cellWidth = 100 / this.cells.size();
@@ -194,14 +200,20 @@
     };
 
     RangeTable.prototype.bindHoverToCell = function(cell) {
-      var cellHoverEl, position;
+      var cellHoverEl, position,
+        _this = this;
 
       cell = $(cell);
       position = cell.position().left;
       cellHoverEl = this.cellHoverEl;
-      return cell.hover(function() {
+      cell.on("mouseover", function() {
+        console.log(_this.rangeControl.dragged);
+        if (_this.rangeControl.dragged) {
+          return;
+        }
         return cellHoverEl.show().css("left", position).text(utilities.splitVolumeBySpace(cell.data("rate")));
-      }, function() {
+      });
+      return cell.on("mouseleave", function() {
         return cellHoverEl.hide();
       });
     };

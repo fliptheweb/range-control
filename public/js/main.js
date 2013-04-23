@@ -207,7 +207,6 @@
       position = cell.position().left;
       cellHoverEl = this.cellHoverEl;
       cell.on("mouseover", function() {
-        console.log(_this.rangeControl.dragged);
         if (_this.rangeControl.dragged) {
           return;
         }

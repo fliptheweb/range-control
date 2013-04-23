@@ -142,7 +142,6 @@ class RangeTable
       rightColorRange = colorRanges[colorRange][1]
       if (leftColorRange <= cell.data("rate") <= rightColorRange) || (leftColorRange <= cell.data("rate") && !rightColorRange)
         cell.addClass(colorRange)
-#        console.log(utilities.shortenVolumeToName(cell.data("rate")))
         break
 
   getRateByPosition: (x) ->
@@ -160,7 +159,6 @@ class RangeTable
     position = cell.position().left
     cellHoverEl = @cellHoverEl
     cell.on "mouseover", =>
-      console.log(@rangeControl.dragged)
       if @rangeControl.dragged
         return
       cellHoverEl.show().css("left", position).text(utilities.splitVolumeBySpace(cell.data("rate")))

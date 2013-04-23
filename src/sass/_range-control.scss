@@ -101,13 +101,13 @@ $b: "range-control";
       background: #e6ead4;
     }
     &.middle-green {
-      @include background(linear-gradient(bottom, #dee3c2 0%, #ced7a6 100%));
+      @include background(#ced7a6 linear-gradient(bottom, #dee3c2 0%, #ced7a6 100%));
     }
     &.green {
-      @include background(linear-gradient(bottom, #ccd69f 0%, #b4c373 100%));
+      @include background(#b4c373 linear-gradient(bottom, #ccd69f 0%, #b4c373 100%));
     }
     &.yellow {
-      @include background(linear-gradient(bottom, #fee29b 0%, #fed46d 100%));
+      @include background(#fed46d linear-gradient(bottom, #fee29b 0%, #fed46d 100%));
     }
 
     &.is-disabled {

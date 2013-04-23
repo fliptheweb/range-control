@@ -344,25 +344,25 @@ ul {
   background: #e6ead4;
 }
 .range-control__range div.middle-green {
-  background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #dee3c2), color-stop(100%, #ced7a6));
-  background: -webkit-linear-gradient(bottom, #dee3c2 0%, #ced7a6 100%);
-  background: -moz-linear-gradient(bottom, #dee3c2 0%, #ced7a6 100%);
-  background: -o-linear-gradient(bottom, #dee3c2 0%, #ced7a6 100%);
-  background: linear-gradient(bottom, #dee3c2 0%, #ced7a6 100%);
+  background: #ced7a6 -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #dee3c2), color-stop(100%, #ced7a6));
+  background: #ced7a6 -webkit-linear-gradient(bottom, #dee3c2 0%, #ced7a6 100%);
+  background: #ced7a6 -moz-linear-gradient(bottom, #dee3c2 0%, #ced7a6 100%);
+  background: #ced7a6 -o-linear-gradient(bottom, #dee3c2 0%, #ced7a6 100%);
+  background: #ced7a6 linear-gradient(bottom, #dee3c2 0%, #ced7a6 100%);
 }
 .range-control__range div.green {
-  background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #ccd69f), color-stop(100%, #b4c373));
-  background: -webkit-linear-gradient(bottom, #ccd69f 0%, #b4c373 100%);
-  background: -moz-linear-gradient(bottom, #ccd69f 0%, #b4c373 100%);
-  background: -o-linear-gradient(bottom, #ccd69f 0%, #b4c373 100%);
-  background: linear-gradient(bottom, #ccd69f 0%, #b4c373 100%);
+  background: #b4c373 -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #ccd69f), color-stop(100%, #b4c373));
+  background: #b4c373 -webkit-linear-gradient(bottom, #ccd69f 0%, #b4c373 100%);
+  background: #b4c373 -moz-linear-gradient(bottom, #ccd69f 0%, #b4c373 100%);
+  background: #b4c373 -o-linear-gradient(bottom, #ccd69f 0%, #b4c373 100%);
+  background: #b4c373 linear-gradient(bottom, #ccd69f 0%, #b4c373 100%);
 }
 .range-control__range div.yellow {
-  background: -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #fee29b), color-stop(100%, #fed46d));
-  background: -webkit-linear-gradient(bottom, #fee29b 0%, #fed46d 100%);
-  background: -moz-linear-gradient(bottom, #fee29b 0%, #fed46d 100%);
-  background: -o-linear-gradient(bottom, #fee29b 0%, #fed46d 100%);
-  background: linear-gradient(bottom, #fee29b 0%, #fed46d 100%);
+  background: #fed46d -webkit-gradient(linear, 50% 100%, 50% 0%, color-stop(0%, #fee29b), color-stop(100%, #fed46d));
+  background: #fed46d -webkit-linear-gradient(bottom, #fee29b 0%, #fed46d 100%);
+  background: #fed46d -moz-linear-gradient(bottom, #fee29b 0%, #fed46d 100%);
+  background: #fed46d -o-linear-gradient(bottom, #fee29b 0%, #fed46d 100%);
+  background: #fed46d linear-gradient(bottom, #fee29b 0%, #fed46d 100%);
 }
 .range-control__range div.is-disabled {
   background: #f6f6f6 !important;

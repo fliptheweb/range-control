@@ -281,25 +281,8 @@ ul {
   color: #0074cd;
   outline: none;
   padding: 0 !important;
-}
-.range-control__left span,
-.range-control__right span {
-  display: block;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-.range-control__left i,
-.range-control__right i {
-  font-style: normal;
-}
-.range-control__left noindex:-o-prefocus, .range-control__left span,
-.range-control__right noindex:-o-prefocus,
-.range-control__right span {
-  position: absolute;
-  top: 0;
+  /* its fix for opera */
+  -o-transform: translateX(0);
 }
 
 .range-control__left {

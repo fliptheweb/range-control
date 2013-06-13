@@ -163,7 +163,6 @@ class RangeControl
     })
 
   _renderLeftControl: ->
-    console.log(@_renderControlCallback)
     if @_renderControlCallback?
       @_leftControl.html(@_renderControlCallback(@_leftControlValue))
 

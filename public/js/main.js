@@ -203,7 +203,6 @@
     };
 
     RangeControl.prototype._renderLeftControl = function() {
-      console.log(this._renderControlCallback);
       if (this._renderControlCallback != null) {
         return this._leftControl.html(this._renderControlCallback(this._leftControlValue));
       }

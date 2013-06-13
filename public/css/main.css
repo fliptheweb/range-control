@@ -397,6 +397,8 @@ ul {
   margin-top: 9px;
   margin-left: -66px;
   margin-right: -66px;
+  position: relative;
+  overflow: hidden;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   -ms-border-radius: 3px;
@@ -406,7 +408,14 @@ ul {
   -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65), inset 0 1px 2px rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65), inset 0 1px 2px rgba(0, 0, 0, 0.15);
 }
-.range-control_mini__range.is-active {
+.range-control_mini__range:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100px;
+  right: 100px;
   background-color: #45a9f0;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.33);
   -moz-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.33);

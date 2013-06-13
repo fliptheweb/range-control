@@ -1,5 +1,7 @@
 $b: "range-control";
 
+$button-width: 66px;
+
 %#{$b} {
   position: relative;
   height: 24px;
@@ -7,7 +9,7 @@ $b: "range-control";
 
 %#{$b}__left,
 %#{$b}__right {
-  width: 66px;
+  width: $button-width;
   padding: 0;
   margin: 0;
   position: absolute;
@@ -113,14 +115,18 @@ $b: "range-control";
   width: 100px;
 }
 
-// Range-control with range graph
+/**
+ * Range-control with range graph
+ */
 .#{$b}_graph {
   @extend %#{$b};
   background: #f6f6f6;
   @include box-shadow(inset 0 0 3px rgba(#f6f6f6, .35));
 }
 
-// Mini range-control without graph
+/**
+ * Mini range-control without graph
+ */
 .#{$b}_mini {
   @extend %#{$b};
 }

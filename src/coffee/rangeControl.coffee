@@ -1,12 +1,13 @@
 class RangeControl
-  @_width;
-  @_controlWidth;
-  @_pxInStep;
   @_dragged          = false
   @_startValue       = 0
   @_endValue         = 100
   @_valueStep        = 0
   @_draggedClassName = "is-dragged";
+  @_width;
+  @_widthWithoutPaddings;
+  @_controlWidth;
+  @_pxInStep;
   @_leftControlValue;
   @_rightControlValue;
   @_rangeElement;

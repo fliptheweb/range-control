@@ -3,12 +3,6 @@
   var RangeControl, utilities;
 
   RangeControl = (function() {
-    RangeControl._width;
-
-    RangeControl._controlWidth;
-
-    RangeControl._pxInStep;
-
     RangeControl._dragged = false;
 
     RangeControl._startValue = 0;
@@ -18,6 +12,14 @@
     RangeControl._valueStep = 0;
 
     RangeControl._draggedClassName = "is-dragged";
+
+    RangeControl._width;
+
+    RangeControl._widthWithoutPaddings;
+
+    RangeControl._controlWidth;
+
+    RangeControl._pxInStep;
 
     RangeControl._leftControlValue;
 

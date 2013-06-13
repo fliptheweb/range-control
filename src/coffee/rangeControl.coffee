@@ -63,7 +63,11 @@ class RangeControl
       @_renderRange()
       @_renderLeftControl()
     else
-      @_leftControlValue
+      if @_valueStep == 1
+        @_leftControlValue
+      else
+        @_startValue + ((@_leftControlValue - @_startValue) - (@_leftControlValue - @_startValue) % @_valueStep)
+
 
   rightValue: (value) ->
     if value?
@@ -71,7 +75,12 @@ class RangeControl
       @_renderRange()
       @_renderRightControl()
     else
-      @_rightControlValue
+      if @_valueStep == 1
+        @_rightControlValue
+      else
+        @_rightControlValue
+
+#        @_startValue + ((@_rightControlValue - @_startValue) - (@_rigthControlValue - @_startValue) % @_valueStep)
 
   renderControl: (renderControlCallback) ->
     if renderControlCallback?
@@ -154,8 +163,8 @@ class RangeControl
       @rightValue(@_getValueByPosition(control.position().left - @_controlWidth))
 
   _renderRange: ->
-    leftBorder =  ((@_leftControlValue - @_startValue) * @_pxInValue)/@_valueStep + @_controlWidth - (@_controlWidth / 2)
-    rightBorder = ((@_rightControlValue - @_startValue) * @_pxInValue)/@_valueStep + @_controlWidth + (@_controlWidth / 2)
+    leftBorder =  ((@_leftControlValue - @_startValue) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
+    rightBorder = ((@_rightControlValue - @_startValue) * @_pxInValue) + @_controlWidth + (@_controlWidth / 2)
     @_rangeElement.css({
       "left":  leftBorder,
       "right": @_width - rightBorder
@@ -163,11 +172,11 @@ class RangeControl
 
   _renderLeftControl: ->
     if @_renderControlCallback?
-      @_leftControl.html(@_renderControlCallback(@_leftControlValue))
+      @_leftControl.html(@_renderControlCallback(@leftValue()))
 
   _renderRightControl: ->
     if @_renderControlCallback?
-      @_rightControl.html(@_renderControlCallback(@_rightControlValue))
+      @_rightControl.html(@_renderControlCallback(@rightValue()))
 
 
 #class RangeControl

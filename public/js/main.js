@@ -87,7 +87,11 @@
         this._renderRange();
         return this._renderLeftControl();
       } else {
-        return this._leftControlValue;
+        if (this._valueStep === 1) {
+          return this._leftControlValue;
+        } else {
+          return this._startValue + ((this._leftControlValue - this._startValue) - (this._leftControlValue - this._startValue) % this._valueStep);
+        }
       }
     };
 
@@ -97,7 +101,11 @@
         this._renderRange();
         return this._renderRightControl();
       } else {
-        return this._rightControlValue;
+        if (this._valueStep === 1) {
+          return this._rightControlValue;
+        } else {
+          return this._rightControlValue;
+        }
       }
     };
 
@@ -192,8 +200,8 @@
     RangeControl.prototype._renderRange = function() {
       var leftBorder, rightBorder;
 
-      leftBorder = ((this._leftControlValue - this._startValue) * this._pxInValue) / this._valueStep + this._controlWidth - (this._controlWidth / 2);
-      rightBorder = ((this._rightControlValue - this._startValue) * this._pxInValue) / this._valueStep + this._controlWidth + (this._controlWidth / 2);
+      leftBorder = ((this._leftControlValue - this._startValue) * this._pxInValue) + this._controlWidth - (this._controlWidth / 2);
+      rightBorder = ((this._rightControlValue - this._startValue) * this._pxInValue) + this._controlWidth + (this._controlWidth / 2);
       return this._rangeElement.css({
         "left": leftBorder,
         "right": this._width - rightBorder
@@ -202,13 +210,13 @@
 
     RangeControl.prototype._renderLeftControl = function() {
       if (this._renderControlCallback != null) {
-        return this._leftControl.html(this._renderControlCallback(this._leftControlValue));
+        return this._leftControl.html(this._renderControlCallback(this.leftValue()));
       }
     };
 
     RangeControl.prototype._renderRightControl = function() {
       if (this._renderControlCallback != null) {
-        return this._rightControl.html(this._renderControlCallback(this._rightControlValue));
+        return this._rightControl.html(this._renderControlCallback(this.rightValue()));
       }
     };
 

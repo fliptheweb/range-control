@@ -147,6 +147,8 @@
       }
     };
 
+    RangeControl.prototype._renderRange = function() {};
+
     RangeControl.prototype.changeControlRateText = function(control, text) {
       return control.find("i").text(utilities.shortenVolumeToName(text));
     };

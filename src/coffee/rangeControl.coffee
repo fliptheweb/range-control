@@ -126,6 +126,8 @@ class RangeControl
 #    if control == @_rightControl
 #      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left - controlWidth)
 
+  _renderRange: ->
+
 
   changeControlRateText: (control, text) ->
     control.find("i").text(utilities.shortenVolumeToName(text))

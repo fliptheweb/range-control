@@ -13,9 +13,7 @@
 
     RangeControl._draggedClassName = "is-dragged";
 
-    RangeControl._renderControlCallback = function(value) {
-      return value;
-    };
+    RangeControl._renderControlCallback;
 
     RangeControl._width;
 
@@ -40,8 +38,12 @@
       defaultOptions = {
         startValue: 0,
         endValue: 100,
-        valueStep: 1
+        valueStep: 1,
+        renderControlCallback: function(value) {
+          return value;
+        }
       };
+      this._renderControlCallback = defaultOptions.renderControlCallback;
       this._leftControl = this.el.find(".range-control_mini__left");
       this._rightControl = this.el.find(".range-control_mini__right");
       this._rangeElement = this.el.find(".range-control_mini__range.is-active");
@@ -201,6 +203,7 @@
     };
 
     RangeControl.prototype._renderLeftControl = function() {
+      console.log(this._renderControlCallback);
       if (this._renderControlCallback != null) {
         return this._leftControl.html(this._renderControlCallback(this._leftControlValue));
       }

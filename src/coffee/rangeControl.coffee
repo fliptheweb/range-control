@@ -4,7 +4,7 @@ class RangeControl
   @_endValue         = 100
   @_valueStep        = 0
   @_draggedClassName = "is-dragged";
-  @_renderControlCallback = (value) -> value;
+  @_renderControlCallback;
   @_width;
   @_widthWithoutPaddings;
   @_controlWidth;
@@ -19,7 +19,9 @@ class RangeControl
       startValue: 0
       endValue:   100
       valueStep:  1,
+      renderControlCallback: (value) -> value
     }
+    @_renderControlCallback = defaultOptions.renderControlCallback
 
     @_leftControl  = @el.find(".range-control_mini__left")
     @_rightControl = @el.find(".range-control_mini__right")
@@ -161,6 +163,7 @@ class RangeControl
     })
 
   _renderLeftControl: ->
+    console.log(@_renderControlCallback)
     if @_renderControlCallback?
       @_leftControl.html(@_renderControlCallback(@_leftControlValue))
 

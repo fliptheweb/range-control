@@ -1,5 +1,6 @@
 class RangeControl
   @_width;
+  @_controlWidth;
   @_dragged      = false
   @_startValue   = 0
   @_endValue     = 100
@@ -13,13 +14,13 @@ class RangeControl
     defaultOptions = {
       startValue: 0
       endValue:   100
-      valueStep:  0
+      valueStep:  1
     }
     @startValue(@el.data("start-value") || defaultOptions.startValue)
     @endValue(@el.data("end-value")     || defaultOptions.endValue)
     @valueStep(@el.data("value-step")   || defaultOptions.valueStep)
-    @leftValue(@el.data("left-value")   || @startValue)
-    @rightValue(@el.data("right-value") || @stopValue)
+    @leftValue(@el.data("left-value")   || @_startValue)
+    @rightValue(@el.data("right-value") || @_endValue)
 
     @_leftControl  = @el.find(".range-control_mini__left")
     @_rightControl = @el.find(".range-control_mini__right")
@@ -58,7 +59,13 @@ class RangeControl
     if value?
       @_rightControlValue = value
     else
-      @_leftControlValue
+      @_rightControlValue
+
+  _getValueByPosition: (x) ->
+    pxInStep = @_width / ((@_endValue - @_startValue) / @_valueStep)
+    value = parseInt(@_startValue + (x / pxInStep))
+    console.log(value)
+
 
   _initControls: ->
 #    @changeControlRateText(@_leftControl, @rangeTable.getRateOfCell(@rangeTable.getFirstCell()))
@@ -126,10 +133,13 @@ class RangeControl
     if rightBorderPosition > rightLimit
       control.css "left", rightLimit - @_controlWidth
 
-#    if control == @_leftControl
-#      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left)
-#    if control == @_rightControl
-#      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left - controlWidth)
+#    @todo dont use position.left!!!!
+    if control == @_leftControl
+      @_leftControlValue = @_getValueByPosition(control.position().left)
+      console.log(@leftValue())
+    if control == @_rightControl
+      @_rightControlValue = @_getValueByPosition(control.position().left - @_controlWidth)
+      console.log(@rightValue())
 
   _renderRange: (leftLimit, rightLimit) ->
     @_rangeElement.css()

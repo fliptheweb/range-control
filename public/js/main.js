@@ -5,6 +5,8 @@
   RangeControl = (function() {
     RangeControl._width;
 
+    RangeControl._controlWidth;
+
     RangeControl._dragged = false;
 
     RangeControl._startValue = 0;
@@ -28,13 +30,13 @@
       defaultOptions = {
         startValue: 0,
         endValue: 100,
-        valueStep: 0
+        valueStep: 1
       };
       this.startValue(this.el.data("start-value") || defaultOptions.startValue);
       this.endValue(this.el.data("end-value") || defaultOptions.endValue);
       this.valueStep(this.el.data("value-step") || defaultOptions.valueStep);
-      this.leftValue(this.el.data("left-value") || this.startValue);
-      this.rightValue(this.el.data("right-value") || this.stopValue);
+      this.leftValue(this.el.data("left-value") || this._startValue);
+      this.rightValue(this.el.data("right-value") || this._endValue);
       this._leftControl = this.el.find(".range-control_mini__left");
       this._rightControl = this.el.find(".range-control_mini__right");
       this._rangeElement = this.el.find(".range-control_mini__range.is-active");
@@ -79,8 +81,16 @@
       if (value != null) {
         return this._rightControlValue = value;
       } else {
-        return this._leftControlValue;
+        return this._rightControlValue;
       }
+    };
+
+    RangeControl.prototype._getValueByPosition = function(x) {
+      var pxInStep, value;
+
+      pxInStep = this._width / ((this._endValue - this._startValue) / this._valueStep);
+      value = parseInt(this._startValue + (x / pxInStep));
+      return console.log(value);
     };
 
     RangeControl.prototype._initControls = function() {
@@ -149,7 +159,15 @@
         control.css("left", leftLimit);
       }
       if (rightBorderPosition > rightLimit) {
-        return control.css("left", rightLimit - this._controlWidth);
+        control.css("left", rightLimit - this._controlWidth);
+      }
+      if (control === this._leftControl) {
+        this._leftControlValue = this._getValueByPosition(control.position().left);
+        console.log(this.leftValue());
+      }
+      if (control === this._rightControl) {
+        this._rightControlValue = this._getValueByPosition(control.position().left - this._controlWidth);
+        return console.log(this.rightValue());
       }
     };
 

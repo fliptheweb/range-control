@@ -4,6 +4,7 @@ class RangeControl
   @_endValue         = 100
   @_valueStep        = 0
   @_draggedClassName = "is-dragged";
+  @_renderControlCallback = (value) -> value;
   @_width;
   @_widthWithoutPaddings;
   @_controlWidth;
@@ -17,7 +18,7 @@ class RangeControl
     defaultOptions = {
       startValue: 0
       endValue:   100
-      valueStep:  1
+      valueStep:  1,
     }
 
     @_leftControl  = @el.find(".range-control_mini__left")
@@ -59,6 +60,7 @@ class RangeControl
     if value?
       @_leftControlValue = value
       @_renderRange()
+      @_renderLeftControl()
     else
       @_leftControlValue
 
@@ -66,8 +68,14 @@ class RangeControl
     if value?
       @_rightControlValue = value
       @_renderRange()
+      @_renderRightControl()
     else
       @_rightControlValue
+
+  renderControl: (renderControlCallback) ->
+    if renderControlCallback?
+      if typeof(renderControlCallback) == "function"
+        @_renderControlCallback = renderControlCallback
 
   _getValueByPosition: (x) ->
     parseInt(@_startValue + (x / @_pxInStep))
@@ -139,7 +147,6 @@ class RangeControl
     if rightBorderPosition > rightLimit
       control.css "left", rightLimit - @_controlWidth
 
-#    @todo dont use position.left!!!!
     if control == @_leftControl
       @leftValue(@_getValueByPosition(control.position().left))
     if control == @_rightControl
@@ -153,8 +160,13 @@ class RangeControl
       "right": @_width - rightBorder
     })
 
-  _renderControls: ->
-    @
+  _renderLeftControl: ->
+    if @_renderControlCallback?
+      @_leftControl.html(@_renderControlCallback(@_leftControlValue))
+
+  _renderRightControl: ->
+    if @_renderControlCallback?
+      @_rightControl.html(@_renderControlCallback(@_rightControlValue))
 
 
 
@@ -365,4 +377,3 @@ utilities =
 
 $(".range-control_mini").each (i, control) ->
   rangeControl = new RangeControl($(control))
-  console.log(rangeControl.endValue())

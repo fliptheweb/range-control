@@ -13,6 +13,10 @@
 
     RangeControl._draggedClassName = "is-dragged";
 
+    RangeControl._renderControlCallback = function(value) {
+      return value;
+    };
+
     RangeControl._width;
 
     RangeControl._widthWithoutPaddings;
@@ -80,7 +84,8 @@
     RangeControl.prototype.leftValue = function(value) {
       if (value != null) {
         this._leftControlValue = value;
-        return this._renderRange();
+        this._renderRange();
+        return this._renderLeftControl();
       } else {
         return this._leftControlValue;
       }
@@ -89,9 +94,18 @@
     RangeControl.prototype.rightValue = function(value) {
       if (value != null) {
         this._rightControlValue = value;
-        return this._renderRange();
+        this._renderRange();
+        return this._renderRightControl();
       } else {
         return this._rightControlValue;
+      }
+    };
+
+    RangeControl.prototype.renderControl = function(renderControlCallback) {
+      if (renderControlCallback != null) {
+        if (typeof renderControlCallback === "function") {
+          return this._renderControlCallback = renderControlCallback;
+        }
       }
     };
 
@@ -186,8 +200,16 @@
       });
     };
 
-    RangeControl.prototype._renderControls = function() {
-      return this;
+    RangeControl.prototype._renderLeftControl = function() {
+      if (this._renderControlCallback != null) {
+        return this._leftControl.html(this._renderControlCallback(this._leftControlValue));
+      }
+    };
+
+    RangeControl.prototype._renderRightControl = function() {
+      if (this._renderControlCallback != null) {
+        return this._rightControl.html(this._renderControlCallback(this._rightControlValue));
+      }
     };
 
     RangeControl.prototype.changeControlRateText = function(control, text) {
@@ -218,8 +240,7 @@
   $(".range-control_mini").each(function(i, control) {
     var rangeControl;
 
-    rangeControl = new RangeControl($(control));
-    return console.log(rangeControl.endValue());
+    return rangeControl = new RangeControl($(control));
   });
 
 }).call(this);

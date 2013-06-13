@@ -44,7 +44,8 @@
       this._rangeElement = this.el.find(".range-control_mini__range.is-active");
       this._controlWidth = this._leftControl.outerWidth();
       this._width = this.el.outerWidth();
-      this._pxInStep = this._width / ((this._endValue - this._startValue) / this._valueStep);
+      this._widthWithoutPaddings = this.el.width();
+      this._pxInStep = this._widthWithoutPaddings / ((this._endValue - this._startValue) / this._valueStep);
       this._initControls();
     }
 

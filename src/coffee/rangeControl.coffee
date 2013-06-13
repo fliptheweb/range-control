@@ -27,9 +27,10 @@ class RangeControl
     @_rightControl = @el.find(".range-control_mini__right")
     @_rangeElement = @el.find(".range-control_mini__range.is-active")
 
-    @_controlWidth = @_leftControl.outerWidth()
-    @_width        = @el.outerWidth()
-    @_pxInStep     = @_width / ((@_endValue - @_startValue) / @_valueStep)
+    @_controlWidth         = @_leftControl.outerWidth()
+    @_width                = @el.outerWidth()
+    @_widthWithoutPaddings = @el.width()
+    @_pxInStep             = @_widthWithoutPaddings / ((@_endValue - @_startValue) / @_valueStep)
 
     @_initControls()
 

@@ -111,7 +111,7 @@ class RangeControl
           shiftX,
           leftLimit,
           rightLimit
-          )
+        )
 
     @_rightControl.on "mousedown", (event) =>
       if event.which != 1

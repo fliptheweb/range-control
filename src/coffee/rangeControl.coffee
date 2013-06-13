@@ -8,6 +8,7 @@ class RangeControl
   @_widthWithoutPaddings;
   @_controlWidth;
   @_pxInStep;
+  @_stepInPx;
   @_leftControlValue;
   @_rightControlValue;
   @_rangeElement;
@@ -18,15 +19,16 @@ class RangeControl
       endValue:   100
       valueStep:  1
     }
+
+    @_leftControl  = @el.find(".range-control_mini__left")
+    @_rightControl = @el.find(".range-control_mini__right")
+    @_rangeElement = @el.find(".range-control_mini__range.is-active")
+
     @startValue(@el.data("start-value") || defaultOptions.startValue)
     @endValue(@el.data("end-value")     || defaultOptions.endValue)
     @valueStep(@el.data("value-step")   || defaultOptions.valueStep)
     @leftValue(@el.data("left-value")   || @_startValue)
     @rightValue(@el.data("right-value") || @_endValue)
-
-    @_leftControl  = @el.find(".range-control_mini__left")
-    @_rightControl = @el.find(".range-control_mini__right")
-    @_rangeElement = @el.find(".range-control_mini__range.is-active")
 
     @_controlWidth         = @_leftControl.outerWidth()
     @_width                = @el.outerWidth()
@@ -56,12 +58,14 @@ class RangeControl
   leftValue: (value) ->
     if value?
       @_leftControlValue = value
+      @_renderRange()
     else
       @_leftControlValue
 
   rightValue: (value) ->
     if value?
       @_rightControlValue = value
+      @_renderRange()
     else
       @_rightControlValue
 
@@ -137,16 +141,20 @@ class RangeControl
 
 #    @todo dont use position.left!!!!
     if control == @_leftControl
-      @_leftControlValue = @_getValueByPosition(control.position().left)
-      console.log(@leftValue())
+      @leftValue(@_getValueByPosition(control.position().left))
     if control == @_rightControl
-      @_rightControlValue = @_getValueByPosition(control.position().left - @_controlWidth)
-      console.log(@rightValue())
+      @rightValue(@_getValueByPosition(control.position().left - @_controlWidth))
 
-  _renderRange: (leftLimit, rightLimit) ->
-    @_rangeElement.css()
+  _renderRange: ->
+    leftBorder = (@leftValue() * @_pxInStep) + (@_width - @_widthWithoutPaddings) - (@_controlWidth / 2)
+    rightBorder = (@rightValue() * @_pxInStep) + (@_width - @_widthWithoutPaddings) + (@_controlWidth / 2)
+    @_rangeElement.css({
+      "left":  leftBorder,
+      "right": rightBorder
+    })
 
   _renderControls: ->
+    @
 
 
 

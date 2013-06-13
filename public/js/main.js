@@ -3,114 +3,45 @@
   var RangeCells, RangeControl, utilities;
 
   RangeControl = (function() {
-    RangeControl.dragged = false;
+    var dragged, endValue, startValue, valueStep;
+
+    dragged = false;
+
+    startValue = 0;
+
+    endValue = 100;
+
+    valueStep = 0;
 
     function RangeControl(el) {
       this.el = el;
-      this.rangeTable = new RangeCells(this.el.find(".range-control__range"), this);
-      this.initControls();
+      this.setStartValue(this.el.data("start-value"));
     }
 
-    RangeControl.prototype.initControls = function() {
-      var _this = this;
-
-      this.leftControl = this.el.find(".range-control__left");
-      this.rightControl = this.el.find(".range-control__right");
-      this.changeControlRateText(this.leftControl, this.rangeTable.getRateOfCell(this.rangeTable.getFirstCell()));
-      this.changeControlRateText(this.rightControl, this.rangeTable.getRateOfCell(this.rangeTable.getLastCell()));
-      this.leftControl.on("dragstart", function() {
-        return false;
-      });
-      this.rightControl.on("dragstart", function() {
-        return false;
-      });
-      this.leftControl.on("mousedown", function(event) {
-        var leftLimit, rightLimit, shiftX, zeroCoordinate;
-
-        if (event.which !== 1) {
-          return;
-        }
-        _this.leftControl.addClass("is-dragged");
-        _this.dragged = true;
-        zeroCoordinate = _this.el.offset().left;
-        shiftX = event.clientX - _this.leftControl.offset().left;
-        leftLimit = 0;
-        rightLimit = _this.rightControl.offset().left - zeroCoordinate;
-        return $(document).on("mousemove", function(event) {
-          return _this.controlMoveTo(_this.leftControl, event.clientX, zeroCoordinate, shiftX, leftLimit, rightLimit);
-        });
-      });
-      this.rightControl.on("mousedown", function(event) {
-        var controlWidth, leftLimit, rightLimit, shiftX, zeroCoordinate;
-
-        if (event.which !== 1) {
-          return;
-        }
-        _this.rightControl.addClass("is-dragged");
-        _this.dragged = true;
-        zeroCoordinate = _this.el.offset().left;
-        controlWidth = _this.rightControl.outerWidth();
-        shiftX = event.clientX - _this.rightControl.offset().left;
-        leftLimit = _this.leftControl.offset().left - zeroCoordinate + _this.leftControl.outerWidth();
-        rightLimit = _this.el.width();
-        return $(document).on("mousemove", function(event) {
-          $(document).on("mousemove", function(event) {});
-          return _this.controlMoveTo(_this.rightControl, event.clientX, zeroCoordinate, shiftX, leftLimit, rightLimit);
-        });
-      });
-      this.leftControl.on("mouseup", function() {
-        _this.dragged = false;
-        _this.leftControl.removeClass("is-dragged");
-        return $(document).off("mousemove");
-      });
-      this.rightControl.on("mouseup", function() {
-        _this.dragged = false;
-        _this.rightControl.removeClass("is-dragged");
-        return $(document).off("mousemove");
-      });
-      return $(document).on("mouseup", function() {
-        _this.leftControl.triggerHandler("mouseup");
-        return _this.rightControl.triggerHandler("mouseup");
-      });
+    RangeControl.prototype.setStartValue = function(startValue) {
+      if (startValue) {
+        return this.startValue = parseInt(startValue);
+      }
     };
 
-    RangeControl.prototype.controlMoveTo = function(control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) {
-      var controlWidth, leftBorderPosition, leftGrayCell, rightBorderPosition, rightGrayCell;
-
-      controlWidth = control.outerWidth();
-      leftBorderPosition = stopPoint - zeroCoordinate - shiftX;
-      rightBorderPosition = stopPoint - zeroCoordinate - shiftX + controlWidth;
-      if (leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit) {
-        control.css("left", leftBorderPosition);
-      }
-      if (leftBorderPosition < leftLimit) {
-        control.css("left", leftLimit);
-      }
-      if (rightBorderPosition > rightLimit) {
-        control.css("left", rightLimit - controlWidth);
-      }
-      if (control === this.leftControl) {
-        this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left));
-      }
-      if (control === this.rightControl) {
-        this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left - controlWidth));
-      }
-      this.rangeTable.cells.addClass("is-disabled");
-      leftGrayCell = this.rangeTable.getCellByPosition(this.leftControl.position().left).index() - 3;
-      rightGrayCell = this.rangeTable.getCellByPosition(this.rightControl.position().left - controlWidth).index() + 3;
-      if (leftGrayCell >= 0) {
-        this.rangeTable.cells.slice(leftGrayCell, rightGrayCell).removeClass("is-disabled");
-      } else {
-        this.rangeTable.cells.slice(0, rightGrayCell).removeClass("is-disabled");
-      }
-      return console.log({
-        left: this.rangeTable.getRateByPosition(this.leftControl.position().left),
-        right: this.rangeTable.getRateByPosition(this.rightControl.position().left - controlWidth)
-      });
+    RangeControl.prototype.getStartValue = function() {
+      return this.startValue;
     };
 
-    RangeControl.prototype.changeControlRateText = function(control, text) {
-      return control.find("i").text(utilities.shortenVolumeToName(text));
+    RangeControl.prototype.setEndValue = function(endValue) {
+      return this.endValue = parseInt(endValue);
+    };
+
+    RangeControl.prototype.getEndValue = function() {
+      return this.endValue;
+    };
+
+    RangeControl.prototype.setValueStep = function(valueStep) {
+      return this.valueStep = parseInt(valueStep);
+    };
+
+    RangeControl.prototype.getValueStep = function() {
+      return this.valueStep;
     };
 
     return RangeControl;

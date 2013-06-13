@@ -11,6 +11,12 @@
 
     RangeControl._valueStep = 0;
 
+    RangeControl._draggedClassName = "is-dragged";
+
+    RangeControl._leftControlValue;
+
+    RangeControl._rightControlValue;
+
     function RangeControl(el) {
       var defaultOptions;
 
@@ -18,12 +24,16 @@
       defaultOptions = {
         startValue: 0,
         endValue: 100,
-        34: 34,
         valueStep: 0
       };
       this.startValue(this.el.data("start-value") || defaultOptions.startValue);
       this.endValue(this.el.data("end-value") || defaultOptions.endValue);
       this.valueStep(this.el.data("value-step") || defaultOptions.valueStep);
+      this.leftValue(this.el.data("left-value") || this.leftValue);
+      this.rightValue(this.el.data("right-value") || this.rightValue);
+      this._leftControl = this.el.find(".range-control_mini__left");
+      this._rightControl = this.el.find(".range-control_mini__right");
+      this._initControls();
     }
 
     RangeControl.prototype.startValue = function(startValue) {
@@ -48,6 +58,104 @@
       } else {
         return this._valueStep;
       }
+    };
+
+    RangeControl.prototype.leftValue = function(value) {
+      if (value != null) {
+        return this._leftControlValue = value;
+      } else {
+        return this._leftControlValue;
+      }
+    };
+
+    RangeControl.prototype.rightValue = function(value) {
+      if (value != null) {
+        return this._rightControlValue = value;
+      } else {
+        return this._leftControlValue;
+      }
+    };
+
+    RangeControl.prototype._initControls = function() {
+      var _controls,
+        _this = this;
+
+      _controls = [this._leftControl, this._rightControl];
+      _controls.forEach(function(control) {
+        control.on("dragstart", function() {
+          return false;
+        });
+        return control.on("mouseup", function() {
+          _this.dragged = false;
+          _this._leftControl.removeClass(_this._draggedClassName);
+          return $(document).off("mousemove");
+        });
+      });
+      this._leftControl.on("mousedown", function(event) {
+        var leftLimit, rightLimit, shiftX, zeroCoordinate;
+
+        if (event.which !== 1) {
+          return;
+        }
+        _this._leftControl.addClass(_this._draggedClassName);
+        _this._dragged = true;
+        zeroCoordinate = _this.el.offset().left;
+        shiftX = event.clientX - _this._leftControl.offset().left;
+        leftLimit = 0;
+        rightLimit = _this._rightControl.offset().left - zeroCoordinate;
+        return $(document).on("mousemove", function(event) {
+          return _this._controlMoveTo(_this._leftControl, event.clientX, zeroCoordinate, shiftX, leftLimit, rightLimit);
+        });
+      });
+      this._rightControl.on("mousedown", function(event) {
+        var controlWidth, leftLimit, rightLimit, shiftX, zeroCoordinate;
+
+        if (event.which !== 1) {
+          return;
+        }
+        _this._rightControl.addClass(_this._draggedClassName);
+        _this._dragged = true;
+        zeroCoordinate = _this.el.offset().left;
+        controlWidth = _this._rightControl.outerWidth();
+        shiftX = event.clientX - _this._rightControl.offset().left;
+        leftLimit = _this._leftControl.offset().left - zeroCoordinate + _this._leftControl.outerWidth();
+        rightLimit = _this.el.width();
+        return $(document).on("mousemove", function(event) {
+          $(document).on("mousemove", function(event) {});
+          return _this._controlMoveTo(_this._rightControl, event.clientX, zeroCoordinate, shiftX, leftLimit, rightLimit);
+        });
+      });
+      return $(document).on("mouseup", function() {
+        _this._leftControl.triggerHandler("mouseup");
+        return _this._rightControl.triggerHandler("mouseup");
+      });
+    };
+
+    RangeControl.prototype._controlMoveTo = function(control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) {
+      var controlWidth, leftBorderPosition, rightBorderPosition;
+
+      controlWidth = control.outerWidth();
+      leftBorderPosition = stopPoint - zeroCoordinate - shiftX;
+      rightBorderPosition = stopPoint - zeroCoordinate - shiftX + controlWidth;
+      if (leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit) {
+        control.css("left", leftBorderPosition);
+      }
+      if (leftBorderPosition < leftLimit) {
+        control.css("left", leftLimit);
+      }
+      if (rightBorderPosition > rightLimit) {
+        control.css("left", rightLimit - controlWidth);
+      }
+      if (control === this._leftControl) {
+        this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left));
+      }
+      if (control === this._rightControl) {
+        return this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left - controlWidth));
+      }
+    };
+
+    RangeControl.prototype.changeControlRateText = function(control, text) {
+      return control.find("i").text(utilities.shortenVolumeToName(text));
     };
 
     return RangeControl;

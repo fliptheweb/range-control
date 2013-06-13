@@ -1,18 +1,28 @@
 class RangeControl
-  @_dragged    = false
-  @_startValue = 0
-  @_endValue   = 100
-  @_valueStep  = 0
+  @_dragged      = false
+  @_startValue   = 0
+  @_endValue     = 100
+  @_valueStep    = 0
+  @_draggedClassName = "is-dragged";
+  @_leftControlValue;
+  @_rightControlValue;
 
   constructor: (@el) ->
     defaultOptions = {
-      startValue: 0,
-      endValue: 100,     34
-      valueStep: 0
+      startValue: 0
+      endValue:   100
+      valueStep:  0
     }
     @startValue(@el.data("start-value") || defaultOptions.startValue)
-    @endValue(@el.data("end-value") || defaultOptions.endValue)
-    @valueStep(@el.data("value-step") || defaultOptions.valueStep)
+    @endValue(@el.data("end-value")     || defaultOptions.endValue)
+    @valueStep(@el.data("value-step")   || defaultOptions.valueStep)
+    @leftValue(@el.data("left-value")   || @leftValue)
+    @rightValue(@el.data("right-value") || @rightValue)
+
+    @_leftControl  = @el.find(".range-control_mini__left")
+    @_rightControl = @el.find(".range-control_mini__right")
+
+    @_initControls()
 
   startValue: (startValue) ->
     if startValue?
@@ -31,6 +41,98 @@ class RangeControl
       @_valueStep = parseInt(valueStep)
     else
       @_valueStep
+
+  leftValue: (value) ->
+    if value?
+      @_leftControlValue = value
+    else
+      @_leftControlValue
+
+  rightValue: (value) ->
+    if value?
+      @_rightControlValue = value
+    else
+      @_leftControlValue
+
+  _initControls: ->
+#    @changeControlRateText(@_leftControl, @rangeTable.getRateOfCell(@rangeTable.getFirstCell()))
+#    @changeControlRateText(@_rightControl, @rangeTable.getRateOfCell(@rangeTable.getLastCell()))
+    _controls = [@_leftControl, @_rightControl];
+    _controls.forEach (control) =>
+      control.on "dragstart", -> return false
+      control.on "mouseup", =>
+        @dragged = false
+        @_leftControl.removeClass(@_draggedClassName)
+        $(document).off "mousemove"
+
+
+    @_leftControl.on "mousedown", (event) =>
+      if event.which != 1
+        return
+      @_leftControl.addClass(@_draggedClassName)
+      @_dragged = true
+      zeroCoordinate = @el.offset().left
+      shiftX = event.clientX - @_leftControl.offset().left
+      leftLimit = 0
+      rightLimit = @_rightControl.offset().left - zeroCoordinate
+
+      $(document).on "mousemove", (event) =>
+        @_controlMoveTo(
+          @_leftControl,
+          event.clientX,
+          zeroCoordinate,
+          shiftX,
+          leftLimit,
+          rightLimit
+          )
+
+    @_rightControl.on "mousedown", (event) =>
+      if event.which != 1
+        return
+      @_rightControl.addClass(@_draggedClassName)
+      @_dragged = true
+      zeroCoordinate = @el.offset().left
+      controlWidth   = @_rightControl.outerWidth()
+      shiftX = event.clientX - @_rightControl.offset().left
+      leftLimit = @_leftControl.offset().left - zeroCoordinate + @_leftControl.outerWidth()
+      rightLimit = @el.width()
+
+      $(document).on "mousemove", (event) =>
+        $(document).on "mousemove", (event) =>
+        @_controlMoveTo(
+          @_rightControl,
+          event.clientX,
+          zeroCoordinate,
+          shiftX,
+          leftLimit,
+          rightLimit
+        )
+
+    $(document).on "mouseup", =>
+      @_leftControl.triggerHandler  "mouseup"
+      @_rightControl.triggerHandler "mouseup"
+
+  _controlMoveTo: (control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) ->
+    controlWidth = control.outerWidth()
+    leftBorderPosition = stopPoint - zeroCoordinate - shiftX
+    rightBorderPosition = stopPoint - zeroCoordinate - shiftX + controlWidth
+    if leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit
+      control.css "left", leftBorderPosition
+    if leftBorderPosition < leftLimit
+      control.css "left", leftLimit
+    if rightBorderPosition > rightLimit
+      control.css "left", rightLimit - controlWidth
+
+    if control == @_leftControl
+      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left)
+    if control == @_rightControl
+      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left - controlWidth)
+
+
+  changeControlRateText: (control, text) ->
+    control.find("i").text(utilities.shortenVolumeToName(text))
+
+
 
 
 class RangeCells

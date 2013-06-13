@@ -7,6 +7,8 @@
 
     RangeControl._controlWidth;
 
+    RangeControl._pxInStep;
+
     RangeControl._dragged = false;
 
     RangeControl._startValue = 0;
@@ -42,6 +44,7 @@
       this._rangeElement = this.el.find(".range-control_mini__range.is-active");
       this._controlWidth = this._leftControl.outerWidth();
       this._width = this.el.outerWidth();
+      this._pxInStep = this._width / ((this._endValue - this._startValue) / this._valueStep);
       this._initControls();
     }
 
@@ -86,11 +89,7 @@
     };
 
     RangeControl.prototype._getValueByPosition = function(x) {
-      var pxInStep, value;
-
-      pxInStep = this._width / ((this._endValue - this._startValue) / this._valueStep);
-      value = parseInt(this._startValue + (x / pxInStep));
-      return console.log(value);
+      return parseInt(this._startValue + (x / this._pxInStep));
     };
 
     RangeControl.prototype._initControls = function() {

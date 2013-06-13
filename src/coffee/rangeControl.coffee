@@ -1,6 +1,7 @@
 class RangeControl
   @_width;
   @_controlWidth;
+  @_pxInStep;
   @_dragged      = false
   @_startValue   = 0
   @_endValue     = 100
@@ -28,6 +29,7 @@ class RangeControl
 
     @_controlWidth = @_leftControl.outerWidth()
     @_width        = @el.outerWidth()
+    @_pxInStep     = @_width / ((@_endValue - @_startValue) / @_valueStep)
 
     @_initControls()
 
@@ -62,9 +64,7 @@ class RangeControl
       @_rightControlValue
 
   _getValueByPosition: (x) ->
-    pxInStep = @_width / ((@_endValue - @_startValue) / @_valueStep)
-    value = parseInt(@_startValue + (x / pxInStep))
-    console.log(value)
+    parseInt(@_startValue + (x / @_pxInStep))
 
 
   _initControls: ->

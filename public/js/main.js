@@ -77,11 +77,11 @@
     };
 
     RangeControl.prototype._initControls = function() {
-      var _controls,
+      var controls,
         _this = this;
 
-      _controls = [this._leftControl, this._rightControl];
-      _controls.forEach(function(control) {
+      controls = [this._leftControl, this._rightControl];
+      controls.forEach(function(control) {
         control.on("dragstart", function() {
           return false;
         });
@@ -119,9 +119,8 @@
         controlWidth = _this._rightControl.outerWidth();
         shiftX = event.clientX - _this._rightControl.offset().left;
         leftLimit = _this._leftControl.offset().left - zeroCoordinate + _this._leftControl.outerWidth();
-        rightLimit = _this.el.width();
+        rightLimit = _this.el.outerWidth();
         return $(document).on("mousemove", function(event) {
-          $(document).on("mousemove", function(event) {});
           return _this._controlMoveTo(_this._rightControl, event.clientX, zeroCoordinate, shiftX, leftLimit, rightLimit);
         });
       });
@@ -144,13 +143,7 @@
         control.css("left", leftLimit);
       }
       if (rightBorderPosition > rightLimit) {
-        control.css("left", rightLimit - controlWidth);
-      }
-      if (control === this._leftControl) {
-        this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left));
-      }
-      if (control === this._rightControl) {
-        return this.changeControlRateText(control, this.rangeTable.getRateByPosition(control.position().left - controlWidth));
+        return control.css("left", rightLimit - controlWidth);
       }
     };
 

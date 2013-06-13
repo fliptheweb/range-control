@@ -1,4 +1,5 @@
 class RangeControl
+  @_width;
   @_dragged      = false
   @_startValue   = 0
   @_endValue     = 100
@@ -6,6 +7,7 @@ class RangeControl
   @_draggedClassName = "is-dragged";
   @_leftControlValue;
   @_rightControlValue;
+  @_rangeElement;
 
   constructor: (@el) ->
     defaultOptions = {
@@ -16,11 +18,15 @@ class RangeControl
     @startValue(@el.data("start-value") || defaultOptions.startValue)
     @endValue(@el.data("end-value")     || defaultOptions.endValue)
     @valueStep(@el.data("value-step")   || defaultOptions.valueStep)
-    @leftValue(@el.data("left-value")   || @leftValue)
-    @rightValue(@el.data("right-value") || @rightValue)
+    @leftValue(@el.data("left-value")   || @startValue)
+    @rightValue(@el.data("right-value") || @stopValue)
 
     @_leftControl  = @el.find(".range-control_mini__left")
     @_rightControl = @el.find(".range-control_mini__right")
+    @_rangeElement = @el.find(".range-control_mini__range.is-active")
+
+    @_controlWidth = @_leftControl.outerWidth()
+    @_width        = @el.outerWidth()
 
     @_initControls()
 
@@ -91,10 +97,10 @@ class RangeControl
       @_rightControl.addClass(@_draggedClassName)
       @_dragged      = true
       zeroCoordinate = @el.offset().left
-      controlWidth   = @_rightControl.outerWidth()
+      controlWidth   = @_controlWidth
       shiftX         = event.clientX - @_rightControl.offset().left
-      leftLimit      = @_leftControl.offset().left - zeroCoordinate + @_leftControl.outerWidth()
-      rightLimit     = @el.outerWidth()
+      leftLimit      = @_leftControl.offset().left - zeroCoordinate + @_controlWidth
+      rightLimit     = @_width
 
       $(document).on "mousemove", (event) =>
         @_controlMoveTo(
@@ -111,22 +117,25 @@ class RangeControl
       @_rightControl.triggerHandler "mouseup"
 
   _controlMoveTo: (control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) ->
-    controlWidth = control.outerWidth()
     leftBorderPosition = stopPoint - zeroCoordinate - shiftX
-    rightBorderPosition = stopPoint - zeroCoordinate - shiftX + controlWidth
+    rightBorderPosition = stopPoint - zeroCoordinate - shiftX + @_controlWidth
     if leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit
       control.css "left", leftBorderPosition
     if leftBorderPosition < leftLimit
       control.css "left", leftLimit
     if rightBorderPosition > rightLimit
-      control.css "left", rightLimit - controlWidth
+      control.css "left", rightLimit - @_controlWidth
 
 #    if control == @_leftControl
 #      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left)
 #    if control == @_rightControl
 #      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left - controlWidth)
 
-  _renderRange: ->
+  _renderRange: (leftLimit, rightLimit) ->
+    @_rangeElement.css()
+
+  _renderControls: ->
+
 
 
   changeControlRateText: (control, text) ->
@@ -135,82 +144,7 @@ class RangeControl
 
 
 
-class RangeCells
-  constructor: (@el, @rangeControl) ->
-    @cells = @el.find("div")
-    @cellHoverEl = $("<div/>").addClass("range-control__cell-hover").insertBefore(@el)
-    @cellWidth = 100/@cells.size()
-    @data = []
-    @height = @el.height()
-    @buildDataFromCells()
-    @buildCells()
 
-  buildDataFromCells: ->
-    @data = @cells.map (i, cell) ->
-    return {
-    volume: $(cell).data "volume"
-    rate:   $(cell).data "rate"
-    }
-    @maxVolume = Math.max.apply null, (x.volume for x in @data)
-
-  buildCells: ->
-    @cells.each (i, cell) =>
-      cell = $(cell)
-      $("<i/>").appendTo(cell).height (100/@maxVolume * cell.data("volume") + "%")
-      cell.width @cellWidth + "%"
-      @colorizeCell cell
-      @bindHoverToCell cell
-
-  colorizeCell: (cell) ->
-    # @todo extract to options
-    colorRanges =
-      "light-green":  [0, 100]
-      "middle-green": [101, 1000]
-      "green":        [1001, 10000]
-      "yellow":       [10001]
-
-    for colorRange of colorRanges
-      leftColorRange  = colorRanges[colorRange][0]
-      rightColorRange = colorRanges[colorRange][1]
-      if (leftColorRange <= cell.data("rate") <= rightColorRange) || (leftColorRange <= cell.data("rate") && !rightColorRange)
-        cell.addClass(colorRange)
-        break
-
-  getRateOfCell: (cell) ->
-    cell.data("rate")
-
-  getRateByPosition: (x) ->
-    $(@getCellByPosition(x)).data("rate")
-
-  getCellByPosition: (x) ->
-    @cellWidthInPx = @el.width()/100 * @cellWidth
-    cellNum = Math.ceil(x / @cellWidthInPx)
-    if cellNum >= @cells.size()
-      return  @cells.last()
-    @cells.eq(cellNum)
-
-  getCellByOrder: (order) ->
-    @cells.eq(order - 1)
-
-  getFirstCell: ->
-    @getCellByOrder(1)
-
-  getLastCell: ->
-    @getCellByOrder(@cells.size())
-
-  getPositionByCellOrder: (order) ->
-    @cellWidthInPx * order
-
-  bindHoverToCell: (cell) ->
-    cell = $(cell)
-    position = cell.position().left
-    cellHoverEl = @cellHoverEl
-    cell.on "mouseover", =>
-      if @rangeControl.dragged
-        return
-      cellHoverEl.show().css("left", position).text(utilities.splitVolumeBySpace(cell.data("rate")))
-    cell.on "mouseleave", =>
-      cellHoverEl.hide()
 
 #class RangeControl
 #  @dragged = false

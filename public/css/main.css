@@ -409,6 +409,8 @@ ul {
 }
 .range-control_mini__range.is-active {
   background-color: #45a9f0;
+  left: 33px;
+  right: 33px;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   -ms-border-radius: 0;

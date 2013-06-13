@@ -155,6 +155,8 @@ $range-mini-height: 6px;
 
   &.is-active {
     background-color: #45a9f0;
+    left: $button-width/2;
+    right: $button-width/2;
     @include border-radius(0);
     @include box-shadow(0 1px 1px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.33));
     @include background-image(linear-gradient(bottom, rgba(#000, .1) 0%, rgba(#fff, .17) 100%));

@@ -178,11 +178,11 @@
     RangeControl.prototype._renderRange = function() {
       var leftBorder, rightBorder;
 
-      leftBorder = (this.leftValue() * this._pxInStep) + (this._width - this._widthWithoutPaddings) - (this._controlWidth / 2);
-      rightBorder = (this.rightValue() * this._pxInStep) + (this._width - this._widthWithoutPaddings) + (this._controlWidth / 2);
+      leftBorder = (this.leftValue() * this._pxInStep) + this._controlWidth - (this._controlWidth / 2);
+      rightBorder = (this.rightValue() * this._pxInStep) + this._controlWidth + (this._controlWidth / 2);
       return this._rangeElement.css({
         "left": leftBorder,
-        "right": rightBorder
+        "right": this._width - rightBorder
       });
     };
 

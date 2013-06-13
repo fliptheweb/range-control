@@ -133,12 +133,11 @@
     RangeCells.prototype.buildDataFromCells = function() {
       var x;
 
-      this.data = this.cells.map(function(i, cell) {
-        return {
-          volume: $(cell).data("volume"),
-          rate: $(cell).data("rate")
-        };
-      });
+      this.data = this.cells.map(function(i, cell) {});
+      return {
+        volume: $(cell).data("volume"),
+        rate: $(cell).data("rate")
+      };
       return this.maxVolume = Math.max.apply(null, (function() {
         var _i, _len, _ref, _results;
 
@@ -261,7 +260,7 @@
     }
   };
 
-  $(".range-control").each(function(i, control) {
+  $(".range-control_mini").each(function(i, control) {
     return new RangeControl($(control));
   });
 

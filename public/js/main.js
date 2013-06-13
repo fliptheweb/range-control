@@ -215,10 +215,6 @@
       }
     };
 
-    RangeControl.prototype.changeControlRateText = function(control, text) {
-      return control.find("i").text(utilities.shortenVolumeToName(text));
-    };
-
     return RangeControl;
 
   })();

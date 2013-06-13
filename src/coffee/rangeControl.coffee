@@ -172,15 +172,6 @@ class RangeControl
       @_rightControl.html(@_renderControlCallback(@_rightControlValue))
 
 
-
-  changeControlRateText: (control, text) ->
-    control.find("i").text(utilities.shortenVolumeToName(text))
-
-
-
-
-
-
 #class RangeControl
 #  @dragged = false
 #

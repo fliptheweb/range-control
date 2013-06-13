@@ -231,6 +231,17 @@ ul {
 }
 
 .range-control_graph, .range-control_mini {
+  zoom: 1;
+}
+.range-control_graph:before, .range-control_mini:before, .range-control_graph:after, .range-control_mini:after {
+  content: " ";
+  display: table;
+}
+.range-control_graph:after, .range-control_mini:after {
+  clear: both;
+}
+
+.range-control_graph, .range-control_mini {
   position: relative;
   height: 24px;
 }
@@ -376,6 +387,26 @@ ul {
 /**
  * Mini range-control without graph
  */
+.range-control_mini {
+  padding: 0 66px;
+}
+
+.range-control_mini__range {
+  height: 6px;
+  background-color: #f1f1f1;
+  margin-top: 9px;
+  margin-left: -66px;
+  margin-right: -66px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65), inset 0 1px 2px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65), inset 0 1px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65), inset 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
 .wrap {
   max-width: 600px;
   padding: 200px 20px 0;

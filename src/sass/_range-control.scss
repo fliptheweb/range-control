@@ -1,10 +1,13 @@
 $b: "range-control";
 
-$button-width: 66px;
+$control-height:    24px;
+$button-width:      66px;
+$range-mini-height: 6px;
 
 %#{$b} {
   position: relative;
-  height: 24px;
+  height: $control-height;
+  @extend %clearfix;
 }
 
 %#{$b}__left,
@@ -20,7 +23,7 @@ $button-width: 66px;
   color: #7c7c7c;
   font-family: Arial, Tahoma, sans-serif;
   font-size: 11px;
-  line-height: 24px;
+  line-height: $control-height;
   text-align: center;
   cursor: pointer;
   white-space: nowrap;
@@ -56,12 +59,12 @@ $button-width: 66px;
 }
 
 .#{$b}__range {
-  height: 24px;
-  margin: 0 66px;
+  height: $control-height;
+  margin: 0 $button-width;
 
   div {
     float: left;
-    height: 24px;
+    height: $control-height;
     position: relative;
 
     i {
@@ -129,6 +132,7 @@ $button-width: 66px;
  */
 .#{$b}_mini {
   @extend %#{$b};
+  padding: 0 $button-width;
 }
 
 .#{$b}_mini__left {
@@ -137,4 +141,14 @@ $button-width: 66px;
 
 .#{$b}_mini__right {
   @extend %#{$b}__right;
+}
+
+.#{$b}_mini__range {
+  height: $range-mini-height;
+  background-color: #f1f1f1;
+  margin-top: ($control-height - $range-mini-height) / 2;
+  margin-left: -$button-width;
+  margin-right: -$button-width;
+  @include border-radius(3px);
+  @include box-shadow(0 1px 0 rgba(#fff, .65), inset 0 1px 2px rgba(#000, .15));
 }

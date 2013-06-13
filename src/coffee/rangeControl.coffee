@@ -1,32 +1,36 @@
 class RangeControl
-  dragged = false
-  startValue = 0
-  endValue = 100
-  valueStep = 0
+  @_dragged    = false
+  @_startValue = 0
+  @_endValue   = 100
+  @_valueStep  = 0
 
   constructor: (@el) ->
-    @setStartValue(@el.data("start-value"))
+    defaultOptions = {
+      startValue: 0,
+      endValue: 100,     34
+      valueStep: 0
+    }
+    @startValue(@el.data("start-value") || defaultOptions.startValue)
+    @endValue(@el.data("end-value") || defaultOptions.endValue)
+    @valueStep(@el.data("value-step") || defaultOptions.valueStep)
 
-  setStartValue: (startValue) ->
-    if startValue
-      @startValue = parseInt(startValue)
+  startValue: (startValue) ->
+    if startValue?
+      @_startValue = parseInt(startValue)
+    else
+      @_startValue
 
-  getStartValue: ->
-    @startValue
+  endValue: (endValue) ->
+    if endValue?
+      @_endValue = parseInt(endValue)
+    else
+      @_endValue
 
-  setEndValue: (endValue) ->
-    @endValue = parseInt(endValue)
-
-  getEndValue: ->
-    @endValue
-
-  setValueStep: (valueStep) ->
-    @valueStep = parseInt(valueStep)
-
-  getValueStep: ->
-    @valueStep
-
-
+  valueStep: (valueStep) ->
+    if valueStep?
+      @_valueStep = parseInt(valueStep)
+    else
+      @_valueStep
 
 
 class RangeCells
@@ -304,4 +308,5 @@ utilities =
 
 
 $(".range-control_mini").each (i, control) ->
-  new RangeControl($(control))
+  rangeControl = new RangeControl($(control))
+  console.log(rangeControl.endValue())

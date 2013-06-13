@@ -3,45 +3,51 @@
   var RangeCells, RangeControl, utilities;
 
   RangeControl = (function() {
-    var dragged, endValue, startValue, valueStep;
+    RangeControl._dragged = false;
 
-    dragged = false;
+    RangeControl._startValue = 0;
 
-    startValue = 0;
+    RangeControl._endValue = 100;
 
-    endValue = 100;
-
-    valueStep = 0;
+    RangeControl._valueStep = 0;
 
     function RangeControl(el) {
+      var defaultOptions;
+
       this.el = el;
-      this.setStartValue(this.el.data("start-value"));
+      defaultOptions = {
+        startValue: 0,
+        endValue: 100,
+        34: 34,
+        valueStep: 0
+      };
+      this.startValue(this.el.data("start-value") || defaultOptions.startValue);
+      this.endValue(this.el.data("end-value") || defaultOptions.endValue);
+      this.valueStep(this.el.data("value-step") || defaultOptions.valueStep);
     }
 
-    RangeControl.prototype.setStartValue = function(startValue) {
-      if (startValue) {
-        return this.startValue = parseInt(startValue);
+    RangeControl.prototype.startValue = function(startValue) {
+      if (startValue != null) {
+        return this._startValue = parseInt(startValue);
+      } else {
+        return this._startValue;
       }
     };
 
-    RangeControl.prototype.getStartValue = function() {
-      return this.startValue;
+    RangeControl.prototype.endValue = function(endValue) {
+      if (endValue != null) {
+        return this._endValue = parseInt(endValue);
+      } else {
+        return this._endValue;
+      }
     };
 
-    RangeControl.prototype.setEndValue = function(endValue) {
-      return this.endValue = parseInt(endValue);
-    };
-
-    RangeControl.prototype.getEndValue = function() {
-      return this.endValue;
-    };
-
-    RangeControl.prototype.setValueStep = function(valueStep) {
-      return this.valueStep = parseInt(valueStep);
-    };
-
-    RangeControl.prototype.getValueStep = function() {
-      return this.valueStep;
+    RangeControl.prototype.valueStep = function(valueStep) {
+      if (valueStep != null) {
+        return this._valueStep = parseInt(valueStep);
+      } else {
+        return this._valueStep;
+      }
     };
 
     return RangeControl;
@@ -192,7 +198,10 @@
   };
 
   $(".range-control_mini").each(function(i, control) {
-    return new RangeControl($(control));
+    var rangeControl;
+
+    rangeControl = new RangeControl($(control));
+    return console.log(rangeControl.endValue());
   });
 
 }).call(this);

@@ -194,8 +194,8 @@
     RangeControl.prototype._renderRange = function() {
       var leftBorder, rightBorder;
 
-      leftBorder = (this.leftValue() * this._pxInStep) + this._controlWidth - (this._controlWidth / 2);
-      rightBorder = (this.rightValue() * this._pxInStep) + this._controlWidth + (this._controlWidth / 2);
+      leftBorder = ((this._leftControlValue - this._startValue) * this._pxInStep) + this._controlWidth - (this._controlWidth / 2);
+      rightBorder = ((this._rightControlValue - this._startValue) * this._pxInStep) + this._controlWidth + (this._controlWidth / 2);
       return this._rangeElement.css({
         "left": leftBorder,
         "right": this._width - rightBorder

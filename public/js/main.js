@@ -21,9 +21,7 @@
 
     RangeControl._controlWidth;
 
-    RangeControl._pxInStep;
-
-    RangeControl._stepInPx;
+    RangeControl._pxInValue;
 
     RangeControl._leftControlValue;
 
@@ -55,7 +53,7 @@
       this._controlWidth = this._leftControl.outerWidth();
       this._width = this.el.outerWidth();
       this._widthWithoutPaddings = this.el.width();
-      this._pxInStep = this._widthWithoutPaddings / ((this._endValue - this._startValue) / this._valueStep);
+      this._pxInValue = this._widthWithoutPaddings / (this._endValue - this._startValue);
       this._initControls();
     }
 
@@ -112,7 +110,7 @@
     };
 
     RangeControl.prototype._getValueByPosition = function(x) {
-      return parseInt(this._startValue + (x / this._pxInStep));
+      return this._startValue + parseInt(x / this._pxInValue);
     };
 
     RangeControl.prototype._initControls = function() {
@@ -194,8 +192,8 @@
     RangeControl.prototype._renderRange = function() {
       var leftBorder, rightBorder;
 
-      leftBorder = ((this._leftControlValue - this._startValue) * this._pxInStep) + this._controlWidth - (this._controlWidth / 2);
-      rightBorder = ((this._rightControlValue - this._startValue) * this._pxInStep) + this._controlWidth + (this._controlWidth / 2);
+      leftBorder = ((this._leftControlValue - this._startValue) * this._pxInValue) / this._valueStep + this._controlWidth - (this._controlWidth / 2);
+      rightBorder = ((this._rightControlValue - this._startValue) * this._pxInValue) / this._valueStep + this._controlWidth + (this._controlWidth / 2);
       return this._rangeElement.css({
         "left": leftBorder,
         "right": this._width - rightBorder

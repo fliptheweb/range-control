@@ -8,8 +8,7 @@ class RangeControl
   @_width;
   @_widthWithoutPaddings;
   @_controlWidth;
-  @_pxInStep;
-  @_stepInPx;
+  @_pxInValue;
   @_leftControlValue;
   @_rightControlValue;
   @_rangeElement;
@@ -36,7 +35,7 @@ class RangeControl
     @_controlWidth         = @_leftControl.outerWidth()
     @_width                = @el.outerWidth()
     @_widthWithoutPaddings = @el.width()
-    @_pxInStep             = @_widthWithoutPaddings / ((@_endValue - @_startValue) / @_valueStep)
+    @_pxInValue            = @_widthWithoutPaddings / ((@_endValue - @_startValue))
 
     @_initControls()
 
@@ -80,7 +79,7 @@ class RangeControl
         @_renderControlCallback = renderControlCallback
 
   _getValueByPosition: (x) ->
-    parseInt(@_startValue + (x / @_pxInStep))
+    @_startValue + parseInt(x / @_pxInValue)
 
 
   _initControls: ->
@@ -155,8 +154,8 @@ class RangeControl
       @rightValue(@_getValueByPosition(control.position().left - @_controlWidth))
 
   _renderRange: ->
-    leftBorder =  ((@_leftControlValue - @_startValue) * @_pxInStep) + @_controlWidth - (@_controlWidth / 2)
-    rightBorder = ((@_rightControlValue - @_startValue) * @_pxInStep) + @_controlWidth + (@_controlWidth / 2)
+    leftBorder =  ((@_leftControlValue - @_startValue) * @_pxInValue)/@_valueStep + @_controlWidth - (@_controlWidth / 2)
+    rightBorder = ((@_rightControlValue - @_startValue) * @_pxInValue)/@_valueStep + @_controlWidth + (@_controlWidth / 2)
     @_rangeElement.css({
       "left":  leftBorder,
       "right": @_width - rightBorder

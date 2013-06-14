@@ -162,7 +162,7 @@ class RangeControl
       @rightValue(@_getValueByPosition(controlLeftPosition - @_controlWidth))
 
   _renderRange: ->
-    leftBorder =  ((@_leftControlValue - @_startValue) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
+    leftBorder  = ((@_leftControlValue - @_startValue) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
     rightBorder = ((@_rightControlValue - @_startValue) * @_pxInValue) + @_controlWidth + (@_controlWidth / 2)
 
     @_rangeElement.css({

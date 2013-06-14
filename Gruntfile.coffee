@@ -10,7 +10,7 @@ module.exports = (grunt) ->
     uglify:
       main:
         files:
-          'public/js/main.min.js': '<%= concat.main.dest %>'
+          'public/js/jquery.rangecontrol.min.js': 'public/js/jquery.rangecontrol.js'
 
     # Run simple server for static
     connect:
@@ -53,13 +53,15 @@ module.exports = (grunt) ->
         options:
           join: true
         files:
-          'public/js/main.js': 'src/coffee/*.coffee'
+          'public/js/jquery.rangecontrol.js': 'src/coffee/rangeControl.coffee'
+          'public/js/main.js': 'src/coffee/main.coffee'
       dev:
         options:
           sourceMap: true
           join: true
         files:
-          'public/js/main.js': 'src/coffee/*.coffee'
+          'public/js/jquery.rangecontrol.js': 'src/coffee/rangeControl.coffee'
+          'public/js/main.js': 'src/coffee/main.coffee'
       test:
         files:
           'test/tests.js':'test/test.*.coffee'
@@ -68,7 +70,7 @@ module.exports = (grunt) ->
     watch:
       scripts:
         files: 'src/coffee/*.coffee'
-        tasks: 'coffee:dev'
+        tasks: ['coffee:dev', 'uglify']
       styles:
         files: 'src/sass/*.scss'
         tasks: 'compass:dev'
@@ -88,5 +90,5 @@ module.exports = (grunt) ->
 
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
 
-  grunt.registerTask 'default', ['coffee:dev', 'concat', 'uglify']
+  grunt.registerTask 'default', ['coffee:dev', 'uglify']
   grunt.registerTask 'test', ['coffee:test', 'simplemocha:test']

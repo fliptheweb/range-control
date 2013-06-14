@@ -387,17 +387,17 @@ class RangeControl
 #      cellHoverEl.show().css("left", position).text(utilities.splitVolumeBySpace(cell.data("rate")))
 #    cell.on "mouseleave", =>
 #      cellHoverEl.hide()
-
-utilities =
-  shortenVolumeToName: (volume) ->
-    if volume < 1000
-      return volume
-    if volume < 1000000
-      return "#{volume/1000}".replace(".",",") + " тыс."
-    if volume >= 1000000
-      return "#{volume/1000000}".replace(".",",") + " млн."
-  splitVolumeBySpace: (volume) ->
-    volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+#
+#utilities =
+#  shortenVolumeToName: (volume) ->
+#    if volume < 1000
+#      return volume
+#    if volume < 1000000
+#      return "#{volume/1000}".replace(".",",") + " тыс."
+#    if volume >= 1000000
+#      return "#{volume/1000000}".replace(".",",") + " млн."
+#  splitVolumeBySpace: (volume) ->
+#    volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
 $.fn.rangeControl = (options) ->
   if this.size() != 1
@@ -407,9 +407,3 @@ $.fn.rangeControl = (options) ->
         $(this).data('rangeControl', plugin)
   else
     $(this).data('rangeControl')
-
-$('.range-control_mini').rangeControl()
-
-console.log($('#example-1').rangeControl())
-
-

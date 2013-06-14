@@ -29,13 +29,15 @@
 
     RangeControl._rangeElement;
 
+    RangeControl._changeTimeout;
+
     RangeControl.settings;
 
     RangeControl.prototype.defaultOptions = {
       startValue: 0,
       endValue: 100,
       valueStep: 1,
-      timeout: 1000,
+      timeout: 500,
       formatControlCallback: function(value) {
         return value;
       }
@@ -262,6 +264,17 @@
       if (this._formatControlCallback != null) {
         return this._rightControl.html(this._formatControlCallback(this.rightValue()));
       }
+    };
+
+    RangeControl.prototype._changeEvent = function() {
+      var _this = this;
+
+      return this._changeTimeout = setTimeout(function() {
+        return _this.el.trigger("change.rangeControl", {
+          "leftValue": _this.leftValue(),
+          "rightValue": _this.rightValue()
+        });
+      }, this.settings.timeout);
     };
 
     return RangeControl;

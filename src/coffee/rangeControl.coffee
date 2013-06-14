@@ -12,13 +12,14 @@ class RangeControl
   @_leftControlValue;
   @_rightControlValue;
   @_rangeElement;
+  @_changeTimeout;
   @settings;
 
   @::defaultOptions = {
     startValue: 0
     endValue:   100
     valueStep:  1,
-    timeout: 1000,
+    timeout: 500,
     formatControlCallback: (value) -> value
   }
 
@@ -216,6 +217,12 @@ class RangeControl
   _formatRightControl: ->
     if @_formatControlCallback?
       @_rightControl.html(@_formatControlCallback(@rightValue()))
+
+  _changeEvent: ->
+    @_changeTimeout = setTimeout( =>
+      @el.trigger("change.rangeControl", {"leftValue": @leftValue(), "rightValue": @rightValue()})
+    , @settings.timeout)
+
 
 
 #class RangeControl

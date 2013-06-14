@@ -12,6 +12,7 @@ class RangeControl
   @_leftControlValue;
   @_rightControlValue;
   @_rangeElement;
+  @settings;
 
   @::defaultOptions = {
     startValue: 0
@@ -21,17 +22,17 @@ class RangeControl
   }
 
   constructor: (@el, options) ->
-    @_formatControlCallback = defaultOptions.formatControlCallback
+    @_formatControlCallback = @defaultOptions.formatControlCallback
 
-    @settings = $.extend({}, @::defaultOptions, options)
+    @settings = $.extend({}, @defaultOptions, options)
 
     @_leftControl  = @el.find(".range-control_mini__left")
     @_rightControl = @el.find(".range-control_mini__right")
     @_rangeElement = @el.find(".range-control_mini__range.is-active")
 
-    @startValue(@el.data("start-value") || defaultOptions.startValue)
-    @endValue(@el.data("end-value")     || defaultOptions.endValue)
-    @valueStep(@el.data("value-step")   || defaultOptions.valueStep)
+    @startValue(@el.data("start-value") || @defaultOptions.startValue)
+    @endValue(@el.data("end-value")     || @defaultOptions.endValue)
+    @valueStep(@el.data("value-step")   || @defaultOptions.valueStep)
 
     @_controlWidth         = @_leftControl.outerWidth()
     @_width                = @el.outerWidth()
@@ -394,7 +395,7 @@ utilities =
   splitVolumeBySpace: (volume) ->
     volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
-jQuery ->
+
 #  $.rangeControl = (element, options) ->
 #    # current state
 #    state = ''
@@ -433,7 +434,7 @@ jQuery ->
   # default plugin settings
 #  $.rangeControl::defaults =
 #    message: 'Hello world'  # option description
-
+jQuery ->
   $.fn.rangeControl = (options) ->
     this.each ->
       if $(this).data('rangeControl') == undefined
@@ -442,5 +443,5 @@ jQuery ->
       else
         $(this).data('rangeControl')
 
+  $(".range-control_mini").rangeControl()
 
-$(".range-control_mini").rangeControl()

@@ -29,6 +29,8 @@
 
     RangeControl._rangeElement;
 
+    RangeControl.settings;
+
     RangeControl.prototype.defaultOptions = {
       startValue: 0,
       endValue: 100,
@@ -40,14 +42,14 @@
 
     function RangeControl(el, options) {
       this.el = el;
-      this._formatControlCallback = defaultOptions.formatControlCallback;
-      this.settings = $.extend({}, this.prototype.defaultOptions, options);
+      this._formatControlCallback = this.defaultOptions.formatControlCallback;
+      this.settings = $.extend({}, this.defaultOptions, options);
       this._leftControl = this.el.find(".range-control_mini__left");
       this._rightControl = this.el.find(".range-control_mini__right");
       this._rangeElement = this.el.find(".range-control_mini__range.is-active");
-      this.startValue(this.el.data("start-value") || defaultOptions.startValue);
-      this.endValue(this.el.data("end-value") || defaultOptions.endValue);
-      this.valueStep(this.el.data("value-step") || defaultOptions.valueStep);
+      this.startValue(this.el.data("start-value") || this.defaultOptions.startValue);
+      this.endValue(this.el.data("end-value") || this.defaultOptions.endValue);
+      this.valueStep(this.el.data("value-step") || this.defaultOptions.valueStep);
       this._controlWidth = this._leftControl.outerWidth();
       this._width = this.el.outerWidth();
       this._widthWithoutPaddings = this.el.width();
@@ -257,7 +259,7 @@
   };
 
   jQuery(function() {
-    return $.fn.rangeControl = function(options) {
+    $.fn.rangeControl = function(options) {
       return this.each(function() {
         var plugin;
 
@@ -269,8 +271,7 @@
         }
       });
     };
+    return $(".range-control_mini").rangeControl();
   });
-
-  $(".range-control_mini").rangeControl();
 
 }).call(this);

@@ -78,9 +78,7 @@ class RangeControl
       if @_valueStep == 1
         @_rightControlValue
       else
-        @_rightControlValue
-
-#        @_startValue + ((@_rightControlValue - @_startValue) - (@_rigthControlValue - @_startValue) % @_valueStep)
+        @_startValue + ((@_rightControlValue - @_startValue) - (@_rightControlValue - @_startValue) % @_valueStep)
 
   renderControl: (renderControlCallback) ->
     if renderControlCallback?

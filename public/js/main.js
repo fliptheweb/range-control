@@ -104,7 +104,7 @@
         if (this._valueStep === 1) {
           return this._rightControlValue;
         } else {
-          return this._rightControlValue;
+          return this._startValue + ((this._rightControlValue - this._startValue) - (this._rightControlValue - this._startValue) % this._valueStep);
         }
       }
     };

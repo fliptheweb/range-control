@@ -37,23 +37,23 @@
         startValue: 0,
         endValue: 100,
         valueStep: 1,
-        renderControlCallback: function(value) {
+        formatControlCallback: function(value) {
           return value;
         }
       };
-      this._renderControlCallback = defaultOptions.renderControlCallback;
+      this._formatControlCallback = defaultOptions.formatControlCallback;
       this._leftControl = this.el.find(".range-control_mini__left");
       this._rightControl = this.el.find(".range-control_mini__right");
       this._rangeElement = this.el.find(".range-control_mini__range.is-active");
       this.startValue(this.el.data("start-value") || defaultOptions.startValue);
       this.endValue(this.el.data("end-value") || defaultOptions.endValue);
       this.valueStep(this.el.data("value-step") || defaultOptions.valueStep);
-      this.leftValue(this.el.data("left-value") || this._startValue);
-      this.rightValue(this.el.data("right-value") || this._endValue);
       this._controlWidth = this._leftControl.outerWidth();
       this._width = this.el.outerWidth();
       this._widthWithoutPaddings = this.el.width();
       this._pxInValue = this._widthWithoutPaddings / (this._endValue - this._startValue);
+      this.leftValue(this.el.data("left-value") || this._startValue);
+      this.rightValue(this.el.data("right-value") || this._endValue);
       this._initControls();
     }
 
@@ -85,7 +85,7 @@
       if (value != null) {
         this._leftControlValue = value;
         this._renderRange();
-        return this._renderLeftControl();
+        return this._formatLeftControl();
       } else {
         if (this._valueStep === 1) {
           return this._leftControlValue;
@@ -99,7 +99,7 @@
       if (value != null) {
         this._rightControlValue = value;
         this._renderRange();
-        return this._renderRightControl();
+        return this._formatRightControl();
       } else {
         if (this._valueStep === 1) {
           return this._rightControlValue;
@@ -208,15 +208,17 @@
       });
     };
 
-    RangeControl.prototype._renderLeftControl = function() {
-      if (this._renderControlCallback != null) {
-        return this._leftControl.html(this._renderControlCallback(this.leftValue()));
+    RangeControl.prototype._renderControl = function() {};
+
+    RangeControl.prototype._formatLeftControl = function() {
+      if (this._formatControlCallback != null) {
+        return this._leftControl.html(this._formatControlCallback(this.leftValue()));
       }
     };
 
-    RangeControl.prototype._renderRightControl = function() {
-      if (this._renderControlCallback != null) {
-        return this._rightControl.html(this._renderControlCallback(this.rightValue()));
+    RangeControl.prototype._formatRightControl = function() {
+      if (this._formatControlCallback != null) {
+        return this._rightControl.html(this._formatControlCallback(this.rightValue()));
       }
     };
 

@@ -18,9 +18,9 @@ class RangeControl
       startValue: 0
       endValue:   100
       valueStep:  1,
-      renderControlCallback: (value) -> value
+      formatControlCallback: (value) -> value
     }
-    @_renderControlCallback = defaultOptions.renderControlCallback
+    @_formatControlCallback = defaultOptions.formatControlCallback
 
     @_leftControl  = @el.find(".range-control_mini__left")
     @_rightControl = @el.find(".range-control_mini__right")
@@ -29,14 +29,14 @@ class RangeControl
     @startValue(@el.data("start-value") || defaultOptions.startValue)
     @endValue(@el.data("end-value")     || defaultOptions.endValue)
     @valueStep(@el.data("value-step")   || defaultOptions.valueStep)
-    @leftValue(@el.data("left-value")   || @_startValue)
-    @rightValue(@el.data("right-value") || @_endValue)
 
     @_controlWidth         = @_leftControl.outerWidth()
     @_width                = @el.outerWidth()
     @_widthWithoutPaddings = @el.width()
     @_pxInValue            = @_widthWithoutPaddings / ((@_endValue - @_startValue))
 
+    @leftValue(@el.data("left-value")   || @_startValue)
+    @rightValue(@el.data("right-value") || @_endValue)
     @_initControls()
 
   startValue: (startValue) ->
@@ -61,7 +61,7 @@ class RangeControl
     if value?
       @_leftControlValue = value
       @_renderRange()
-      @_renderLeftControl()
+      @_formatLeftControl()
     else
       if @_valueStep == 1
         @_leftControlValue
@@ -72,7 +72,7 @@ class RangeControl
     if value?
       @_rightControlValue = value
       @_renderRange()
-      @_renderRightControl()
+      @_formatRightControl()
     else
       if @_valueStep == 1
         @_rightControlValue
@@ -162,18 +162,22 @@ class RangeControl
   _renderRange: ->
     leftBorder =  ((@_leftControlValue - @_startValue) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
     rightBorder = ((@_rightControlValue - @_startValue) * @_pxInValue) + @_controlWidth + (@_controlWidth / 2)
+
     @_rangeElement.css({
       "left":  leftBorder,
       "right": @_width - rightBorder
     })
 
-  _renderLeftControl: ->
-    if @_renderControlCallback?
-      @_leftControl.html(@_renderControlCallback(@leftValue()))
+  _renderControl: ->
 
-  _renderRightControl: ->
-    if @_renderControlCallback?
-      @_rightControl.html(@_renderControlCallback(@rightValue()))
+
+  _formatLeftControl: ->
+    if @_formatControlCallback?
+      @_leftControl.html(@_formatControlCallback(@leftValue()))
+
+  _formatRightControl: ->
+    if @_formatControlCallback?
+      @_rightControl.html(@_formatControlCallback(@rightValue()))
 
 
 #class RangeControl

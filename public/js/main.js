@@ -176,7 +176,7 @@
     };
 
     RangeControl.prototype._controlMoveTo = function(control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) {
-      var leftBorderPosition, rightBorderPosition;
+      var controlLeftPosition, leftBorderPosition, rightBorderPosition;
 
       leftBorderPosition = stopPoint - zeroCoordinate - shiftX;
       rightBorderPosition = stopPoint - zeroCoordinate - shiftX + this._controlWidth;
@@ -189,11 +189,12 @@
       if (rightBorderPosition > rightLimit) {
         control.css("left", rightLimit - this._controlWidth);
       }
+      controlLeftPosition = control.position().left;
       if (control === this._leftControl) {
-        this.leftValue(this._getValueByPosition(control.position().left));
+        this.leftValue(this._getValueByPosition(controlLeftPosition));
       }
       if (control === this._rightControl) {
-        return this.rightValue(this._getValueByPosition(control.position().left - this._controlWidth));
+        return this.rightValue(this._getValueByPosition(controlLeftPosition - this._controlWidth));
       }
     };
 

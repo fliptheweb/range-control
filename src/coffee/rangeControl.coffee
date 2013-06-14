@@ -145,7 +145,7 @@ class RangeControl
       @_rightControl.triggerHandler "mouseup"
 
   _controlMoveTo: (control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) ->
-    leftBorderPosition = stopPoint - zeroCoordinate - shiftX
+    leftBorderPosition  = stopPoint - zeroCoordinate - shiftX
     rightBorderPosition = stopPoint - zeroCoordinate - shiftX + @_controlWidth
     if leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit
       control.css "left", leftBorderPosition
@@ -154,10 +154,12 @@ class RangeControl
     if rightBorderPosition > rightLimit
       control.css "left", rightLimit - @_controlWidth
 
+    controlLeftPosition = control.position().left
+
     if control == @_leftControl
-      @leftValue(@_getValueByPosition(control.position().left))
+      @leftValue(@_getValueByPosition(controlLeftPosition))
     if control == @_rightControl
-      @rightValue(@_getValueByPosition(control.position().left - @_controlWidth))
+      @rightValue(@_getValueByPosition(controlLeftPosition - @_controlWidth))
 
   _renderRange: ->
     leftBorder =  ((@_leftControlValue - @_startValue) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)

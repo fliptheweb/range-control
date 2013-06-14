@@ -47,15 +47,15 @@
       this._leftControl = this.el.find(".range-control_mini__left");
       this._rightControl = this.el.find(".range-control_mini__right");
       this._rangeElement = this.el.find(".range-control_mini__range.is-active");
-      this.startValue(this.el.data("start-value") || this.defaultOptions.startValue);
-      this.endValue(this.el.data("end-value") || this.defaultOptions.endValue);
-      this.valueStep(this.el.data("value-step") || this.defaultOptions.valueStep);
+      this.startValue(this.el.data("start-value") || this.settings.startValue);
+      this.endValue(this.el.data("end-value") || this.settings.endValue);
+      this.valueStep(this.el.data("value-step") || this.settings.valueStep);
       this._controlWidth = this._leftControl.outerWidth();
       this._width = this.el.outerWidth();
       this._widthWithoutPaddings = this.el.width();
       this._pxInValue = this._widthWithoutPaddings / (this._endValue - this._startValue);
-      this.leftValue(this.el.data("left-value") || this._startValue);
-      this.rightValue(this.el.data("right-value") || this._endValue);
+      this.leftValue(this.el.data("left-value") || this.settings.leftValue || this._startValue);
+      this.rightValue(this.el.data("right-value") || this.settings.rightValue || this._endValue);
       this._initControls();
     }
 
@@ -85,7 +85,11 @@
 
     RangeControl.prototype.leftValue = function(value) {
       if (value != null) {
-        this._leftControlValue = value;
+        if (value >= this._startValue) {
+          this._leftControlValue = value;
+        } else {
+          this._leftControlValue = this._startValue;
+        }
         this._renderRange();
         return this._formatLeftControl();
       } else {
@@ -99,7 +103,11 @@
 
     RangeControl.prototype.rightValue = function(value) {
       if (value != null) {
-        this._rightControlValue = value;
+        if (value <= this._endValue) {
+          this._rightControlValue = value;
+        } else {
+          this._rightControlValue = this._endValue;
+        }
         this._renderRange();
         return this._formatRightControl();
       } else {
@@ -271,7 +279,7 @@
         }
       });
     };
-    return $(".range-control_mini").rangeControl();
+    return $('.range-control_mini').rangeControl();
   });
 
 }).call(this);

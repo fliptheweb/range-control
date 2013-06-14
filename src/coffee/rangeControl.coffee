@@ -30,17 +30,17 @@ class RangeControl
     @_rightControl = @el.find(".range-control_mini__right")
     @_rangeElement = @el.find(".range-control_mini__range.is-active")
 
-    @startValue(@el.data("start-value") || @defaultOptions.startValue)
-    @endValue(@el.data("end-value")     || @defaultOptions.endValue)
-    @valueStep(@el.data("value-step")   || @defaultOptions.valueStep)
+    @startValue(@el.data("start-value") || @settings.startValue)
+    @endValue(@el.data("end-value")     || @settings.endValue)
+    @valueStep(@el.data("value-step")   || @settings.valueStep)
 
     @_controlWidth         = @_leftControl.outerWidth()
     @_width                = @el.outerWidth()
     @_widthWithoutPaddings = @el.width()
     @_pxInValue            = @_widthWithoutPaddings / ((@_endValue - @_startValue))
 
-    @leftValue(@el.data("left-value")   || @_startValue)
-    @rightValue(@el.data("right-value") || @_endValue)
+    @leftValue(@el.data("left-value")   || @settings.leftValue  || @_startValue)
+    @rightValue(@el.data("right-value") || @settings.rightValue || @_endValue)
     @_initControls()
 
   startValue: (startValue) ->
@@ -63,7 +63,10 @@ class RangeControl
 
   leftValue: (value) ->
     if value?
-      @_leftControlValue = value
+      if value >= @_startValue
+        @_leftControlValue = value
+      else
+        @_leftControlValue = @_startValue
       @_renderRange()
       @_formatLeftControl()
     else
@@ -74,7 +77,10 @@ class RangeControl
 
   rightValue: (value) ->
     if value?
-      @_rightControlValue = value
+      if value <= @_endValue
+        @_rightControlValue = value
+      else
+        @_rightControlValue = @_endValue
       @_renderRange()
       @_formatRightControl()
     else
@@ -90,7 +96,6 @@ class RangeControl
 
   _getValueByPosition: (x) ->
     @_startValue + parseInt(x / @_pxInValue)
-
 
   _initControls: ->
 #    @changeControlRateText(@_leftControl, @rangeTable.getRateOfCell(@rangeTable.getFirstCell()))
@@ -443,5 +448,5 @@ jQuery ->
       else
         $(this).data('rangeControl')
 
-  $(".range-control_mini").rangeControl()
+  $('.range-control_mini').rangeControl()
 

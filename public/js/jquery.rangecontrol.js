@@ -35,6 +35,7 @@
       startValue: 0,
       endValue: 100,
       valueStep: 1,
+      timeout: 1000,
       formatControlCallback: function(value) {
         return value;
       }

@@ -13,14 +13,17 @@ class RangeControl
   @_rightControlValue;
   @_rangeElement;
 
-  constructor: (@el) ->
-    defaultOptions = {
-      startValue: 0
-      endValue:   100
-      valueStep:  1,
-      formatControlCallback: (value) -> value
-    }
+  @::defaultOptions = {
+    startValue: 0
+    endValue:   100
+    valueStep:  1,
+    formatControlCallback: (value) -> value
+  }
+
+  constructor: (@el, options) ->
     @_formatControlCallback = defaultOptions.formatControlCallback
+
+    @settings = $.extend({}, @::defaultOptions, options)
 
     @_leftControl  = @el.find(".range-control_mini__left")
     @_rightControl = @el.find(".range-control_mini__right")
@@ -392,51 +395,52 @@ utilities =
     volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
 jQuery ->
-  $.pluginName = ( element, options ) ->
-    # current state
-    state = ''
-
-    # plugin settings
-    @settings = {}
-
-    # jQuery version of DOM element attached to the plugin
-    @$element = $ element
-
-    # set current state
-    @setState = ( _state ) -> state = _state
-
-    #get current state
-    @getState = -> state
-
-    # get particular plugin setting
-    @getSetting = ( key ) ->
-      @settings[ key ]
-
-    # call one of the plugin setting functions
-    @callSettingFunction = ( name, args = [] ) ->
-      @settings[name].apply( this, args )
-
-    @init = ->
-      @settings = $.extend( {}, @defaults, options )
-
-      @setState 'ready'
-
-    # initialise the plugin
-    @init()
-
-    # make the plugin chainable
-    this
+#  $.rangeControl = (element, options) ->
+#    # current state
+#    state = ''
+#
+#    # plugin settings
+#    @settings = {}
+#
+#    # jQuery version of DOM element attached to the plugin
+#    @$element = $ element
+#
+#    # set current state
+#    @setState = ( _state ) -> state = _state
+#
+#    #get current state
+#    @getState = -> state
+#
+#    # get particular plugin setting
+#    @getSetting = ( key ) ->
+#      @settings[ key ]
+#
+#    # call one of the plugin setting functions
+#    @callSettingFunction = ( name, args = [] ) ->
+#      @settings[name].apply( this, args )
+#
+#    @init = ->
+#      @settings = $.extend( {}, @defaults, options )
+#
+#      @setState 'ready'
+#
+#    # initialise the plugin
+#    @init()
+#
+#    # make the plugin chainable
+#    this
 
   # default plugin settings
-  $.pluginName::defaults =
-    message: 'Hello world'  # option description
+#  $.rangeControl::defaults =
+#    message: 'Hello world'  # option description
 
-  $.fn.pluginName = ( options ) ->
+  $.fn.rangeControl = (options) ->
     this.each ->
-      if $( this ).data( 'pluginName' ) is undefined
-        plugin = new $.pluginName( this, options )
-        $( this).data( 'pluginName', plugin )
+      if $(this).data('rangeControl') == undefined
+        plugin = new RangeControl($(this), options)
+        $(this).data('rangeControl', plugin)
+      else
+        $(this).data('rangeControl')
 
 
-$(".range-control_mini").each (i, control) ->
-  rangeControl = new RangeControl($(control))
+$(".range-control_mini").rangeControl()

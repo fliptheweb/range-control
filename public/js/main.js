@@ -29,19 +29,19 @@
 
     RangeControl._rangeElement;
 
-    function RangeControl(el) {
-      var defaultOptions;
+    RangeControl.prototype.defaultOptions = {
+      startValue: 0,
+      endValue: 100,
+      valueStep: 1,
+      formatControlCallback: function(value) {
+        return value;
+      }
+    };
 
+    function RangeControl(el, options) {
       this.el = el;
-      defaultOptions = {
-        startValue: 0,
-        endValue: 100,
-        valueStep: 1,
-        formatControlCallback: function(value) {
-          return value;
-        }
-      };
       this._formatControlCallback = defaultOptions.formatControlCallback;
+      this.settings = $.extend({}, this.prototype.defaultOptions, options);
       this._leftControl = this.el.find(".range-control_mini__left");
       this._rightControl = this.el.find(".range-control_mini__right");
       this._rangeElement = this.el.find(".range-control_mini__range.is-active");
@@ -257,53 +257,20 @@
   };
 
   jQuery(function() {
-    $.pluginName = function(element, options) {
-      var state;
-
-      state = '';
-      this.settings = {};
-      this.$element = $(element);
-      this.setState = function(_state) {
-        return state = _state;
-      };
-      this.getState = function() {
-        return state;
-      };
-      this.getSetting = function(key) {
-        return this.settings[key];
-      };
-      this.callSettingFunction = function(name, args) {
-        if (args == null) {
-          args = [];
-        }
-        return this.settings[name].apply(this, args);
-      };
-      this.init = function() {
-        this.settings = $.extend({}, this.defaults, options);
-        return this.setState('ready');
-      };
-      this.init();
-      return this;
-    };
-    $.pluginName.prototype.defaults = {
-      message: 'Hello world'
-    };
-    return $.fn.pluginName = function(options) {
+    return $.fn.rangeControl = function(options) {
       return this.each(function() {
         var plugin;
 
-        if ($(this).data('pluginName') === void 0) {
-          plugin = new $.pluginName(this, options);
-          return $(this).data('pluginName', plugin);
+        if ($(this).data('rangeControl') === void 0) {
+          plugin = new RangeControl($(this), options);
+          return $(this).data('rangeControl', plugin);
+        } else {
+          return $(this).data('rangeControl');
         }
       });
     };
   });
 
-  $(".range-control_mini").each(function(i, control) {
-    var rangeControl;
-
-    return rangeControl = new RangeControl($(control));
-  });
+  $(".range-control_mini").rangeControl();
 
 }).call(this);

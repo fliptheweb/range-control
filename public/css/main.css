@@ -288,6 +288,7 @@ ul {
   color: #0074cd;
   outline: none;
   padding: 0 !important;
+  z-index: 2;
   /* its fix for opera */
   -o-transform: translateX(0);
 }

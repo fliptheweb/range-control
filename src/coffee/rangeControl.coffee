@@ -19,7 +19,7 @@ class RangeControl
     startValue: 0
     endValue:   100
     valueStep:  1,
-    timeout: 500,
+    timeout:    500,
     formatControlCallback: (value) -> value
   }
 
@@ -190,6 +190,7 @@ class RangeControl
       @_leftValueWithoutRender(@_getValueByPosition(controlLeftPosition))
     if control == @_rightControl
       @_rightValueWithoutRender(@_getValueByPosition(controlLeftPosition - @_controlWidth))
+    @_changeEvent()
 
   _renderRange: ->
     leftBorder  = ((@_leftControlValue - @_startValue) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
@@ -219,8 +220,9 @@ class RangeControl
       @_rightControl.html(@_formatControlCallback(@rightValue()))
 
   _changeEvent: ->
+    clearTimeout(@_changeTimeout)
     @_changeTimeout = setTimeout( =>
-      @el.trigger("change.rangeControl", {"leftValue": @leftValue(), "rightValue": @rightValue()})
+      @el.trigger("change", {"leftValue": @leftValue(), "rightValue": @rightValue()})
     , @settings.timeout)
 
 

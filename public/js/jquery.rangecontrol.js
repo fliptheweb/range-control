@@ -227,8 +227,9 @@
         this._leftValueWithoutRender(this._getValueByPosition(controlLeftPosition));
       }
       if (control === this._rightControl) {
-        return this._rightValueWithoutRender(this._getValueByPosition(controlLeftPosition - this._controlWidth));
+        this._rightValueWithoutRender(this._getValueByPosition(controlLeftPosition - this._controlWidth));
       }
+      return this._changeEvent();
     };
 
     RangeControl.prototype._renderRange = function() {
@@ -269,8 +270,9 @@
     RangeControl.prototype._changeEvent = function() {
       var _this = this;
 
+      clearTimeout(this._changeTimeout);
       return this._changeTimeout = setTimeout(function() {
-        return _this.el.trigger("change.rangeControl", {
+        return _this.el.trigger("change", {
           "leftValue": _this.leftValue(),
           "rightValue": _this.rightValue()
         });

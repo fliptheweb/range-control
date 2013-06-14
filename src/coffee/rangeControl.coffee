@@ -62,6 +62,13 @@ class RangeControl
 
   leftValue: (value) ->
     if value?
+      @_leftValueWithoutRender(value)
+      @_renderLeftControl(value)
+    else
+      @_leftValueWithoutRender(value)
+
+  _leftValueWithoutRender: (value) ->
+    if value?
       if value >= @_startValue
         @_leftControlValue = value
       else
@@ -75,6 +82,13 @@ class RangeControl
         @_startValue + ((@_leftControlValue - @_startValue) - (@_leftControlValue - @_startValue) % @_valueStep)
 
   rightValue: (value) ->
+    if value?
+      @_rightValueWithoutRender(value)
+      @_renderRightControl(value)
+    else
+      @_rightValueWithoutRender(value)
+
+  _rightValueWithoutRender: (value) ->
     if value?
       if value <= @_endValue
         @_rightControlValue = value
@@ -156,7 +170,6 @@ class RangeControl
     @_renderLeftControl(@leftValue())
     @_renderRightControl(@rightValue())
 
-
 # @todo refactor, use renderLeftControl and renderRightControl instead
   _controlMoveTo: (control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) ->
     leftBorderPosition  = stopPoint - zeroCoordinate - shiftX
@@ -171,9 +184,9 @@ class RangeControl
     controlLeftPosition = control.position().left
 
     if control == @_leftControl
-      @leftValue(@_getValueByPosition(controlLeftPosition))
+      @_leftValueWithoutRender(@_getValueByPosition(controlLeftPosition))
     if control == @_rightControl
-      @rightValue(@_getValueByPosition(controlLeftPosition - @_controlWidth))
+      @_rightValueWithoutRender(@_getValueByPosition(controlLeftPosition - @_controlWidth))
 
   _renderRange: ->
     leftBorder  = ((@_leftControlValue - @_startValue) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)

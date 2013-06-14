@@ -85,6 +85,15 @@
 
     RangeControl.prototype.leftValue = function(value) {
       if (value != null) {
+        this._leftValueWithoutRender(value);
+        return this._renderLeftControl(value);
+      } else {
+        return this._leftValueWithoutRender(value);
+      }
+    };
+
+    RangeControl.prototype._leftValueWithoutRender = function(value) {
+      if (value != null) {
         if (value >= this._startValue) {
           this._leftControlValue = value;
         } else {
@@ -102,6 +111,15 @@
     };
 
     RangeControl.prototype.rightValue = function(value) {
+      if (value != null) {
+        this._rightValueWithoutRender(value);
+        return this._renderRightControl(value);
+      } else {
+        return this._rightValueWithoutRender(value);
+      }
+    };
+
+    RangeControl.prototype._rightValueWithoutRender = function(value) {
       if (value != null) {
         if (value <= this._endValue) {
           this._rightControlValue = value;
@@ -203,10 +221,10 @@
       }
       controlLeftPosition = control.position().left;
       if (control === this._leftControl) {
-        this.leftValue(this._getValueByPosition(controlLeftPosition));
+        this._leftValueWithoutRender(this._getValueByPosition(controlLeftPosition));
       }
       if (control === this._rightControl) {
-        return this.rightValue(this._getValueByPosition(controlLeftPosition - this._controlWidth));
+        return this._rightValueWithoutRender(this._getValueByPosition(controlLeftPosition - this._controlWidth));
       }
     };
 

@@ -86,6 +86,13 @@
       }
     };
 
+    RangeControl.prototype.value = function() {
+      return {
+        "leftValue": this.leftValue(),
+        "rightValue": this.rightValue()
+      };
+    };
+
     RangeControl.prototype.leftValue = function(value) {
       if (value != null) {
         this._leftValueWithoutRender(value);

@@ -62,6 +62,12 @@ class RangeControl
     else
       @_valueStep
 
+  value: ->
+    {
+      "leftValue":  @leftValue()
+      "rightValue": @rightValue()
+    }
+
 # @todo normalize value before render left control
   leftValue: (value) ->
     if value?

@@ -399,53 +399,17 @@ utilities =
   splitVolumeBySpace: (volume) ->
     volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
-
-#  $.rangeControl = (element, options) ->
-#    # current state
-#    state = ''
-#
-#    # plugin settings
-#    @settings = {}
-#
-#    # jQuery version of DOM element attached to the plugin
-#    @$element = $ element
-#
-#    # set current state
-#    @setState = ( _state ) -> state = _state
-#
-#    #get current state
-#    @getState = -> state
-#
-#    # get particular plugin setting
-#    @getSetting = ( key ) ->
-#      @settings[ key ]
-#
-#    # call one of the plugin setting functions
-#    @callSettingFunction = ( name, args = [] ) ->
-#      @settings[name].apply( this, args )
-#
-#    @init = ->
-#      @settings = $.extend( {}, @defaults, options )
-#
-#      @setState 'ready'
-#
-#    # initialise the plugin
-#    @init()
-#
-#    # make the plugin chainable
-#    this
-
-  # default plugin settings
-#  $.rangeControl::defaults =
-#    message: 'Hello world'  # option description
-jQuery ->
-  $.fn.rangeControl = (options) ->
+$.fn.rangeControl = (options) ->
+  if this.size() != 1
     this.each ->
       if $(this).data('rangeControl') == undefined
         plugin = new RangeControl($(this), options)
         $(this).data('rangeControl', plugin)
-      else
-        $(this).data('rangeControl')
+  else
+    $(this).data('rangeControl')
 
-  $('.range-control_mini').rangeControl()
+$('.range-control_mini').rangeControl()
+
+console.log($('#example-1').rangeControl())
+
 

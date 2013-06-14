@@ -266,20 +266,23 @@
     }
   };
 
-  jQuery(function() {
-    $.fn.rangeControl = function(options) {
+  $.fn.rangeControl = function(options) {
+    if (this.size() !== 1) {
       return this.each(function() {
         var plugin;
 
         if ($(this).data('rangeControl') === void 0) {
           plugin = new RangeControl($(this), options);
           return $(this).data('rangeControl', plugin);
-        } else {
-          return $(this).data('rangeControl');
         }
       });
-    };
-    return $('.range-control_mini').rangeControl();
-  });
+    } else {
+      return $(this).data('rangeControl');
+    }
+  };
+
+  $('.range-control_mini').rangeControl();
+
+  console.log($('#example-1').rangeControl());
 
 }).call(this);

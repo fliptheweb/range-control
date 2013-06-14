@@ -42,8 +42,8 @@
 
     function RangeControl(el, options) {
       this.el = el;
-      this._formatControlCallback = this.defaultOptions.formatControlCallback;
       this.settings = $.extend({}, this.defaultOptions, options);
+      this._formatControlCallback = this.settings.formatControlCallback;
       this._leftControl = this.el.find(".range-control_mini__left");
       this._rightControl = this.el.find(".range-control_mini__right");
       this._rangeElement = this.el.find(".range-control_mini__range.is-active");

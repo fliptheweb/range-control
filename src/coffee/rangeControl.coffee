@@ -22,9 +22,8 @@ class RangeControl
   }
 
   constructor: (@el, options) ->
-    @_formatControlCallback = @defaultOptions.formatControlCallback
-
     @settings = $.extend({}, @defaultOptions, options)
+    @_formatControlCallback = @settings.formatControlCallback
 
     @_leftControl  = @el.find(".range-control_mini__left")
     @_rightControl = @el.find(".range-control_mini__right")

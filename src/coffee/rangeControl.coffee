@@ -60,6 +60,7 @@ class RangeControl
     else
       @_valueStep
 
+# @todo normalize value before render left control
   leftValue: (value) ->
     if value?
       @_leftValueWithoutRender(value)

@@ -144,6 +144,12 @@ class RangeControl
       @_leftControl.triggerHandler  "mouseup"
       @_rightControl.triggerHandler "mouseup"
 
+    # set init position
+    @_renderLeftControl(@leftValue())
+    @_renderRightControl(@rightValue())
+
+
+# @todo refactor, use renderLeftControl and renderRightControl instead
   _controlMoveTo: (control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) ->
     leftBorderPosition  = stopPoint - zeroCoordinate - shiftX
     rightBorderPosition = stopPoint - zeroCoordinate - shiftX + @_controlWidth
@@ -170,8 +176,15 @@ class RangeControl
       "right": @_width - rightBorder
     })
 
-  _renderControl: ->
+  _renderLeftControl: (value) ->
+    @_leftControl.css({
+      left: ((value - @_startValue) * @_pxInValue)
+    })
 
+  _renderRightControl: (value) ->
+    @_rightControl.css({
+      left: @_controlWidth + ((value - @_startValue) * @_pxInValue)
+    })
 
   _formatLeftControl: ->
     if @_formatControlCallback?

@@ -169,10 +169,12 @@
           return _this._controlMoveTo(_this._rightControl, event.clientX, zeroCoordinate, shiftX, leftLimit, rightLimit);
         });
       });
-      return $(document).on("mouseup", function() {
+      $(document).on("mouseup", function() {
         _this._leftControl.triggerHandler("mouseup");
         return _this._rightControl.triggerHandler("mouseup");
       });
+      this._renderLeftControl(this.leftValue());
+      return this._renderRightControl(this.rightValue());
     };
 
     RangeControl.prototype._controlMoveTo = function(control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) {
@@ -209,7 +211,17 @@
       });
     };
 
-    RangeControl.prototype._renderControl = function() {};
+    RangeControl.prototype._renderLeftControl = function(value) {
+      return this._leftControl.css({
+        left: (value - this._startValue) * this._pxInValue
+      });
+    };
+
+    RangeControl.prototype._renderRightControl = function(value) {
+      return this._rightControl.css({
+        left: this._controlWidth + ((value - this._startValue) * this._pxInValue)
+      });
+    };
 
     RangeControl.prototype._formatLeftControl = function() {
       if (this._formatControlCallback != null) {

@@ -68,7 +68,6 @@ class RangeControl
       else
         @_startValue + ((@_leftControlValue - @_startValue) - (@_leftControlValue - @_startValue) % @_valueStep)
 
-
   rightValue: (value) ->
     if value?
       @_rightControlValue = value

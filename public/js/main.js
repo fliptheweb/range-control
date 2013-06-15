@@ -6,7 +6,8 @@
 
   $('#example-1').on("change", function(e, data) {
     console.log(data);
-    return console.log($('#example-1').rangeControl().value());
+    console.log($('#example-1').rangeControl().value());
+    return console.log($('#example-1').rangeControl().leftValue());
   });
 
 }).call(this);

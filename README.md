@@ -11,8 +11,6 @@ $('.object').rangeControl({settings})
 * formatControlCallback - function
 
 ## Methods
-* startValue()
-* endValue()
 * leftValue()
 * rightValue()
 * value()

@@ -291,18 +291,14 @@
   })();
 
   $.fn.rangeControl = function(options) {
-    if (this.size() !== 1) {
-      return this.each(function() {
-        var plugin;
+    return this.each(function() {
+      var plugin;
 
-        if ($(this).data('rangeControl') === void 0) {
-          plugin = new RangeControl($(this), options);
-          return $(this).data('rangeControl', plugin);
-        }
-      });
-    } else {
-      return $(this).data('rangeControl');
-    }
+      if ($(this).data('rangeControl') === void 0) {
+        plugin = new RangeControl($(this), options);
+        return $(this).data('rangeControl', plugin);
+      }
+    });
   };
 
 }).call(this);

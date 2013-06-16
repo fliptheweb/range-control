@@ -430,10 +430,10 @@ class RangeControl
 #    volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
 $.fn.rangeControl = (options) ->
-  if this.size() != 1
+#  if this.size() != 1
     this.each ->
       if $(this).data('rangeControl') == undefined
         plugin = new RangeControl($(this), options)
         $(this).data('rangeControl', plugin)
-  else
-    $(this).data('rangeControl')
+#  else
+#    $(this).data('rangeControl')

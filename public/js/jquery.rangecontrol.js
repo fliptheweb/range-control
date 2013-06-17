@@ -297,6 +297,8 @@
     return this.each(function() {
       if ($(this).data('range-control') === void 0) {
         return new RangeControl($(this), options);
+      } else {
+        return $(this).data('range-control');
       }
     });
   };

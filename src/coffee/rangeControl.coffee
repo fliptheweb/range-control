@@ -16,8 +16,8 @@ class RangeControl
 
   @::_draggedClassName = 'is-dragged';
   @::defaultOptions = {
-    startValue: 0
-    endValue:   100
+    startValue: 0,
+    endValue:   100,
     valueStep:  1,
     timeout:    500,
     formatControlCallback: (value) -> value
@@ -440,3 +440,5 @@ $.fn.rangeControl = (options) ->
   this.each ->
     if $(this).data('range-control') == undefined
       new RangeControl($(this), options)
+    else
+      $(this).data('range-control')

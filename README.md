@@ -1,7 +1,8 @@
 # Range control
 
 ## Usage
-$('.object').rangeControl({settings})
+$('.class').rangeControl({settings})
+$('.class').data('range-control').method()
 
 ## Settings
 * startValue (data-start-value)
@@ -14,3 +15,9 @@ $('.object').rangeControl({settings})
 * leftValue()
 * rightValue()
 * value()
+
+## Todo
+[ ] Version with graph
+[ ] Draw ticks
+[ ] Bind left-right keys to change value
+[ ] Tests

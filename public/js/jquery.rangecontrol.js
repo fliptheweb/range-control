@@ -46,6 +46,7 @@
     function RangeControl(el, options) {
       this.el = el;
       this.settings = $.extend({}, this.defaultOptions, options);
+      this.el.data('range-control', this);
       this._formatControlCallback = this.settings.formatControlCallback;
       this._leftControl = this.el.find('.range-control_mini__left');
       this._rightControl = this.el.find('.range-control_mini__right');
@@ -292,11 +293,8 @@
 
   $.fn.rangeControl = function(options) {
     return this.each(function() {
-      var plugin;
-
-      if ($(this).data('rangeControl') === void 0) {
-        plugin = new RangeControl($(this), options);
-        return $(this).data('rangeControl', plugin);
+      if ($(this).data('range-control') === void 0) {
+        return new RangeControl($(this), options);
       }
     });
   };

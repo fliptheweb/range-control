@@ -25,6 +25,7 @@ class RangeControl
 
   constructor: (@el, options) ->
     @settings = $.extend({}, @defaultOptions, options)
+    @el.data('range-control', @)
     @_formatControlCallback = @settings.formatControlCallback
 
     @_leftControl  = @el.find('.range-control_mini__left')
@@ -433,10 +434,6 @@ class RangeControl
 #    volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
 $.fn.rangeControl = (options) ->
-#  if this.size() != 1
-    this.each ->
-      if $(this).data('rangeControl') == undefined
-        plugin = new RangeControl($(this), options)
-        $(this).data('rangeControl', plugin)
-#  else
-#    $(this).data('rangeControl')
+  this.each ->
+    if $(this).data('range-control') == undefined
+      new RangeControl($(this), options)

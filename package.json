@@ -1,14 +1,14 @@
 {
-  "name": "frontend-seed",
+  "name": "range-control",
   "version": "0.1.0",
-  "description": "It's frontend init project",
+  "description": "",
   "author": "fliptheweb",
   "repository": {
     "type": "git",
-    "url": "git://github.com/fliptheweb/frontend-seed.git"
+    "url": "git://github.com/fliptheweb/range-control.git"
   },
   "bugs": {
-    "url": "https://github.com/fliptheweb/frontend-seed/issues"
+    "url": "https://github.com/fliptheweb/range-control/issues"
   },
   "license": "BSD",
   "devDependencies": {

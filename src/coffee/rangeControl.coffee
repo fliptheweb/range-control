@@ -3,7 +3,6 @@ class RangeControl
   @_startValue       = 0
   @_endValue         = 100
   @_valueStep        = 0
-  @_draggedClassName = 'is-dragged';
   @_renderControlCallback;
   @_width;
   @_widthWithoutPaddings;
@@ -15,6 +14,7 @@ class RangeControl
   @_changeTimeout;
   @settings;
 
+  @::_draggedClassName = 'is-dragged';
   @::defaultOptions = {
     startValue: 0
     endValue:   100

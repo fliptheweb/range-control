@@ -11,8 +11,6 @@
 
     RangeControl._valueStep = 0;
 
-    RangeControl._draggedClassName = 'is-dragged';
-
     RangeControl._renderControlCallback;
 
     RangeControl._width;
@@ -32,6 +30,8 @@
     RangeControl._changeTimeout;
 
     RangeControl.settings;
+
+    RangeControl.prototype._draggedClassName = 'is-dragged';
 
     RangeControl.prototype.defaultOptions = {
       startValue: 0,

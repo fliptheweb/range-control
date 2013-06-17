@@ -229,6 +229,9 @@ class RangeControl
     if @_formatControlCallback?
       @_rightControl.html(@_formatControlCallback(@rightValue()))
 
+  _formatValue: (x) ->
+
+
   _fireChangeEvent: ->
     clearTimeout(@_changeTimeout)
     @_changeTimeout = setTimeout( =>

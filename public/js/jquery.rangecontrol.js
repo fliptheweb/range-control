@@ -277,6 +277,8 @@
       }
     };
 
+    RangeControl.prototype._formatValue = function(x) {};
+
     RangeControl.prototype._fireChangeEvent = function() {
       var _this = this;
 

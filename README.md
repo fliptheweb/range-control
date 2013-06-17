@@ -17,7 +17,7 @@ $('.class').data('range-control').method()
 * value()
 
 ## Todo
-[ ] Version with graph
-[ ] Draw ticks
-[ ] Bind left-right keys to change value
-[ ] Tests
+- [ ] Version with graph
+- [ ] Draw ticks
+- [ ] Bind left-right keys to change value
+- [ ] Tests

@@ -236,7 +236,7 @@ class RangeControl
     clearTimeout(@_changeTimeout)
     @_changeTimeout = setTimeout( =>
       @el.trigger('change', {
-        'leftValue': @leftValue(),
+        'leftValue':  @leftValue(),
         'rightValue': @rightValue()
       })
     , @settings.timeout)

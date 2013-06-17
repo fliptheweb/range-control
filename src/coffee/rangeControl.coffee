@@ -3,7 +3,7 @@ class RangeControl
   @_startValue       = 0
   @_endValue         = 100
   @_valueStep        = 0
-  @_draggedClassName = "is-dragged";
+  @_draggedClassName = 'is-dragged';
   @_renderControlCallback;
   @_width;
   @_widthWithoutPaddings;
@@ -27,21 +27,21 @@ class RangeControl
     @settings = $.extend({}, @defaultOptions, options)
     @_formatControlCallback = @settings.formatControlCallback
 
-    @_leftControl  = @el.find(".range-control_mini__left")
-    @_rightControl = @el.find(".range-control_mini__right")
-    @_rangeElement = @el.find(".range-control_mini__range.is-active")
+    @_leftControl  = @el.find('.range-control_mini__left')
+    @_rightControl = @el.find('.range-control_mini__right')
+    @_rangeElement = @el.find('.range-control_mini__range.is-active')
 
-    @startValue(@el.data("start-value") || @settings.startValue)
-    @endValue(@el.data("end-value")     || @settings.endValue)
-    @valueStep(@el.data("value-step")   || @settings.valueStep)
+    @startValue(@el.data('start-value') || @settings.startValue)
+    @endValue(@el.data('end-value')     || @settings.endValue)
+    @valueStep(@el.data('value-step')   || @settings.valueStep)
 
     @_controlWidth         = @_leftControl.outerWidth()
     @_width                = @el.outerWidth()
     @_widthWithoutPaddings = @el.width()
     @_pxInValue            = @_widthWithoutPaddings / ((@_endValue - @_startValue))
 
-    @leftValue(@el.data("left-value")   || @settings.leftValue  || @_startValue)
-    @rightValue(@el.data("right-value") || @settings.rightValue || @_endValue)
+    @leftValue(@el.data('left-value')   || @settings.leftValue  || @_startValue)
+    @rightValue(@el.data('right-value') || @settings.rightValue || @_endValue)
     @_initControls()
 
   startValue: (startValue) ->
@@ -64,8 +64,8 @@ class RangeControl
 
   value: ->
     {
-      "leftValue":  @leftValue()
-      "rightValue": @rightValue()
+      'leftValue':  @leftValue()
+      'rightValue': @rightValue()
     }
 
 # @todo normalize value before render left control
@@ -113,7 +113,7 @@ class RangeControl
 
   renderControl: (renderControlCallback) ->
     if renderControlCallback?
-      if typeof(renderControlCallback) == "function"
+      if typeof(renderControlCallback) == 'function'
         @_renderControlCallback = renderControlCallback
 
   _getValueByPosition: (x) ->
@@ -124,13 +124,13 @@ class RangeControl
 #    @changeControlRateText(@_rightControl, @rangeTable.getRateOfCell(@rangeTable.getLastCell()))
     controls = [@_leftControl, @_rightControl];
     controls.forEach (control) =>
-      control.on "dragstart", -> return false
-      control.on "mouseup", =>
+      control.on 'dragstart', -> return false
+      control.on 'mouseup', =>
         @dragged = false
         @_leftControl.removeClass(@_draggedClassName)
-        $(document).off "mousemove"
+        $(document).off 'mousemove'
 
-    @_leftControl.on "mousedown", (event) =>
+    @_leftControl.on 'mousedown', (event) =>
       if event.which != 1
         return
       @_leftControl.addClass(@_draggedClassName)
@@ -140,7 +140,7 @@ class RangeControl
       leftLimit      = 0
       rightLimit     = @_rightControl.offset().left - zeroCoordinate
 
-      $(document).on "mousemove", (event) =>
+      $(document).on 'mousemove', (event) =>
         @_controlMoveTo(
           @_leftControl,
           event.clientX,
@@ -150,7 +150,7 @@ class RangeControl
           rightLimit
         )
 
-    @_rightControl.on "mousedown", (event) =>
+    @_rightControl.on 'mousedown', (event) =>
       if event.which != 1
         return
       @_rightControl.addClass(@_draggedClassName)
@@ -161,7 +161,7 @@ class RangeControl
       leftLimit      = @_leftControl.offset().left - zeroCoordinate + @_controlWidth
       rightLimit     = @_width
 
-      $(document).on "mousemove", (event) =>
+      $(document).on 'mousemove', (event) =>
         @_controlMoveTo(
           @_rightControl,
           event.clientX,
@@ -171,9 +171,9 @@ class RangeControl
           rightLimit
         )
 
-    $(document).on "mouseup", =>
-      @_leftControl.triggerHandler  "mouseup"
-      @_rightControl.triggerHandler "mouseup"
+    $(document).on 'mouseup', =>
+      @_leftControl.triggerHandler  'mouseup'
+      @_rightControl.triggerHandler 'mouseup'
 
     # set init position
     @_renderLeftControl(@leftValue())
@@ -184,11 +184,11 @@ class RangeControl
     leftBorderPosition  = stopPoint - zeroCoordinate - shiftX
     rightBorderPosition = stopPoint - zeroCoordinate - shiftX + @_controlWidth
     if leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit
-      control.css "left", leftBorderPosition
+      control.css 'left', leftBorderPosition
     if leftBorderPosition < leftLimit
-      control.css "left", leftLimit
+      control.css 'left', leftLimit
     if rightBorderPosition > rightLimit
-      control.css "left", rightLimit - @_controlWidth
+      control.css 'left', rightLimit - @_controlWidth
 
     controlLeftPosition = control.position().left
 
@@ -196,15 +196,15 @@ class RangeControl
       @_leftValueWithoutRender(@_getValueByPosition(controlLeftPosition))
     if control == @_rightControl
       @_rightValueWithoutRender(@_getValueByPosition(controlLeftPosition - @_controlWidth))
-    @_changeEvent()
+    @_fireChangeEvent()
 
   _renderRange: ->
     leftBorder  = ((@_leftControlValue - @_startValue) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
     rightBorder = ((@_rightControlValue - @_startValue) * @_pxInValue) + @_controlWidth + (@_controlWidth / 2)
 
     @_rangeElement.css({
-      "left":  leftBorder,
-      "right": @_width - rightBorder
+      'left':  leftBorder,
+      'right': @_width - rightBorder
     })
 
   _renderLeftControl: (value) ->
@@ -225,10 +225,13 @@ class RangeControl
     if @_formatControlCallback?
       @_rightControl.html(@_formatControlCallback(@rightValue()))
 
-  _changeEvent: ->
+  _fireChangeEvent: ->
     clearTimeout(@_changeTimeout)
     @_changeTimeout = setTimeout( =>
-      @el.trigger("change", {"leftValue": @leftValue(), "rightValue": @rightValue()})
+      @el.trigger('change', {
+        'leftValue': @leftValue(),
+        'rightValue': @rightValue()
+      })
     , @settings.timeout)
 
 
@@ -237,7 +240,7 @@ class RangeControl
 #  @dragged = false
 #
 #  constructor: (@el) ->
-#    @rangeTable = new RangeCells(@el.find(".range-control__range"), @)
+#    @rangeTable = new RangeCells(@el.find('.range-control__range'), @)
 #    @initControls()
 #
 #  initControls: ->

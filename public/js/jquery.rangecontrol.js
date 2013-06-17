@@ -11,7 +11,7 @@
 
     RangeControl._valueStep = 0;
 
-    RangeControl._draggedClassName = "is-dragged";
+    RangeControl._draggedClassName = 'is-dragged';
 
     RangeControl._renderControlCallback;
 
@@ -47,18 +47,18 @@
       this.el = el;
       this.settings = $.extend({}, this.defaultOptions, options);
       this._formatControlCallback = this.settings.formatControlCallback;
-      this._leftControl = this.el.find(".range-control_mini__left");
-      this._rightControl = this.el.find(".range-control_mini__right");
-      this._rangeElement = this.el.find(".range-control_mini__range.is-active");
-      this.startValue(this.el.data("start-value") || this.settings.startValue);
-      this.endValue(this.el.data("end-value") || this.settings.endValue);
-      this.valueStep(this.el.data("value-step") || this.settings.valueStep);
+      this._leftControl = this.el.find('.range-control_mini__left');
+      this._rightControl = this.el.find('.range-control_mini__right');
+      this._rangeElement = this.el.find('.range-control_mini__range.is-active');
+      this.startValue(this.el.data('start-value') || this.settings.startValue);
+      this.endValue(this.el.data('end-value') || this.settings.endValue);
+      this.valueStep(this.el.data('value-step') || this.settings.valueStep);
       this._controlWidth = this._leftControl.outerWidth();
       this._width = this.el.outerWidth();
       this._widthWithoutPaddings = this.el.width();
       this._pxInValue = this._widthWithoutPaddings / (this._endValue - this._startValue);
-      this.leftValue(this.el.data("left-value") || this.settings.leftValue || this._startValue);
-      this.rightValue(this.el.data("right-value") || this.settings.rightValue || this._endValue);
+      this.leftValue(this.el.data('left-value') || this.settings.leftValue || this._startValue);
+      this.rightValue(this.el.data('right-value') || this.settings.rightValue || this._endValue);
       this._initControls();
     }
 
@@ -88,8 +88,8 @@
 
     RangeControl.prototype.value = function() {
       return {
-        "leftValue": this.leftValue(),
-        "rightValue": this.rightValue()
+        'leftValue': this.leftValue(),
+        'rightValue': this.rightValue()
       };
     };
 
@@ -149,7 +149,7 @@
 
     RangeControl.prototype.renderControl = function(renderControlCallback) {
       if (renderControlCallback != null) {
-        if (typeof renderControlCallback === "function") {
+        if (typeof renderControlCallback === 'function') {
           return this._renderControlCallback = renderControlCallback;
         }
       }
@@ -165,16 +165,16 @@
 
       controls = [this._leftControl, this._rightControl];
       controls.forEach(function(control) {
-        control.on("dragstart", function() {
+        control.on('dragstart', function() {
           return false;
         });
-        return control.on("mouseup", function() {
+        return control.on('mouseup', function() {
           _this.dragged = false;
           _this._leftControl.removeClass(_this._draggedClassName);
-          return $(document).off("mousemove");
+          return $(document).off('mousemove');
         });
       });
-      this._leftControl.on("mousedown", function(event) {
+      this._leftControl.on('mousedown', function(event) {
         var leftLimit, rightLimit, shiftX, zeroCoordinate;
 
         if (event.which !== 1) {
@@ -186,11 +186,11 @@
         shiftX = event.clientX - _this._leftControl.offset().left;
         leftLimit = 0;
         rightLimit = _this._rightControl.offset().left - zeroCoordinate;
-        return $(document).on("mousemove", function(event) {
+        return $(document).on('mousemove', function(event) {
           return _this._controlMoveTo(_this._leftControl, event.clientX, zeroCoordinate, shiftX, leftLimit, rightLimit);
         });
       });
-      this._rightControl.on("mousedown", function(event) {
+      this._rightControl.on('mousedown', function(event) {
         var controlWidth, leftLimit, rightLimit, shiftX, zeroCoordinate;
 
         if (event.which !== 1) {
@@ -203,13 +203,13 @@
         shiftX = event.clientX - _this._rightControl.offset().left;
         leftLimit = _this._leftControl.offset().left - zeroCoordinate + _this._controlWidth;
         rightLimit = _this._width;
-        return $(document).on("mousemove", function(event) {
+        return $(document).on('mousemove', function(event) {
           return _this._controlMoveTo(_this._rightControl, event.clientX, zeroCoordinate, shiftX, leftLimit, rightLimit);
         });
       });
-      $(document).on("mouseup", function() {
-        _this._leftControl.triggerHandler("mouseup");
-        return _this._rightControl.triggerHandler("mouseup");
+      $(document).on('mouseup', function() {
+        _this._leftControl.triggerHandler('mouseup');
+        return _this._rightControl.triggerHandler('mouseup');
       });
       this._renderLeftControl(this.leftValue());
       return this._renderRightControl(this.rightValue());
@@ -221,13 +221,13 @@
       leftBorderPosition = stopPoint - zeroCoordinate - shiftX;
       rightBorderPosition = stopPoint - zeroCoordinate - shiftX + this._controlWidth;
       if (leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit) {
-        control.css("left", leftBorderPosition);
+        control.css('left', leftBorderPosition);
       }
       if (leftBorderPosition < leftLimit) {
-        control.css("left", leftLimit);
+        control.css('left', leftLimit);
       }
       if (rightBorderPosition > rightLimit) {
-        control.css("left", rightLimit - this._controlWidth);
+        control.css('left', rightLimit - this._controlWidth);
       }
       controlLeftPosition = control.position().left;
       if (control === this._leftControl) {
@@ -236,7 +236,7 @@
       if (control === this._rightControl) {
         this._rightValueWithoutRender(this._getValueByPosition(controlLeftPosition - this._controlWidth));
       }
-      return this._changeEvent();
+      return this._fireChangeEvent();
     };
 
     RangeControl.prototype._renderRange = function() {
@@ -245,8 +245,8 @@
       leftBorder = ((this._leftControlValue - this._startValue) * this._pxInValue) + this._controlWidth - (this._controlWidth / 2);
       rightBorder = ((this._rightControlValue - this._startValue) * this._pxInValue) + this._controlWidth + (this._controlWidth / 2);
       return this._rangeElement.css({
-        "left": leftBorder,
-        "right": this._width - rightBorder
+        'left': leftBorder,
+        'right': this._width - rightBorder
       });
     };
 
@@ -274,14 +274,14 @@
       }
     };
 
-    RangeControl.prototype._changeEvent = function() {
+    RangeControl.prototype._fireChangeEvent = function() {
       var _this = this;
 
       clearTimeout(this._changeTimeout);
       return this._changeTimeout = setTimeout(function() {
-        return _this.el.trigger("change", {
-          "leftValue": _this.leftValue(),
-          "rightValue": _this.rightValue()
+        return _this.el.trigger('change', {
+          'leftValue': _this.leftValue(),
+          'rightValue': _this.rightValue()
         });
       }, this.settings.timeout);
     };

@@ -120,6 +120,9 @@ class RangeControl
   _getValueByPosition: (x) ->
     @_startValue + parseInt(x / @_pxInValue)
 
+  _getPositionByValue: (x) ->
+
+
   _initControls: ->
 #    @changeControlRateText(@_leftControl, @rangeTable.getRateOfCell(@rangeTable.getFirstCell()))
 #    @changeControlRateText(@_rightControl, @rangeTable.getRateOfCell(@rangeTable.getLastCell()))

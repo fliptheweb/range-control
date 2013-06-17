@@ -160,6 +160,8 @@
       return this._startValue + parseInt(x / this._pxInValue);
     };
 
+    RangeControl.prototype._getPositionByValue = function(x) {};
+
     RangeControl.prototype._initControls = function() {
       var controls,
         _this = this;

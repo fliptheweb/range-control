@@ -1,7 +1,7 @@
 class RangeControl
   @_dragged          = false
-  @_startValue       = 0
-  @_endValue         = 100
+  @_min              = 0
+  @_max              = 100
   @_valueStep        = 0
   @_renderControlCallback;
   @_width;
@@ -16,8 +16,8 @@ class RangeControl
 
   @::_draggedClassName = 'is-dragged';
   @::defaultOptions = {
-    startValue: 0,
-    endValue:   100,
+    main:       0,
+    max:        100,
     valueStep:  1,
     timeout:    500,
     formatControlCallback: (value) -> value
@@ -32,30 +32,30 @@ class RangeControl
     @_rightControl = @el.find('.range-control_mini__right')
     @_rangeElement = @el.find('.range-control_mini__range.is-active')
 
-    @startValue(@el.data('start-value') || @settings.startValue)
-    @endValue(@el.data('end-value')     || @settings.endValue)
+    @min(@el.data('min') || @settings.min)
+    @max(@el.data('max') || @settings.max)
     @valueStep(@el.data('value-step')   || @settings.valueStep)
 
     @_controlWidth         = @_leftControl.outerWidth()
     @_width                = @el.outerWidth()
     @_widthWithoutPaddings = @el.width()
-    @_pxInValue            = @_widthWithoutPaddings / ((@_endValue - @_startValue))
+    @_pxInValue            = @_widthWithoutPaddings / ((@_max - @_min))
 
-    @leftValue(@el.data('left-value')   || @settings.leftValue  || @_startValue)
-    @rightValue(@el.data('right-value') || @settings.rightValue || @_endValue)
+    @leftValue(@el.data('left-value')   || @settings.leftValue  || @_min)
+    @rightValue(@el.data('right-value') || @settings.rightValue || @_max)
     @_initControls()
 
-  startValue: (startValue) ->
-    if startValue?
-      @_startValue = parseInt(startValue)
+  min: (min) ->
+    if min
+      @_min = parseInt(min)
     else
-      @_startValue
+      @_min
 
-  endValue: (endValue) ->
-    if endValue?
-      @_endValue = parseInt(endValue)
+  max: (max) ->
+    if max
+      @_max = parseInt(max)
     else
-      @_endValue
+      @_max
 
   valueStep: (valueStep) ->
     if valueStep?
@@ -79,17 +79,17 @@ class RangeControl
 
   _leftValueWithoutRender: (value) ->
     if value?
-      if value >= @_startValue
+      if value >= @_min
         @_leftControlValue = value
       else
-        @_leftControlValue = @_startValue
+        @_leftControlValue = @_min
       @_renderRange()
       @_formatLeftControl()
     else
       if @_valueStep == 1
         @_leftControlValue
       else
-        @_startValue + ((@_leftControlValue - @_startValue) - (@_leftControlValue - @_startValue) % @_valueStep)
+        @_min + ((@_leftControlValue - @_min) - (@_leftControlValue - @_min) % @_valueStep)
 
   rightValue: (value) ->
     if value?
@@ -100,17 +100,17 @@ class RangeControl
 
   _rightValueWithoutRender: (value) ->
     if value?
-      if value <= @_endValue
+      if value <= @_max
         @_rightControlValue = value
       else
-        @_rightControlValue = @_endValue
+        @_rightControlValue = @_max
       @_renderRange()
       @_formatRightControl()
     else
       if @_valueStep == 1
         @_rightControlValue
       else
-        @_startValue + ((@_rightControlValue - @_startValue) - (@_rightControlValue - @_startValue) % @_valueStep)
+        @_min + ((@_rightControlValue - @_min) - (@_rightControlValue - @_min) % @_valueStep)
 
   renderControl: (renderControlCallback) ->
     if renderControlCallback?
@@ -118,7 +118,7 @@ class RangeControl
         @_renderControlCallback = renderControlCallback
 
   _getValueByPosition: (x) ->
-    @_startValue + parseInt(x / @_pxInValue)
+    @_min + parseInt(x / @_pxInValue)
 
   _getPositionByValue: (x) ->
 
@@ -203,8 +203,8 @@ class RangeControl
     @_fireChangeEvent()
 
   _renderRange: ->
-    leftBorder  = ((@_leftControlValue - @_startValue) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
-    rightBorder = ((@_rightControlValue - @_startValue) * @_pxInValue) + @_controlWidth + (@_controlWidth / 2)
+    leftBorder  = ((@_leftControlValue - @_min) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
+    rightBorder = ((@_rightControlValue - @_min) * @_pxInValue) + @_controlWidth + (@_controlWidth / 2)
 
     @_rangeElement.css({
       'left':  leftBorder,
@@ -213,12 +213,12 @@ class RangeControl
 
   _renderLeftControl: (value) ->
     @_leftControl.css({
-      left: ((value - @_startValue) * @_pxInValue)
+      left: ((value - @_min) * @_pxInValue)
     })
 
   _renderRightControl: (value) ->
     @_rightControl.css({
-      left: @_controlWidth + ((value - @_startValue) * @_pxInValue)
+      left: @_controlWidth + ((value - @_min) * @_pxInValue)
     })
 
   _formatLeftControl: ->
@@ -230,7 +230,7 @@ class RangeControl
       @_rightControl.html(@_formatControlCallback(@rightValue()))
 
   _formatValue: (x) ->
-
+    x
 
   _fireChangeEvent: ->
     clearTimeout(@_changeTimeout)

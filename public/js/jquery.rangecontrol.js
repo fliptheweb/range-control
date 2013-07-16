@@ -5,9 +5,9 @@
   RangeControl = (function() {
     RangeControl._dragged = false;
 
-    RangeControl._startValue = 0;
+    RangeControl._min = 0;
 
-    RangeControl._endValue = 100;
+    RangeControl._max = 100;
 
     RangeControl._valueStep = 0;
 
@@ -34,8 +34,8 @@
     RangeControl.prototype._draggedClassName = 'is-dragged';
 
     RangeControl.prototype.defaultOptions = {
-      startValue: 0,
-      endValue: 100,
+      main: 0,
+      max: 100,
       valueStep: 1,
       timeout: 500,
       formatControlCallback: function(value) {
@@ -51,31 +51,31 @@
       this._leftControl = this.el.find('.range-control_mini__left');
       this._rightControl = this.el.find('.range-control_mini__right');
       this._rangeElement = this.el.find('.range-control_mini__range.is-active');
-      this.startValue(this.el.data('start-value') || this.settings.startValue);
-      this.endValue(this.el.data('end-value') || this.settings.endValue);
+      this.min(this.el.data('min') || this.settings.min);
+      this.max(this.el.data('max') || this.settings.max);
       this.valueStep(this.el.data('value-step') || this.settings.valueStep);
       this._controlWidth = this._leftControl.outerWidth();
       this._width = this.el.outerWidth();
       this._widthWithoutPaddings = this.el.width();
-      this._pxInValue = this._widthWithoutPaddings / (this._endValue - this._startValue);
-      this.leftValue(this.el.data('left-value') || this.settings.leftValue || this._startValue);
-      this.rightValue(this.el.data('right-value') || this.settings.rightValue || this._endValue);
+      this._pxInValue = this._widthWithoutPaddings / (this._max - this._min);
+      this.leftValue(this.el.data('left-value') || this.settings.leftValue || this._min);
+      this.rightValue(this.el.data('right-value') || this.settings.rightValue || this._max);
       this._initControls();
     }
 
-    RangeControl.prototype.startValue = function(startValue) {
-      if (startValue != null) {
-        return this._startValue = parseInt(startValue);
+    RangeControl.prototype.min = function(min) {
+      if (min) {
+        return this._min = parseInt(min);
       } else {
-        return this._startValue;
+        return this._min;
       }
     };
 
-    RangeControl.prototype.endValue = function(endValue) {
-      if (endValue != null) {
-        return this._endValue = parseInt(endValue);
+    RangeControl.prototype.max = function(max) {
+      if (max) {
+        return this._max = parseInt(max);
       } else {
-        return this._endValue;
+        return this._max;
       }
     };
 
@@ -105,10 +105,10 @@
 
     RangeControl.prototype._leftValueWithoutRender = function(value) {
       if (value != null) {
-        if (value >= this._startValue) {
+        if (value >= this._min) {
           this._leftControlValue = value;
         } else {
-          this._leftControlValue = this._startValue;
+          this._leftControlValue = this._min;
         }
         this._renderRange();
         return this._formatLeftControl();
@@ -116,7 +116,7 @@
         if (this._valueStep === 1) {
           return this._leftControlValue;
         } else {
-          return this._startValue + ((this._leftControlValue - this._startValue) - (this._leftControlValue - this._startValue) % this._valueStep);
+          return this._min + ((this._leftControlValue - this._min) - (this._leftControlValue - this._min) % this._valueStep);
         }
       }
     };
@@ -132,10 +132,10 @@
 
     RangeControl.prototype._rightValueWithoutRender = function(value) {
       if (value != null) {
-        if (value <= this._endValue) {
+        if (value <= this._max) {
           this._rightControlValue = value;
         } else {
-          this._rightControlValue = this._endValue;
+          this._rightControlValue = this._max;
         }
         this._renderRange();
         return this._formatRightControl();
@@ -143,7 +143,7 @@
         if (this._valueStep === 1) {
           return this._rightControlValue;
         } else {
-          return this._startValue + ((this._rightControlValue - this._startValue) - (this._rightControlValue - this._startValue) % this._valueStep);
+          return this._min + ((this._rightControlValue - this._min) - (this._rightControlValue - this._min) % this._valueStep);
         }
       }
     };
@@ -157,7 +157,7 @@
     };
 
     RangeControl.prototype._getValueByPosition = function(x) {
-      return this._startValue + parseInt(x / this._pxInValue);
+      return this._min + parseInt(x / this._pxInValue);
     };
 
     RangeControl.prototype._getPositionByValue = function(x) {};
@@ -245,8 +245,8 @@
     RangeControl.prototype._renderRange = function() {
       var leftBorder, rightBorder;
 
-      leftBorder = ((this._leftControlValue - this._startValue) * this._pxInValue) + this._controlWidth - (this._controlWidth / 2);
-      rightBorder = ((this._rightControlValue - this._startValue) * this._pxInValue) + this._controlWidth + (this._controlWidth / 2);
+      leftBorder = ((this._leftControlValue - this._min) * this._pxInValue) + this._controlWidth - (this._controlWidth / 2);
+      rightBorder = ((this._rightControlValue - this._min) * this._pxInValue) + this._controlWidth + (this._controlWidth / 2);
       return this._rangeElement.css({
         'left': leftBorder,
         'right': this._width - rightBorder
@@ -255,13 +255,13 @@
 
     RangeControl.prototype._renderLeftControl = function(value) {
       return this._leftControl.css({
-        left: (value - this._startValue) * this._pxInValue
+        left: (value - this._min) * this._pxInValue
       });
     };
 
     RangeControl.prototype._renderRightControl = function(value) {
       return this._rightControl.css({
-        left: this._controlWidth + ((value - this._startValue) * this._pxInValue)
+        left: this._controlWidth + ((value - this._min) * this._pxInValue)
       });
     };
 
@@ -277,7 +277,9 @@
       }
     };
 
-    RangeControl.prototype._formatValue = function(x) {};
+    RangeControl.prototype._formatValue = function(x) {
+      return x;
+    };
 
     RangeControl.prototype._fireChangeEvent = function() {
       var _this = this;

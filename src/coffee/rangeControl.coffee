@@ -34,7 +34,7 @@ class RangeControl
 
     @min(@el.data('min') || @settings.min)
     @max(@el.data('max') || @settings.max)
-    @valueStep(@el.data('value-step')   || @settings.valueStep)
+    @valueStep(@el.data('value-step') || @settings.valueStep)
 
     @_controlWidth         = @_leftControl.outerWidth()
     @_width                = @el.outerWidth()

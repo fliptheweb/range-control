@@ -171,7 +171,7 @@
         });
         return control.on('mouseup', function() {
           _this.dragged = false;
-          _this._leftControl.removeClass(_this._draggedClassName);
+          control.removeClass(_this._draggedClassName);
           return $(document).off('mousemove');
         });
       });

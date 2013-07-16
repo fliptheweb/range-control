@@ -130,7 +130,7 @@ class RangeControl
       control.on 'dragstart', -> return false
       control.on 'mouseup', =>
         @dragged = false
-        @_leftControl.removeClass(@_draggedClassName)
+        control.removeClass(@_draggedClassName)
         $(document).off 'mousemove'
 
     @_leftControl.on 'mousedown', (event) =>

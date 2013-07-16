@@ -1,15 +1,15 @@
 class RangeControl
-  @_dragged;
   @_min;
   @_max;
+  @_leftControlValue;
+  @_rightControlValue;
   @_valueStep;
+  @_dragged;
   @_renderControlCallback;
   @_width;
   @_widthWithoutPaddings;
   @_controlWidth;
   @_pxInValue;
-  @_leftControlValue;
-  @_rightControlValue;
   @_rangeElement;
   @_changeTimeout;
 
@@ -43,6 +43,12 @@ class RangeControl
     @leftValue(@el.data('left-value')   || @settings.leftValue  || @_min)
     @rightValue(@el.data('right-value') || @settings.rightValue || @_max)
     @_initControls()
+#   Debug info
+    console.log({
+      "min":       @_min
+      "max":       @_max
+      "pxInValue": @_pxInValue
+    })
 
   min: (min) ->
     if min?
@@ -211,13 +217,17 @@ class RangeControl
     })
 
   _renderLeftControl: (value) ->
+    if value == @_min
+      return
     @_leftControl.css({
-      left: ((value - @_min) * @_pxInValue)
+      left: ((value - @_min) * @_pxInValue) + 1
     })
 
   _renderRightControl: (value) ->
+    if value == @_max
+      return
     @_rightControl.css({
-      left: @_controlWidth + ((value - @_min) * @_pxInValue)
+      left: @_controlWidth + ((value - @_min) * @_pxInValue) + 1
     })
 
   _formatLeftControl: ->

@@ -1,5 +1,5 @@
 //@ sourceMappingURL=main.map
 (function() {
-  $('#example-1').rangeControl();
+  $('.range-control_mini').rangeControl();
 
 }).call(this);

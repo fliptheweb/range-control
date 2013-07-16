@@ -3,13 +3,17 @@
   var RangeControl;
 
   RangeControl = (function() {
-    RangeControl._dragged;
-
     RangeControl._min;
 
     RangeControl._max;
 
+    RangeControl._leftControlValue;
+
+    RangeControl._rightControlValue;
+
     RangeControl._valueStep;
+
+    RangeControl._dragged;
 
     RangeControl._renderControlCallback;
 
@@ -20,10 +24,6 @@
     RangeControl._controlWidth;
 
     RangeControl._pxInValue;
-
-    RangeControl._leftControlValue;
-
-    RangeControl._rightControlValue;
 
     RangeControl._rangeElement;
 
@@ -59,6 +59,11 @@
       this.leftValue(this.el.data('left-value') || this.settings.leftValue || this._min);
       this.rightValue(this.el.data('right-value') || this.settings.rightValue || this._max);
       this._initControls();
+      console.log({
+        "min": this._min,
+        "max": this._max,
+        "pxInValue": this._pxInValue
+      });
     }
 
     RangeControl.prototype.min = function(min) {
@@ -252,14 +257,20 @@
     };
 
     RangeControl.prototype._renderLeftControl = function(value) {
+      if (value === this._min) {
+        return;
+      }
       return this._leftControl.css({
-        left: (value - this._min) * this._pxInValue
+        left: ((value - this._min) * this._pxInValue) + 1
       });
     };
 
     RangeControl.prototype._renderRightControl = function(value) {
+      if (value === this._max) {
+        return;
+      }
       return this._rightControl.css({
-        left: this._controlWidth + ((value - this._min) * this._pxInValue)
+        left: this._controlWidth + ((value - this._min) * this._pxInValue) + 1
       });
     };
 

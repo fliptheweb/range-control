@@ -1,4 +1,8 @@
 class RangeControl
+  @_dragged;
+  @_min;
+  @_max;
+  @_valueStep;
   @_renderControlCallback;
   @_width;
   @_widthWithoutPaddings;
@@ -8,22 +12,17 @@ class RangeControl
   @_rightControlValue;
   @_rangeElement;
   @_changeTimeout;
-  @settings;
+
+  @::_draggedClassName = 'is-dragged';
+  @::defaultOptions = {
+    min:       0,
+    max:       100,
+    valueStep: 1,
+    timeout:   500,
+    formatControlCallback: (value) -> value
+  }
 
   constructor: (@el, options) ->
-    @_dragged            = false
-    @_min                = 0
-    @_max                = 100
-    @_valueStep          = 0
-    @::_draggedClassName = 'is-dragged';
-    @::defaultOptions = {
-      min:       0,
-      max:       100,
-      valueStep: 1,
-      timeout:   500,
-      formatControlCallback: (value) -> value
-    }
-
     @settings = $.extend({}, @defaultOptions, options)
     @el.data('range-control', @)
     @_formatControlCallback = @settings.formatControlCallback
@@ -31,8 +30,6 @@ class RangeControl
     @_leftControl  = @el.find('.range-control_mini__left')
     @_rightControl = @el.find('.range-control_mini__right')
     @_rangeElement = @el.find('.range-control_mini__range.is-active')
-
-    console.log(@::defaultOptions)
 
     @min(@el.data('min') || @settings.min)
     @max(@el.data('max') || @settings.max)
@@ -43,19 +40,18 @@ class RangeControl
     @_widthWithoutPaddings = @el.width()
     @_pxInValue            = @_widthWithoutPaddings / ((@_max - @_min))
 
-
     @leftValue(@el.data('left-value')   || @settings.leftValue  || @_min)
     @rightValue(@el.data('right-value') || @settings.rightValue || @_max)
     @_initControls()
 
   min: (min) ->
-    if min
+    if min?
       @_min = parseInt(min)
     else
       @_min
 
   max: (max) ->
-    if max
+    if max?
       @_max = parseInt(max)
     else
       @_max

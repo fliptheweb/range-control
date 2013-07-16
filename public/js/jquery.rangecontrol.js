@@ -3,6 +3,14 @@
   var RangeControl;
 
   RangeControl = (function() {
+    RangeControl._dragged;
+
+    RangeControl._min;
+
+    RangeControl._max;
+
+    RangeControl._valueStep;
+
     RangeControl._renderControlCallback;
 
     RangeControl._width;
@@ -21,31 +29,26 @@
 
     RangeControl._changeTimeout;
 
-    RangeControl.settings;
+    RangeControl.prototype._draggedClassName = 'is-dragged';
+
+    RangeControl.prototype.defaultOptions = {
+      min: 0,
+      max: 100,
+      valueStep: 1,
+      timeout: 500,
+      formatControlCallback: function(value) {
+        return value;
+      }
+    };
 
     function RangeControl(el, options) {
       this.el = el;
-      this._dragged = false;
-      this._min = 0;
-      this._max = 100;
-      this._valueStep = 0;
-      this.prototype._draggedClassName = 'is-dragged';
-      this.prototype.defaultOptions = {
-        min: 0,
-        max: 100,
-        valueStep: 1,
-        timeout: 500,
-        formatControlCallback: function(value) {
-          return value;
-        }
-      };
       this.settings = $.extend({}, this.defaultOptions, options);
       this.el.data('range-control', this);
       this._formatControlCallback = this.settings.formatControlCallback;
       this._leftControl = this.el.find('.range-control_mini__left');
       this._rightControl = this.el.find('.range-control_mini__right');
       this._rangeElement = this.el.find('.range-control_mini__range.is-active');
-      console.log(this.prototype.defaultOptions);
       this.min(this.el.data('min') || this.settings.min);
       this.max(this.el.data('max') || this.settings.max);
       this.valueStep(this.el.data('value-step') || this.settings.valueStep);
@@ -59,7 +62,7 @@
     }
 
     RangeControl.prototype.min = function(min) {
-      if (min) {
+      if (min != null) {
         return this._min = parseInt(min);
       } else {
         return this._min;
@@ -67,7 +70,7 @@
     };
 
     RangeControl.prototype.max = function(max) {
-      if (max) {
+      if (max != null) {
         return this._max = parseInt(max);
       } else {
         return this._max;

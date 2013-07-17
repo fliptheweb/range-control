@@ -289,6 +289,11 @@ class RangeControl
     @leftValue(@leftValue())
     @rightValue(@rightValue())
 
+  destroy: ->
+    @el.html("")
+    @el.removeData(@PLUGINNAME)
+
+
 class RangeControlGraph extends RangeControl
   @::PLUGINNAME = 'range-control-graph';
 
@@ -304,6 +309,9 @@ class RangeControlGraph extends RangeControl
     @_rangeElement = $("<div class='#{@PLUGINNAME}__range is-active'></div>")
     range          = $("<div class='#{@PLUGINNAME}__range'></div>")
     @el.append(@_leftControl).append(@_rightControl).append(range).append(@_rangeElement)
+
+  renderRange: ->
+
 
 #class RangeControl
 #  @dragged = false

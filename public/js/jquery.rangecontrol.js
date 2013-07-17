@@ -368,6 +368,11 @@
       return this.rightValue(this.rightValue());
     };
 
+    RangeControl.prototype.destroy = function() {
+      this.el.html("");
+      return this.el.removeData(this.PLUGINNAME);
+    };
+
     return RangeControl;
 
   })();
@@ -393,6 +398,8 @@
       range = $("<div class='" + this.PLUGINNAME + "__range'></div>");
       return this.el.append(this._leftControl).append(this._rightControl).append(range).append(this._rangeElement);
     };
+
+    RangeControlGraph.prototype.renderRange = function() {};
 
     return RangeControlGraph;
 

@@ -375,11 +375,24 @@
   RangeControlGraph = (function(_super) {
     __extends(RangeControlGraph, _super);
 
-    RangeControlGraph.prototype.PLUGINNAME = 'range-control';
+    RangeControlGraph.prototype.PLUGINNAME = 'range-control-graph';
 
-    function RangeControlGraph() {
-      console.log('Yep, im here');
+    function RangeControlGraph(el, options) {
+      this.el = el;
+      this.renderRangeControl();
     }
+
+    RangeControlGraph.prototype.renderRangeControl = function() {
+      var range;
+
+      this.el.addClass(this.PLUGINNAME);
+      this.el.children().remove();
+      this._leftControl = $("<button class='" + this.PLUGINNAME + "__left'></<button>");
+      this._rightControl = $("<button class='" + this.PLUGINNAME + "__right'></button>");
+      this._rangeElement = $("<div class='" + this.PLUGINNAME + "__range is-active'></div>");
+      range = $("<div class='" + this.PLUGINNAME + "__range'></div>");
+      return this.el.append(this._leftControl).append(this._rightControl).append(range).append(this._rangeElement);
+    };
 
     return RangeControlGraph;
 

@@ -290,12 +290,20 @@ class RangeControl
     @rightValue(@rightValue())
 
 class RangeControlGraph extends RangeControl
-  @::PLUGINNAME = 'range-control';
+  @::PLUGINNAME = 'range-control-graph';
 
-  constructor: ->
-    console.log 'Yep, im here'
+  constructor: (@el, options) ->
+    @renderRangeControl()
 
-
+  # If youre using template engine - override this method
+  renderRangeControl: ->
+    @el.addClass(@PLUGINNAME)
+    @el.children().remove()
+    @_leftControl  = $("<button class='#{@PLUGINNAME}__left'></<button>")
+    @_rightControl = $("<button class='#{@PLUGINNAME}__right'></button>")
+    @_rangeElement = $("<div class='#{@PLUGINNAME}__range is-active'></div>")
+    range          = $("<div class='#{@PLUGINNAME}__range'></div>")
+    @el.append(@_leftControl).append(@_rightControl).append(range).append(@_rangeElement)
 
 #class RangeControl
 #  @dragged = false

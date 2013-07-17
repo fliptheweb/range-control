@@ -11,7 +11,7 @@
 
     RangeControl._rightControlValue;
 
-    RangeControl._valueStep;
+    RangeControl._step;
 
     RangeControl._dragged;
 
@@ -41,7 +41,7 @@
       keyRight: RangeControl.prototype.keyCode.RIGHT,
       min: 0,
       max: 100,
-      valueStep: 1,
+      step: 1,
       timeout: 500,
       formatControlCallback: function(value) {
         return value;
@@ -58,7 +58,7 @@
       this._rangeElement = this.el.find('.range-control_mini__range.is-active');
       this.min(this.el.data('min') || this.settings.min);
       this.max(this.el.data('max') || this.settings.max);
-      this.valueStep(this.el.data('value-step') || this.settings.valueStep);
+      this.step(this.el.data('step') || this.settings.step);
       this._controlWidth = this._leftControl.outerWidth();
       this._width = this.el.outerWidth();
       this._widthWithoutPaddings = this.el.width();
@@ -84,11 +84,11 @@
       }
     };
 
-    RangeControl.prototype.valueStep = function(valueStep) {
-      if (valueStep != null) {
-        return this._valueStep = parseInt(valueStep);
+    RangeControl.prototype.step = function(step) {
+      if (step) {
+        return this._step = parseInt(step);
       } else {
-        return this._valueStep;
+        return this._step;
       }
     };
 
@@ -125,7 +125,7 @@
       if (this._valueStep === 1) {
         return this._leftControlValue;
       } else {
-        return this._min + ((this._leftControlValue - this._min) - (this._leftControlValue - this._min) % this._valueStep);
+        return this._min + ((this._leftControlValue - this._min) - (this._leftControlValue - this._min) % this._step);
       }
     };
 
@@ -133,7 +133,7 @@
       if (this._valueStep === 1) {
         return this._rightControlValue;
       } else {
-        return this._min + ((this._rightControlValue - this._min) - (this._rightControlValue - this._min) % this._valueStep);
+        return this._min + ((this._rightControlValue - this._min) - (this._rightControlValue - this._min) % this._step);
       }
     };
 

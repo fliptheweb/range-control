@@ -3,7 +3,7 @@ class RangeControl
   @_max;
   @_leftControlValue;
   @_rightControlValue;
-  @_valueStep;
+  @_step;
   @_dragged;
   @_renderControlCallback;
   @_width;
@@ -23,7 +23,7 @@ class RangeControl
     keyRight:  @::keyCode.RIGHT,
     min:       0,
     max:       100,
-    valueStep: 1,
+    step:      1,
     timeout:   500,
     formatControlCallback: (value) -> value
   }
@@ -39,7 +39,7 @@ class RangeControl
 
     @min(@el.data('min') || @settings.min)
     @max(@el.data('max') || @settings.max)
-    @valueStep(@el.data('value-step') || @settings.valueStep)
+    @step(@el.data('step') || @settings.step)
 
     @_controlWidth         = @_leftControl.outerWidth()
     @_width                = @el.outerWidth()
@@ -68,11 +68,11 @@ class RangeControl
     else
       @_max
 
-  valueStep: (valueStep) ->
-    if valueStep?
-      @_valueStep = parseInt(valueStep)
+  step: (step) ->
+    if step
+      @_step = parseInt(step)
     else
-      @_valueStep
+      @_step
 
   value: ->
     {
@@ -102,13 +102,13 @@ class RangeControl
     if @_valueStep == 1
       @_leftControlValue
     else
-      @_min + ((@_leftControlValue - @_min) - (@_leftControlValue - @_min) % @_valueStep)
+      @_min + ((@_leftControlValue - @_min) - (@_leftControlValue - @_min) % @_step)
 
   _getRightValue: ->
     if @_valueStep == 1
       @_rightControlValue
     else
-      @_min + ((@_rightControlValue - @_min) - (@_rightControlValue - @_min) % @_valueStep)
+      @_min + ((@_rightControlValue - @_min) - (@_rightControlValue - @_min) % @_step)
 
   _getValueByPosition: (x) ->
     @_min + Math.round(x / @_pxInValue)

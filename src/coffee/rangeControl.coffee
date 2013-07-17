@@ -83,6 +83,7 @@ class RangeControl
 # @todo normalize value before render left control
   leftValue: (value) ->
     if value?
+      value = @_validateLeftValue(value)
       @_leftValueWithoutRender(value)
       @_renderLeftControl(value)
     else
@@ -90,10 +91,6 @@ class RangeControl
 
   _leftValueWithoutRender: (value) ->
     if value?
-      if value >= @_min
-        @_leftControlValue = value
-      else
-        @_leftControlValue = @_min
       @_renderRange()
       @_formatLeftControl()
     else
@@ -104,6 +101,7 @@ class RangeControl
 
   rightValue: (value) ->
     if value?
+      value = @_validateRightValue(value)
       @_rightValueWithoutRender(value)
       @_renderRightControl(value)
     else
@@ -111,10 +109,6 @@ class RangeControl
 
   _rightValueWithoutRender: (value) ->
     if value?
-      if value <= @_max
-        @_rightControlValue = value
-      else
-        @_rightControlValue = @_max
       @_renderRange()
       @_formatRightControl()
     else
@@ -241,24 +235,28 @@ class RangeControl
     })
 
   _renderLeftControl: (value) ->
-    if value <= @_min
-      position = 0
-    else
-      position = ((value - @_min) * @_pxInValue)
+    position = ((value - @_min) * @_pxInValue)
     @_leftControl.css({
       left: position
     })
 
   _renderRightControl: (value) ->
-    if value >= @_max
-      position = @_controlWidth + @_widthWithoutPaddings
-    else if value <= @leftValue()
-      position = @_controlWidth + (@_leftControl.position().left)
-    else
-      position = @_controlWidth + ((value - @_min) * @_pxInValue)
+    position = @_controlWidth + ((value - @_min) * @_pxInValue)
     @_rightControl.css({
       left: position
     })
+
+  _validateLeftValue: (value) ->
+    if value <= @_min
+      @_min
+    else if value >= @rightValue()
+      @rightValue()
+
+  _validateRightValue: (value) ->
+    if value >= @_max
+      @_max
+    else if value <= @leftValue()
+      @leftValue()
 
   renderControl: (renderControlCallback) ->
     if renderControlCallback?

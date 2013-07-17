@@ -106,6 +106,7 @@
 
     RangeControl.prototype.leftValue = function(value) {
       if (value != null) {
+        value = this._validateLeftValue(value);
         this._leftValueWithoutRender(value);
         return this._renderLeftControl(value);
       } else {
@@ -115,11 +116,6 @@
 
     RangeControl.prototype._leftValueWithoutRender = function(value) {
       if (value != null) {
-        if (value >= this._min) {
-          this._leftControlValue = value;
-        } else {
-          this._leftControlValue = this._min;
-        }
         this._renderRange();
         return this._formatLeftControl();
       } else {
@@ -133,6 +129,7 @@
 
     RangeControl.prototype.rightValue = function(value) {
       if (value != null) {
+        value = this._validateRightValue(value);
         this._rightValueWithoutRender(value);
         return this._renderRightControl(value);
       } else {
@@ -142,11 +139,6 @@
 
     RangeControl.prototype._rightValueWithoutRender = function(value) {
       if (value != null) {
-        if (value <= this._max) {
-          this._rightControlValue = value;
-        } else {
-          this._rightControlValue = this._max;
-        }
         this._renderRange();
         return this._formatRightControl();
       } else {
@@ -297,11 +289,7 @@
     RangeControl.prototype._renderLeftControl = function(value) {
       var position;
 
-      if (value <= this._min) {
-        position = 0;
-      } else {
-        position = (value - this._min) * this._pxInValue;
-      }
+      position = (value - this._min) * this._pxInValue;
       return this._leftControl.css({
         left: position
       });
@@ -310,16 +298,26 @@
     RangeControl.prototype._renderRightControl = function(value) {
       var position;
 
-      if (value >= this._max) {
-        position = this._controlWidth + this._widthWithoutPaddings;
-      } else if (value <= this.leftValue()) {
-        position = this._controlWidth + (this._leftControl.position().left);
-      } else {
-        position = this._controlWidth + ((value - this._min) * this._pxInValue);
-      }
+      position = this._controlWidth + ((value - this._min) * this._pxInValue);
       return this._rightControl.css({
         left: position
       });
+    };
+
+    RangeControl.prototype._validateLeftValue = function(value) {
+      if (value <= this._min) {
+        return this._min;
+      } else if (value >= this.rightValue()) {
+        return this.rightValue();
+      }
+    };
+
+    RangeControl.prototype._validateRightValue = function(value) {
+      if (value >= this._max) {
+        return this._max;
+      } else if (value <= this.leftValue()) {
+        return this.leftValue();
+      }
     };
 
     RangeControl.prototype.renderControl = function(renderControlCallback) {

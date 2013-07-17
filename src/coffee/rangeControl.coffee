@@ -224,7 +224,7 @@ class RangeControl
   _renderRangeControl: ->
     @el.addClass(@PLUGINNAME)
     @el.children().remove()
-    @_leftControl  = $("<button class='#{@PLUGINNAME}__left'></<button>")
+    @_leftControl  = $("<button class='#{@PLUGINNAME}__left'></button>")
     @_rightControl = $("<button class='#{@PLUGINNAME}__right'></button>")
     @_rangeElement = $("<div class='#{@PLUGINNAME}__range is-active'></div>")
     range          = $("<div class='#{@PLUGINNAME}__range'></div>")
@@ -289,8 +289,8 @@ class RangeControl
     @leftValue(@leftValue())
     @rightValue(@rightValue())
 
-  rebuild: ->
-    @constructor(@el, @options)
+  rebuild: (options = @options)->
+    @constructor(@el, options)
 
   destroy: ->
     @el.html("")
@@ -301,19 +301,23 @@ class RangeControlGraph extends RangeControl
   @::PLUGINNAME = 'range-control-graph';
 
   constructor: (@el, options) ->
-    super
+#    super
+    @_renderRangeControl()
+    @_initDimensions()
+    @_renderRange()
 
   # If youre using template engine - override this method
-  renderRangeControl: ->
+  _renderRangeControl: ->
     @el.addClass(@PLUGINNAME)
     @el.children().remove()
-    @_leftControl  = $("<button class='#{@PLUGINNAME}__left'></<button>")
-    @_rightControl = $("<button class='#{@PLUGINNAME}__right'></button>")
-    @_rangeElement = $("<div class='#{@PLUGINNAME}__range is-active'></div>")
-    range          = $("<div class='#{@PLUGINNAME}__range'></div>")
-    @el.append(@_leftControl).append(@_rightControl).append(range).append(@_rangeElement)
+    @_leftControl  = $("<button class='#{@PLUGINNAME}__left'></button>").appendTo(@el)
+    @_rightControl = $("<button class='#{@PLUGINNAME}__right'></button>").appendTo(@el)
+    @_rangeElement = $("<canvas class='#{@PLUGINNAME}__range'></canvas>").appendTo(@el)
 
-  renderRange: ->
+  _renderRange: ->
+    @_rangeElement.width(@_widthWithoutPaddings)
+    @_rangeElement.height(@el.height())
+    @canvas = @_rangeElement[0].getContext('2d')
 
 
 #class RangeControl

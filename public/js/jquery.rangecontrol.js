@@ -282,7 +282,7 @@
 
       this.el.addClass(this.PLUGINNAME);
       this.el.children().remove();
-      this._leftControl = $("<button class='" + this.PLUGINNAME + "__left'></<button>");
+      this._leftControl = $("<button class='" + this.PLUGINNAME + "__left'></button>");
       this._rightControl = $("<button class='" + this.PLUGINNAME + "__right'></button>");
       this._rangeElement = $("<div class='" + this.PLUGINNAME + "__range is-active'></div>");
       range = $("<div class='" + this.PLUGINNAME + "__range'></div>");
@@ -369,8 +369,11 @@
       return this.rightValue(this.rightValue());
     };
 
-    RangeControl.prototype.rebuild = function() {
-      return this.constructor(this.el, this.options);
+    RangeControl.prototype.rebuild = function(options) {
+      if (options == null) {
+        options = this.options;
+      }
+      return this.constructor(this.el, options);
     };
 
     RangeControl.prototype.destroy = function() {
@@ -389,22 +392,24 @@
 
     function RangeControlGraph(el, options) {
       this.el = el;
-      RangeControlGraph.__super__.constructor.apply(this, arguments);
+      this._renderRangeControl();
+      this._initDimensions();
+      this._renderRange();
     }
 
-    RangeControlGraph.prototype.renderRangeControl = function() {
-      var range;
-
+    RangeControlGraph.prototype._renderRangeControl = function() {
       this.el.addClass(this.PLUGINNAME);
       this.el.children().remove();
-      this._leftControl = $("<button class='" + this.PLUGINNAME + "__left'></<button>");
-      this._rightControl = $("<button class='" + this.PLUGINNAME + "__right'></button>");
-      this._rangeElement = $("<div class='" + this.PLUGINNAME + "__range is-active'></div>");
-      range = $("<div class='" + this.PLUGINNAME + "__range'></div>");
-      return this.el.append(this._leftControl).append(this._rightControl).append(range).append(this._rangeElement);
+      this._leftControl = $("<button class='" + this.PLUGINNAME + "__left'></button>").appendTo(this.el);
+      this._rightControl = $("<button class='" + this.PLUGINNAME + "__right'></button>").appendTo(this.el);
+      return this._rangeElement = $("<canvas class='" + this.PLUGINNAME + "__range'></canvas>").appendTo(this.el);
     };
 
-    RangeControlGraph.prototype.renderRange = function() {};
+    RangeControlGraph.prototype._renderRange = function() {
+      this._rangeElement.width(this._widthWithoutPaddings);
+      this._rangeElement.height(this.el.height());
+      return this.canvas = this._rangeElement[0].getContext('2d');
+    };
 
     return RangeControlGraph;
 

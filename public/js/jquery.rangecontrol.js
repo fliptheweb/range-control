@@ -32,6 +32,8 @@
     RangeControl.prototype._draggedClassName = 'is-dragged';
 
     RangeControl.prototype.defaultOptions = {
+      keyLeft: "",
+      keyRight: "",
       min: 0,
       max: 100,
       valueStep: 1,
@@ -39,6 +41,11 @@
       formatControlCallback: function(value) {
         return value;
       }
+    };
+
+    RangeControl.prototype.keyCode = {
+      LEFT: 37,
+      RIGHT: 39
     };
 
     function RangeControl(el, options) {
@@ -151,14 +158,6 @@
       }
     };
 
-    RangeControl.prototype.renderControl = function(renderControlCallback) {
-      if (renderControlCallback != null) {
-        if (typeof renderControlCallback === 'function') {
-          return this._renderControlCallback = renderControlCallback;
-        }
-      }
-    };
-
     RangeControl.prototype._getValueByPosition = function(x) {
       return this._min + parseInt(x / this._pxInValue);
     };
@@ -245,6 +244,13 @@
       return this._fireChangeEvent();
     };
 
+    RangeControl.prototype._bindControlKeys = function() {
+      var controls;
+
+      controls = [this._leftControl, this._rightControl];
+      return controls.bind("keydown", function(e) {});
+    };
+
     RangeControl.prototype._renderRange = function() {
       var leftBorder, rightBorder;
 
@@ -272,6 +278,14 @@
       return this._rightControl.css({
         left: this._controlWidth + ((value - this._min) * this._pxInValue) + 1
       });
+    };
+
+    RangeControl.prototype.renderControl = function(renderControlCallback) {
+      if (renderControlCallback != null) {
+        if (typeof renderControlCallback === 'function') {
+          return this._renderControlCallback = renderControlCallback;
+        }
+      }
     };
 
     RangeControl.prototype._formatLeftControl = function() {

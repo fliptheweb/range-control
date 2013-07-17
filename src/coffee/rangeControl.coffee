@@ -15,11 +15,17 @@ class RangeControl
 
   @::_draggedClassName = 'is-dragged';
   @::defaultOptions = {
+    keyLeft: "",
+    keyRight: "",
     min:       0,
     max:       100,
     valueStep: 1,
     timeout:   500,
     formatControlCallback: (value) -> value
+  }
+  @::keyCode = {
+    LEFT:  37,
+    RIGHT: 39,
   }
 
   constructor: (@el, options) ->
@@ -117,11 +123,6 @@ class RangeControl
       else
         @_min + ((@_rightControlValue - @_min) - (@_rightControlValue - @_min) % @_valueStep)
 
-  renderControl: (renderControlCallback) ->
-    if renderControlCallback?
-      if typeof(renderControlCallback) == 'function'
-        @_renderControlCallback = renderControlCallback
-
   _getValueByPosition: (x) ->
     @_min + parseInt(x / @_pxInValue)
 
@@ -207,6 +208,12 @@ class RangeControl
       @_rightValueWithoutRender(@_getValueByPosition(controlLeftPosition - @_controlWidth))
     @_fireChangeEvent()
 
+  _bindControlKeys: ->
+    controls = [@_leftControl, @_rightControl];
+    controls.bind "keydown", (e) ->
+
+
+
   _renderRange: ->
     leftBorder  = ((@_leftControlValue - @_min) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
     rightBorder = ((@_rightControlValue - @_min) * @_pxInValue) + @_controlWidth + (@_controlWidth / 2)
@@ -229,6 +236,11 @@ class RangeControl
     @_rightControl.css({
       left: @_controlWidth + ((value - @_min) * @_pxInValue) + 1
     })
+
+  renderControl: (renderControlCallback) ->
+    if renderControlCallback?
+      if typeof(renderControlCallback) == 'function'
+        @_renderControlCallback = renderControlCallback
 
   _formatLeftControl: ->
     if @_formatControlCallback?

@@ -299,6 +299,22 @@ class RangeControl
 
 class RangeControlGraph extends RangeControl
   @::PLUGINNAME = 'range-control-graph';
+  @::defaultOptions = {
+    keyLeft:   @::keyCode.LEFT,
+    keyRight:  @::keyCode.RIGHT,
+    min:       0,
+    max:       100,
+    step:      1,
+    timeout:   500,
+    formatControlCallback: (value) ->
+      value
+    colorsRange: {
+      "light-green":  [0, 100]
+      "middle-green": [101, 1000]
+      "green":        [1001, 10000]
+      "yellow":       [10001]
+    }
+  }
 
   constructor: (@el, @options) ->
 #    super

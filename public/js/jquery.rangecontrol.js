@@ -390,6 +390,24 @@
 
     RangeControlGraph.prototype.PLUGINNAME = 'range-control-graph';
 
+    RangeControlGraph.prototype.defaultOptions = {
+      keyLeft: RangeControlGraph.prototype.keyCode.LEFT,
+      keyRight: RangeControlGraph.prototype.keyCode.RIGHT,
+      min: 0,
+      max: 100,
+      step: 1,
+      timeout: 500,
+      formatControlCallback: function(value) {
+        return value;
+      },
+      colorsRange: {
+        "light-green": [0, 100],
+        "middle-green": [101, 1000],
+        "green": [1001, 10000],
+        "yellow": [10001]
+      }
+    };
+
     function RangeControlGraph(el, options) {
       this.el = el;
       this.options = options;

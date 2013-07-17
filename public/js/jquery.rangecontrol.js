@@ -55,9 +55,7 @@
       this.settings = $.extend({}, this.defaultOptions, options);
       this.el.data('range-control', this);
       this._formatControlCallback = this.settings.formatControlCallback;
-      this._leftControl = this.el.find("." + this.PLUGINNAME + "__left");
-      this._rightControl = this.el.find("." + this.PLUGINNAME + "__right");
-      this._rangeElement = this.el.find("." + this.PLUGINNAME + "__range.is-active");
+      this._renderRangeControl();
       this.min(this.el.data('min') || this.settings.min);
       this.max(this.el.data('max') || this.settings.max);
       this.step(this.el.data('step') || this.settings.step);
@@ -274,6 +272,12 @@
         this.rightValue(this._getValueByPosition(controlLeftPosition - this._controlWidth));
       }
       return this._fireChangeEvent();
+    };
+
+    RangeControl.prototype._renderRangeControl = function() {
+      this._leftControl = this.el.find("." + this.PLUGINNAME + "__left");
+      this._rightControl = this.el.find("." + this.PLUGINNAME + "__right");
+      return this._rangeElement = this.el.find("." + this.PLUGINNAME + "__range.is-active");
     };
 
     RangeControl.prototype._renderRange = function() {

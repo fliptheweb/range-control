@@ -34,9 +34,7 @@ class RangeControl
     @el.data('range-control', @)
     @_formatControlCallback = @settings.formatControlCallback
 
-    @_leftControl  = @el.find(".#{@PLUGINNAME}__left")
-    @_rightControl = @el.find(".#{@PLUGINNAME}__right")
-    @_rangeElement = @el.find(".#{@PLUGINNAME}__range.is-active")
+    @_renderRangeControl()
 
     @min(@el.data('min') || @settings.min)
     @max(@el.data('max') || @settings.max)
@@ -221,6 +219,11 @@ class RangeControl
     if control == @_rightControl
       @rightValue(@_getValueByPosition(controlLeftPosition - @_controlWidth))
     @_fireChangeEvent()
+
+  _renderRangeControl: ->
+    @_leftControl  = @el.find(".#{@PLUGINNAME}__left")
+    @_rightControl = @el.find(".#{@PLUGINNAME}__right")
+    @_rangeElement = @el.find(".#{@PLUGINNAME}__range.is-active")
 
   _renderRange: ->
     leftBorder  = ((@_leftControlValue - @_min) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)

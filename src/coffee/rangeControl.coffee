@@ -141,7 +141,7 @@ class RangeControl
 
   _initControls: ->
     controls = [@_leftControl, @_rightControl];
-    controls.forEach (control) =>
+    for control in controls
       control.on 'dragstart', -> return false
       control.on 'mouseup', =>
         @dragged = false
@@ -174,7 +174,6 @@ class RangeControl
       @_rightControl.addClass(@DRAGCLASSNAME)
       @_dragged      = true
       zeroCoordinate = @el.offset().left
-      controlWidth   = @_controlWidth
       shiftX         = event.clientX - @_rightControl.offset().left
       leftLimit      = @_leftControl.offset().left - zeroCoordinate + @_controlWidth
       rightLimit     = @_width

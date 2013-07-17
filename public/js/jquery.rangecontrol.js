@@ -61,7 +61,7 @@
       this.min(this.el.data('min') || this.settings.min);
       this.max(this.el.data('max') || this.settings.max);
       this.step(this.el.data('step') || this.settings.step);
-      this._initDimentions();
+      this._initDimensions();
       this.leftValue(this.el.data('left-value') || this.settings.leftValue || this._min);
       this.rightValue(this.el.data('right-value') || this.settings.rightValue || this._max);
       this._initControls();
@@ -189,7 +189,7 @@
       });
     };
 
-    RangeControl.prototype._initDimentions = function() {
+    RangeControl.prototype._initDimensions = function() {
       this._controlWidth = this._leftControl.outerWidth();
       this._width = this.el.outerWidth();
       this._widthWithoutPaddings = this.el.width();
@@ -363,7 +363,7 @@
     };
 
     RangeControl.prototype.rebuild = function() {
-      this._initDimentions();
+      this._initDimensions();
       this.leftValue(this.leftValue());
       return this.rightValue(this.rightValue());
     };

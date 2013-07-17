@@ -40,7 +40,7 @@ class RangeControl
     @max(@el.data('max') || @settings.max)
     @step(@el.data('step') || @settings.step)
 
-    @_initDimentions()
+    @_initDimensions()
 
     @leftValue(@el.data('left-value')   || @settings.leftValue  || @_min)
     @rightValue(@el.data('right-value') || @settings.rightValue || @_max)
@@ -140,7 +140,7 @@ class RangeControl
     $(window).on 'resize', =>
       @rebuild()
 
-  _initDimentions: ->
+  _initDimensions: ->
     @_controlWidth         = @_leftControl.outerWidth()
     @_width                = @el.outerWidth()
     @_widthWithoutPaddings = @el.width()
@@ -285,7 +285,7 @@ class RangeControl
     , @settings.timeout)
 
   rebuild: ->
-    @_initDimentions()
+    @_initDimensions()
     @leftValue(@leftValue())
     @rightValue(@rightValue())
 

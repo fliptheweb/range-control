@@ -38,7 +38,7 @@ class RangeControl
     @_controlWidth         = @_leftControl.outerWidth()
     @_width                = @el.outerWidth()
     @_widthWithoutPaddings = @el.width()
-    @_pxInValue            = @_widthWithoutPaddings / ((@_max - @_min))
+    @_pxInValue            = @_widthWithoutPaddings / (@_max - @_min)
 
     @leftValue(@el.data('left-value')   || @settings.leftValue  || @_min)
     @rightValue(@el.data('right-value') || @settings.rightValue || @_max)

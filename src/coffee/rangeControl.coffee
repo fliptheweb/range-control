@@ -83,15 +83,9 @@ class RangeControl
   leftValue: (value) ->
     if value?
       @_leftControlValue = @_validateLeftValue(value)
-      @_leftValueWithoutRender(@_leftControlValue)
       @_renderLeftControl(@_leftControlValue)
-    else
-      @_leftValueWithoutRender()
-
-  _leftValueWithoutRender: (value) ->
-    if value?
-      @_renderRange()
       @_formatLeftControl()
+      @_renderRange()
     else
       if @_valueStep == 1
         @_leftControlValue
@@ -101,15 +95,9 @@ class RangeControl
   rightValue: (value) ->
     if value?
       @_rightControlValue = @_validateRightValue(value)
-      @_rightValueWithoutRender(@_rightControlValue)
       @_renderRightControl(@_rightControlValue)
-    else
-      @_rightValueWithoutRender()
-
-  _rightValueWithoutRender: (value) ->
-    if value?
-      @_renderRange()
       @_formatRightControl()
+      @_renderRange()
     else
       if @_valueStep == 1
         @_rightControlValue
@@ -146,8 +134,6 @@ class RangeControl
           @_valueByControl(control, @_valueByControl(control) + 1)
 
   _initControls: ->
-#    @changeControlRateText(@_leftControl, @rangeTable.getRateOfCell(@rangeTable.getFirstCell()))
-#    @changeControlRateText(@_rightControl, @rangeTable.getRateOfCell(@rangeTable.getLastCell()))
     controls = [@_leftControl, @_rightControl];
     controls.forEach (control) =>
       control.on 'dragstart', -> return false

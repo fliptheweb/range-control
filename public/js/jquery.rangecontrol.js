@@ -102,17 +102,9 @@
     RangeControl.prototype.leftValue = function(value) {
       if (value != null) {
         this._leftControlValue = this._validateLeftValue(value);
-        this._leftValueWithoutRender(this._leftControlValue);
-        return this._renderLeftControl(this._leftControlValue);
-      } else {
-        return this._leftValueWithoutRender();
-      }
-    };
-
-    RangeControl.prototype._leftValueWithoutRender = function(value) {
-      if (value != null) {
-        this._renderRange();
-        return this._formatLeftControl();
+        this._renderLeftControl(this._leftControlValue);
+        this._formatLeftControl();
+        return this._renderRange();
       } else {
         if (this._valueStep === 1) {
           return this._leftControlValue;
@@ -125,17 +117,9 @@
     RangeControl.prototype.rightValue = function(value) {
       if (value != null) {
         this._rightControlValue = this._validateRightValue(value);
-        this._rightValueWithoutRender(this._rightControlValue);
-        return this._renderRightControl(this._rightControlValue);
-      } else {
-        return this._rightValueWithoutRender();
-      }
-    };
-
-    RangeControl.prototype._rightValueWithoutRender = function(value) {
-      if (value != null) {
-        this._renderRange();
-        return this._formatRightControl();
+        this._renderRightControl(this._rightControlValue);
+        this._formatRightControl();
+        return this._renderRange();
       } else {
         if (this._valueStep === 1) {
           return this._rightControlValue;

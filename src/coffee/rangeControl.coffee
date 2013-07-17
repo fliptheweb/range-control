@@ -31,7 +31,7 @@ class RangeControl
 
   constructor: (@el, options) ->
     @settings = $.extend({}, @defaultOptions, options)
-    @el.data('range-control', @)
+    @el.data(@PLUGINNAME, @)
     @_formatControlCallback = @settings.formatControlCallback
 
     @_renderRangeControl()
@@ -288,6 +288,11 @@ class RangeControl
     @leftValue(@leftValue())
     @rightValue(@rightValue())
 
+class RangeControlGraph extends RangeControl
+  @::PLUGINNAME = 'range-control';
+
+  constructor: ->
+    console.log 'Yep, im here'
 
 
 
@@ -488,8 +493,17 @@ class RangeControl
 #    volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
 $.fn.rangeControl = (options) ->
+  pluginName = RangeControl.prototype.PLUGINNAME
   this.each ->
-    if $(this).data('range-control') == undefined
+    if $(this).data(pluginName) == undefined
       new RangeControl($(this), options)
     else
-      $(this).data('range-control')
+      $(this).data(pluginName)
+
+$.fn.rangeControlGraph = (options) ->
+  pluginName = RangeControlGraph.prototype.PLUGINNAME
+  this.each ->
+    if $(this).data(pluginName) == undefined
+      new RangeControlGraph($(this), options)
+    else
+      $(this).data(pluginName)

@@ -14,8 +14,9 @@
   height: 24px;
 }
 
-.range-control__left,
-.range-control__right {
+.range-control__left, .range-control-graph__left,
+.range-control__right,
+.range-control-graph__right {
   width: 66px;
   padding: 0;
   margin: 0;
@@ -46,10 +47,13 @@
   -o-transition: box-shadow 0.3s, color 0.3s;
   transition: box-shadow 0.3s, color 0.3s;
 }
-.range-control__left:hover, .range-control__left:focus, .range-control__left:active,
+.range-control__left:hover, .range-control-graph__left:hover, .range-control__left:focus, .range-control-graph__left:focus, .range-control__left:active, .range-control-graph__left:active,
 .range-control__right:hover,
+.range-control-graph__right:hover,
 .range-control__right:focus,
-.range-control__right:active {
+.range-control-graph__right:focus,
+.range-control__right:active,
+.range-control-graph__right:active {
   -webkit-box-shadow: 0 0 5px 1px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
   -moz-box-shadow: 0 0 5px 1px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
   box-shadow: 0 0 5px 1px rgba(149, 209, 255, 0.7), inset 0 1px 0 white;
@@ -61,7 +65,7 @@
   -o-transform: translateX(0);
 }
 
-.range-control__left {
+.range-control__left, .range-control-graph__left {
   -webkit-border-radius: 3px 0 0 3px;
   -moz-border-radius: 3px 0 0 3px;
   -ms-border-radius: 3px 0 0 3px;
@@ -70,7 +74,7 @@
   left: 0;
 }
 
-.range-control__right {
+.range-control__right, .range-control-graph__right {
   -webkit-border-radius: 0 3px 3px 0;
   -moz-border-radius: 0 3px 3px 0;
   -ms-border-radius: 0 3px 3px 0;

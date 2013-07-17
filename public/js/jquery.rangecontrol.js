@@ -1,6 +1,8 @@
 //@ sourceMappingURL=jquery.rangecontrol.map
 (function() {
-  var RangeControl;
+  var RangeControl, RangeControlGraph,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   RangeControl = (function() {
     RangeControl._min;
@@ -53,7 +55,7 @@
     function RangeControl(el, options) {
       this.el = el;
       this.settings = $.extend({}, this.defaultOptions, options);
-      this.el.data('range-control', this);
+      this.el.data(this.PLUGINNAME, this);
       this._formatControlCallback = this.settings.formatControlCallback;
       this._renderRangeControl();
       this.min(this.el.data('min') || this.settings.min);
@@ -369,12 +371,41 @@
 
   })();
 
+  RangeControlGraph = (function(_super) {
+    __extends(RangeControlGraph, _super);
+
+    RangeControlGraph.prototype.PLUGINNAME = 'range-control';
+
+    function RangeControlGraph() {
+      console.log('Yep, im here');
+    }
+
+    return RangeControlGraph;
+
+  })(RangeControl);
+
   $.fn.rangeControl = function(options) {
+    var pluginName;
+
+    pluginName = RangeControl.prototype.PLUGINNAME;
     return this.each(function() {
-      if ($(this).data('range-control') === void 0) {
+      if ($(this).data(pluginName) === void 0) {
         return new RangeControl($(this), options);
       } else {
-        return $(this).data('range-control');
+        return $(this).data(pluginName);
+      }
+    });
+  };
+
+  $.fn.rangeControlGraph = function(options) {
+    var pluginName;
+
+    pluginName = RangeControlGraph.prototype.PLUGINNAME;
+    return this.each(function() {
+      if ($(this).data(pluginName) === void 0) {
+        return new RangeControlGraph($(this), options);
+      } else {
+        return $(this).data(pluginName);
       }
     });
   };

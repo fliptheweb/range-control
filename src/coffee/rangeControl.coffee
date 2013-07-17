@@ -87,10 +87,8 @@ class RangeControl
       @_formatLeftControl()
       @_renderRange()
     else
-      if @_valueStep == 1
-        @_leftControlValue
-      else
-        @_min + ((@_leftControlValue - @_min) - (@_leftControlValue - @_min) % @_valueStep)
+      @_getLeftValue()
+
 
   rightValue: (value) ->
     if value?
@@ -99,10 +97,19 @@ class RangeControl
       @_formatRightControl()
       @_renderRange()
     else
-      if @_valueStep == 1
-        @_rightControlValue
-      else
-        @_min + ((@_rightControlValue - @_min) - (@_rightControlValue - @_min) % @_valueStep)
+      @_getRightValue()
+
+  _getLeftValue: ->
+    if @_valueStep == 1
+      @_leftControlValue
+    else
+      @_min + ((@_leftControlValue - @_min) - (@_leftControlValue - @_min) % @_valueStep)
+
+  _getRightValue: ->
+    if @_valueStep == 1
+      @_rightControlValue
+    else
+      @_min + ((@_rightControlValue - @_min) - (@_rightControlValue - @_min) % @_valueStep)
 
   _getValueByPosition: (x) ->
     @_min + Math.round(x / @_pxInValue)

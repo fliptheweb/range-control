@@ -106,11 +106,7 @@
         this._formatLeftControl();
         return this._renderRange();
       } else {
-        if (this._valueStep === 1) {
-          return this._leftControlValue;
-        } else {
-          return this._min + ((this._leftControlValue - this._min) - (this._leftControlValue - this._min) % this._valueStep);
-        }
+        return this._getLeftValue();
       }
     };
 
@@ -121,11 +117,23 @@
         this._formatRightControl();
         return this._renderRange();
       } else {
-        if (this._valueStep === 1) {
-          return this._rightControlValue;
-        } else {
-          return this._min + ((this._rightControlValue - this._min) - (this._rightControlValue - this._min) % this._valueStep);
-        }
+        return this._getRightValue();
+      }
+    };
+
+    RangeControl.prototype._getLeftValue = function() {
+      if (this._valueStep === 1) {
+        return this._leftControlValue;
+      } else {
+        return this._min + ((this._leftControlValue - this._min) - (this._leftControlValue - this._min) % this._valueStep);
+      }
+    };
+
+    RangeControl.prototype._getRightValue = function() {
+      if (this._valueStep === 1) {
+        return this._rightControlValue;
+      } else {
+        return this._min + ((this._rightControlValue - this._min) - (this._rightControlValue - this._min) % this._valueStep);
       }
     };
 

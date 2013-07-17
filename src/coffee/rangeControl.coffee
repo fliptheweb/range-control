@@ -222,6 +222,7 @@ class RangeControl
 
   # If youre using template engine - override this method
   _renderRangeControl: ->
+    @el.children().remove()
     @_leftControl  = $("<button class='#{@PLUGINNAME}__left'></<button>")
     @_rightControl = $("<button class='#{@PLUGINNAME}__right'></button>")
     @_rangeElement = $("<div class='#{@PLUGINNAME}__range is-active'></div>")

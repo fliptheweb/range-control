@@ -19,5 +19,5 @@ $('.class').data('range-control').method()
 ## Todo
 - [ ] Version with graph
 - [ ] Draw ticks
-- [ ] Bind left-right keys to change value
+- [x] Bind left-right keys to change value
 - [ ] Tests

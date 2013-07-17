@@ -210,13 +210,11 @@ class RangeControl
     leftBorderPosition  = stopPoint - zeroCoordinate - shiftX
     rightBorderPosition = stopPoint - zeroCoordinate - shiftX + @_controlWidth
     if leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit
-      control.css 'left', leftBorderPosition
+      controlLeftPosition = leftBorderPosition
     if leftBorderPosition < leftLimit
-      control.css 'left', leftLimit
+      controlLeftPosition = leftLimit
     if rightBorderPosition > rightLimit
-      control.css 'left', rightLimit - @_controlWidth
-
-    controlLeftPosition = control.position().left
+      controlLeftPosition = rightLimit - @_controlWidth
 
     if control == @_leftControl
       @leftValue(@_getValueByPosition(controlLeftPosition))

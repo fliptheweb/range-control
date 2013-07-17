@@ -252,15 +252,14 @@
       leftBorderPosition = stopPoint - zeroCoordinate - shiftX;
       rightBorderPosition = stopPoint - zeroCoordinate - shiftX + this._controlWidth;
       if (leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit) {
-        control.css('left', leftBorderPosition);
+        controlLeftPosition = leftBorderPosition;
       }
       if (leftBorderPosition < leftLimit) {
-        control.css('left', leftLimit);
+        controlLeftPosition = leftLimit;
       }
       if (rightBorderPosition > rightLimit) {
-        control.css('left', rightLimit - this._controlWidth);
+        controlLeftPosition = rightLimit - this._controlWidth;
       }
-      controlLeftPosition = control.position().left;
       if (control === this._leftControl) {
         this.leftValue(this._getValueByPosition(controlLeftPosition));
       }

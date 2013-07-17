@@ -42,14 +42,12 @@ class RangeControl
     @max(@el.data('max') || @settings.max)
     @step(@el.data('step') || @settings.step)
 
-    @_controlWidth         = @_leftControl.outerWidth()
-    @_width                = @el.outerWidth()
-    @_widthWithoutPaddings = @el.width()
-    @_pxInValue            = @_widthWithoutPaddings / (@_max - @_min)
+    @_initDimentions()
 
     @leftValue(@el.data('left-value')   || @settings.leftValue  || @_min)
     @rightValue(@el.data('right-value') || @settings.rightValue || @_max)
     @_initControls()
+    @_bindResize()
 #   Debug info
 #    console.log({
 #      "min":       @_min
@@ -139,6 +137,16 @@ class RangeControl
           @_valueByControl(control, @_valueByControl(control) - 1)
         else if e.keyCode == @settings.keyRight
           @_valueByControl(control, @_valueByControl(control) + 1)
+
+  _bindResize: ->
+    $(window).on 'resize', =>
+      @rebuild()
+
+  _initDimentions: ->
+    @_controlWidth         = @_leftControl.outerWidth()
+    @_width                = @el.outerWidth()
+    @_widthWithoutPaddings = @el.width()
+    @_pxInValue            = @_widthWithoutPaddings / (@_max - @_min)
 
   _initControls: ->
     controls = [@_leftControl, @_rightControl];
@@ -251,11 +259,6 @@ class RangeControl
     else
       value
 
-  renderControl: (renderControlCallback) ->
-    if renderControlCallback?
-      if typeof(renderControlCallback) == 'function'
-        @_renderControlCallback = renderControlCallback
-
   _formatLeftControl: ->
     if @_formatControlCallback?
       @_leftControl.html(@_formatControlCallback(@leftValue()))
@@ -272,6 +275,12 @@ class RangeControl
     @_changeTimeout = setTimeout( =>
       @el.trigger('change', @value)
     , @settings.timeout)
+
+  rebuild: ->
+    @_initDimentions()
+    @leftValue(@leftValue())
+    @rightValue(@rightValue())
+
 
 
 

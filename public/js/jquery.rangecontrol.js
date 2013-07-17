@@ -61,13 +61,11 @@
       this.min(this.el.data('min') || this.settings.min);
       this.max(this.el.data('max') || this.settings.max);
       this.step(this.el.data('step') || this.settings.step);
-      this._controlWidth = this._leftControl.outerWidth();
-      this._width = this.el.outerWidth();
-      this._widthWithoutPaddings = this.el.width();
-      this._pxInValue = this._widthWithoutPaddings / (this._max - this._min);
+      this._initDimentions();
       this.leftValue(this.el.data('left-value') || this.settings.leftValue || this._min);
       this.rightValue(this.el.data('right-value') || this.settings.rightValue || this._max);
       this._initControls();
+      this._bindResize();
     }
 
     RangeControl.prototype.min = function(min) {
@@ -181,6 +179,21 @@
         }));
       }
       return _results;
+    };
+
+    RangeControl.prototype._bindResize = function() {
+      var _this = this;
+
+      return $(window).on('resize', function() {
+        return _this.rebuild();
+      });
+    };
+
+    RangeControl.prototype._initDimentions = function() {
+      this._controlWidth = this._leftControl.outerWidth();
+      this._width = this.el.outerWidth();
+      this._widthWithoutPaddings = this.el.width();
+      return this._pxInValue = this._widthWithoutPaddings / (this._max - this._min);
     };
 
     RangeControl.prototype._initControls = function() {
@@ -312,14 +325,6 @@
       }
     };
 
-    RangeControl.prototype.renderControl = function(renderControlCallback) {
-      if (renderControlCallback != null) {
-        if (typeof renderControlCallback === 'function') {
-          return this._renderControlCallback = renderControlCallback;
-        }
-      }
-    };
-
     RangeControl.prototype._formatLeftControl = function() {
       if (this._formatControlCallback != null) {
         return this._leftControl.html(this._formatControlCallback(this.leftValue()));
@@ -343,6 +348,12 @@
       return this._changeTimeout = setTimeout(function() {
         return _this.el.trigger('change', _this.value);
       }, this.settings.timeout);
+    };
+
+    RangeControl.prototype.rebuild = function() {
+      this._initDimentions();
+      this.leftValue(this.leftValue());
+      return this.rightValue(this.rightValue());
     };
 
     return RangeControl;

@@ -165,13 +165,17 @@
     RangeControl.prototype._valueByControl = function(control, value) {
       if (control != null) {
         if (control[0] === this._leftControl[0]) {
-          return this.leftValue(value != null ? value : {
-            value: void 0
-          });
+          if (value != null) {
+            return this.leftValue(value);
+          } else {
+            return this.leftValue();
+          }
         } else if (control[0] === this._rightControl[0]) {
-          return this.rightValue(value != null ? value : {
-            value: void 0
-          });
+          if (value != null) {
+            return this.rightValue(value);
+          } else {
+            return this.rightValue();
+          }
         }
       }
     };

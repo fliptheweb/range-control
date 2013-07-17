@@ -128,10 +128,17 @@ class RangeControl
 
   _valueByControl: (control, value) ->
     if control?
+#     compare html el, instead of jq
       if control[0] == @_leftControl[0]
-        @leftValue(value ? value : undefined)
+        if value?
+          @leftValue(value)
+        else
+          @leftValue()
       else if control[0] == @_rightControl[0]
-        @rightValue(value ? value : undefined)
+        if value?
+          @rightValue(value)
+        else
+          @rightValue()
 
   _getPositionByValue: (x) ->
 

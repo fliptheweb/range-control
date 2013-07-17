@@ -222,8 +222,8 @@ class RangeControl
 
   # If youre using template engine - override this method
   _renderRangeControl: ->
-    @_leftControl  = $("<div class='#{@PLUGINNAME}__left'></div>")
-    @_rightControl = $("<div class='#{@PLUGINNAME}__right'></div>")
+    @_leftControl  = $("<button class='#{@PLUGINNAME}__left'></<button>")
+    @_rightControl = $("<button class='#{@PLUGINNAME}__right'></button>")
     @_rangeElement = $("<div class='#{@PLUGINNAME}__range is-active'></div>")
     range          = $("<div class='#{@PLUGINNAME}__range'></div>")
     @el.append(@_leftControl).append(@_rightControl).append(range).append(@_rangeElement)

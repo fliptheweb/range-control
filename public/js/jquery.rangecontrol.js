@@ -277,8 +277,8 @@
     RangeControl.prototype._renderRangeControl = function() {
       var range;
 
-      this._leftControl = $("<div class='" + this.PLUGINNAME + "__left'></div>");
-      this._rightControl = $("<div class='" + this.PLUGINNAME + "__right'></div>");
+      this._leftControl = $("<button class='" + this.PLUGINNAME + "__left'></<button>");
+      this._rightControl = $("<button class='" + this.PLUGINNAME + "__right'></button>");
       this._rangeElement = $("<div class='" + this.PLUGINNAME + "__range is-active'></div>");
       range = $("<div class='" + this.PLUGINNAME + "__range'></div>");
       return this.el.append(this._leftControl).append(this._rightControl).append(range).append(this._rangeElement);

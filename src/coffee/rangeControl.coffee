@@ -13,19 +13,19 @@ class RangeControl
   @_rangeElement;
   @_changeTimeout;
 
-  @::_draggedClassName = 'is-dragged';
+  @::DRAGCLASSNAME = 'is-dragged';
+  @::keyCode = {
+    LEFT:  37,
+    RIGHT: 39,
+  }
   @::defaultOptions = {
-    keyLeft: "",
-    keyRight: "",
+    keyLeft:   @::keyCode.LEFT,
+    keyRight:  @::keyCode.RIGHT,
     min:       0,
     max:       100,
     valueStep: 1,
     timeout:   500,
     formatControlCallback: (value) -> value
-  }
-  @::keyCode = {
-    LEFT:  37,
-    RIGHT: 39,
   }
 
   constructor: (@el, options) ->
@@ -86,7 +86,7 @@ class RangeControl
       @_leftValueWithoutRender(value)
       @_renderLeftControl(value)
     else
-      @_leftValueWithoutRender(value)
+      @_leftValueWithoutRender()
 
   _leftValueWithoutRender: (value) ->
     if value?
@@ -107,7 +107,7 @@ class RangeControl
       @_rightValueWithoutRender(value)
       @_renderRightControl(value)
     else
-      @_rightValueWithoutRender(value)
+      @_rightValueWithoutRender()
 
   _rightValueWithoutRender: (value) ->
     if value?
@@ -126,8 +126,24 @@ class RangeControl
   _getValueByPosition: (x) ->
     @_min + parseInt(x / @_pxInValue)
 
+  _valueByControl: (control, value) ->
+    if control?
+      if control[0] == @_leftControl[0]
+        @leftValue(value ? value : undefined)
+      else if control[0] == @_rightControl[0]
+        @rightValue(value ? value : undefined)
+
   _getPositionByValue: (x) ->
 
+  _bindControlKeys: ->
+    controls = [@_leftControl, @_rightControl]
+    for control in controls
+      control.on "keydown", (e) =>
+        control = $(e.currentTarget)
+        if e.keyCode == @settings.keyLeft
+          @_valueByControl(control, @_valueByControl(control) - 1)
+        else if e.keyCode == @settings.keyRight
+          @_valueByControl(control, @_valueByControl(control) + 1)
 
   _initControls: ->
 #    @changeControlRateText(@_leftControl, @rangeTable.getRateOfCell(@rangeTable.getFirstCell()))
@@ -137,13 +153,13 @@ class RangeControl
       control.on 'dragstart', -> return false
       control.on 'mouseup', =>
         @dragged = false
-        control.removeClass(@_draggedClassName)
+        control.removeClass(@DRAGCLASSNAME)
         $(document).off 'mousemove'
 
     @_leftControl.on 'mousedown', (event) =>
       if event.which != 1
         return
-      @_leftControl.addClass(@_draggedClassName)
+      @_leftControl.addClass(@DRAGCLASSNAME)
       @_dragged      = true
       zeroCoordinate = @el.offset().left
       shiftX         = event.clientX - @_leftControl.offset().left
@@ -163,7 +179,7 @@ class RangeControl
     @_rightControl.on 'mousedown', (event) =>
       if event.which != 1
         return
-      @_rightControl.addClass(@_draggedClassName)
+      @_rightControl.addClass(@DRAGCLASSNAME)
       @_dragged      = true
       zeroCoordinate = @el.offset().left
       controlWidth   = @_controlWidth
@@ -188,6 +204,7 @@ class RangeControl
     # set init position
     @_renderLeftControl(@leftValue())
     @_renderRightControl(@rightValue())
+    @_bindControlKeys()
 
 # @todo refactor, use renderLeftControl and renderRightControl instead
   _controlMoveTo: (control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) ->
@@ -207,12 +224,6 @@ class RangeControl
     if control == @_rightControl
       @_rightValueWithoutRender(@_getValueByPosition(controlLeftPosition - @_controlWidth))
     @_fireChangeEvent()
-
-  _bindControlKeys: ->
-    controls = [@_leftControl, @_rightControl];
-    controls.bind "keydown", (e) ->
-
-
 
   _renderRange: ->
     leftBorder  = ((@_leftControlValue - @_min) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
@@ -256,10 +267,7 @@ class RangeControl
   _fireChangeEvent: ->
     clearTimeout(@_changeTimeout)
     @_changeTimeout = setTimeout( =>
-      @el.trigger('change', {
-        'leftValue':  @leftValue(),
-        'rightValue': @rightValue()
-      })
+      @el.trigger('change', @value)
     , @settings.timeout)
 
 

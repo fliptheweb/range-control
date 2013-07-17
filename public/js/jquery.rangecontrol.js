@@ -29,11 +29,16 @@
 
     RangeControl._changeTimeout;
 
-    RangeControl.prototype._draggedClassName = 'is-dragged';
+    RangeControl.prototype.DRAGCLASSNAME = 'is-dragged';
+
+    RangeControl.prototype.keyCode = {
+      LEFT: 37,
+      RIGHT: 39
+    };
 
     RangeControl.prototype.defaultOptions = {
-      keyLeft: "",
-      keyRight: "",
+      keyLeft: RangeControl.prototype.keyCode.LEFT,
+      keyRight: RangeControl.prototype.keyCode.RIGHT,
       min: 0,
       max: 100,
       valueStep: 1,
@@ -41,11 +46,6 @@
       formatControlCallback: function(value) {
         return value;
       }
-    };
-
-    RangeControl.prototype.keyCode = {
-      LEFT: 37,
-      RIGHT: 39
     };
 
     function RangeControl(el, options) {
@@ -109,7 +109,7 @@
         this._leftValueWithoutRender(value);
         return this._renderLeftControl(value);
       } else {
-        return this._leftValueWithoutRender(value);
+        return this._leftValueWithoutRender();
       }
     };
 
@@ -136,7 +136,7 @@
         this._rightValueWithoutRender(value);
         return this._renderRightControl(value);
       } else {
-        return this._rightValueWithoutRender(value);
+        return this._rightValueWithoutRender();
       }
     };
 
@@ -162,7 +162,41 @@
       return this._min + parseInt(x / this._pxInValue);
     };
 
+    RangeControl.prototype._valueByControl = function(control, value) {
+      if (control != null) {
+        if (control[0] === this._leftControl[0]) {
+          return this.leftValue(value != null ? value : {
+            value: void 0
+          });
+        } else if (control[0] === this._rightControl[0]) {
+          return this.rightValue(value != null ? value : {
+            value: void 0
+          });
+        }
+      }
+    };
+
     RangeControl.prototype._getPositionByValue = function(x) {};
+
+    RangeControl.prototype._bindControlKeys = function() {
+      var control, controls, _i, _len, _results,
+        _this = this;
+
+      controls = [this._leftControl, this._rightControl];
+      _results = [];
+      for (_i = 0, _len = controls.length; _i < _len; _i++) {
+        control = controls[_i];
+        _results.push(control.on("keydown", function(e) {
+          control = $(e.currentTarget);
+          if (e.keyCode === _this.settings.keyLeft) {
+            return _this._valueByControl(control, _this._valueByControl(control) - 1);
+          } else if (e.keyCode === _this.settings.keyRight) {
+            return _this._valueByControl(control, _this._valueByControl(control) + 1);
+          }
+        }));
+      }
+      return _results;
+    };
 
     RangeControl.prototype._initControls = function() {
       var controls,
@@ -175,7 +209,7 @@
         });
         return control.on('mouseup', function() {
           _this.dragged = false;
-          control.removeClass(_this._draggedClassName);
+          control.removeClass(_this.DRAGCLASSNAME);
           return $(document).off('mousemove');
         });
       });
@@ -185,7 +219,7 @@
         if (event.which !== 1) {
           return;
         }
-        _this._leftControl.addClass(_this._draggedClassName);
+        _this._leftControl.addClass(_this.DRAGCLASSNAME);
         _this._dragged = true;
         zeroCoordinate = _this.el.offset().left;
         shiftX = event.clientX - _this._leftControl.offset().left;
@@ -201,7 +235,7 @@
         if (event.which !== 1) {
           return;
         }
-        _this._rightControl.addClass(_this._draggedClassName);
+        _this._rightControl.addClass(_this.DRAGCLASSNAME);
         _this._dragged = true;
         zeroCoordinate = _this.el.offset().left;
         controlWidth = _this._controlWidth;
@@ -217,7 +251,8 @@
         return _this._rightControl.triggerHandler('mouseup');
       });
       this._renderLeftControl(this.leftValue());
-      return this._renderRightControl(this.rightValue());
+      this._renderRightControl(this.rightValue());
+      return this._bindControlKeys();
     };
 
     RangeControl.prototype._controlMoveTo = function(control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) {
@@ -242,13 +277,6 @@
         this._rightValueWithoutRender(this._getValueByPosition(controlLeftPosition - this._controlWidth));
       }
       return this._fireChangeEvent();
-    };
-
-    RangeControl.prototype._bindControlKeys = function() {
-      var controls;
-
-      controls = [this._leftControl, this._rightControl];
-      return controls.bind("keydown", function(e) {});
     };
 
     RangeControl.prototype._renderRange = function() {
@@ -309,10 +337,7 @@
 
       clearTimeout(this._changeTimeout);
       return this._changeTimeout = setTimeout(function() {
-        return _this.el.trigger('change', {
-          'leftValue': _this.leftValue(),
-          'rightValue': _this.rightValue()
-        });
+        return _this.el.trigger('change', _this.value);
       }, this.settings.timeout);
     };
 

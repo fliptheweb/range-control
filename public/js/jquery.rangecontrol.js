@@ -379,7 +379,7 @@
 
     function RangeControlGraph(el, options) {
       this.el = el;
-      this.renderRangeControl();
+      RangeControlGraph.__super__.constructor.apply(this, arguments);
     }
 
     RangeControlGraph.prototype.renderRangeControl = function() {

@@ -129,6 +129,7 @@
  * Range-control with range graph
  */
 .range-control-graph {
+  padding: 0 66px;
   background: #f6f6f6;
   -webkit-box-shadow: inset 0 0 3px rgba(246, 246, 246, 0.35);
   -moz-box-shadow: inset 0 0 3px rgba(246, 246, 246, 0.35);

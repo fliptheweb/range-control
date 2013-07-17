@@ -161,6 +161,7 @@ $range-mini-height: 6px;
 
 .#{$b}-graph {
   @extend %#{$b};
+  padding: 0 $button-width;
   background: #f6f6f6;
   @include box-shadow(inset 0 0 3px rgba(#f6f6f6, .35));
 }

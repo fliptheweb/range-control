@@ -293,7 +293,7 @@ class RangeControlGraph extends RangeControl
   @::PLUGINNAME = 'range-control-graph';
 
   constructor: (@el, options) ->
-    @renderRangeControl()
+    super
 
   # If youre using template engine - override this method
   renderRangeControl: ->

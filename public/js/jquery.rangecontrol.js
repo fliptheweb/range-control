@@ -275,10 +275,10 @@
       }
       controlLeftPosition = control.position().left;
       if (control === this._leftControl) {
-        this._leftValueWithoutRender(this._getValueByPosition(controlLeftPosition));
+        this.leftValue(this._getValueByPosition(controlLeftPosition));
       }
       if (control === this._rightControl) {
-        this._rightValueWithoutRender(this._getValueByPosition(controlLeftPosition - this._controlWidth));
+        this.rightValue(this._getValueByPosition(controlLeftPosition - this._controlWidth));
       }
       return this._fireChangeEvent();
     };
@@ -295,20 +295,30 @@
     };
 
     RangeControl.prototype._renderLeftControl = function(value) {
-      if (value === this._min) {
-        return;
+      var position;
+
+      if (value <= this._min) {
+        position = 0;
+      } else {
+        position = (value - this._min) * this._pxInValue;
       }
       return this._leftControl.css({
-        left: ((value - this._min) * this._pxInValue) + 1
+        left: position
       });
     };
 
     RangeControl.prototype._renderRightControl = function(value) {
-      if (value === this._max) {
-        return;
+      var position;
+
+      if (value >= this._max) {
+        position = this._controlWidth + this._widthWithoutPaddings;
+      } else if (value <= this.leftValue()) {
+        position = this._controlWidth + (this._leftControl.position().left);
+      } else {
+        position = this._controlWidth + ((value - this._min) * this._pxInValue);
       }
       return this._rightControl.css({
-        left: this._controlWidth + ((value - this._min) * this._pxInValue) + 1
+        left: position
       });
     };
 

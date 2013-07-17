@@ -213,7 +213,6 @@ class RangeControl
     @_renderRightControl(@rightValue())
     @_bindControlKeys()
 
-# @todo refactor, use renderLeftControl and renderRightControl instead
   _controlMoveTo: (control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) ->
     leftBorderPosition  = stopPoint - zeroCoordinate - shiftX
     rightBorderPosition = stopPoint - zeroCoordinate - shiftX + @_controlWidth
@@ -227,9 +226,9 @@ class RangeControl
     controlLeftPosition = control.position().left
 
     if control == @_leftControl
-      @_leftValueWithoutRender(@_getValueByPosition(controlLeftPosition))
+      @leftValue(@_getValueByPosition(controlLeftPosition))
     if control == @_rightControl
-      @_rightValueWithoutRender(@_getValueByPosition(controlLeftPosition - @_controlWidth))
+      @rightValue(@_getValueByPosition(controlLeftPosition - @_controlWidth))
     @_fireChangeEvent()
 
   _renderRange: ->
@@ -242,17 +241,23 @@ class RangeControl
     })
 
   _renderLeftControl: (value) ->
-    if value == @_min
-      return
+    if value <= @_min
+      position = 0
+    else
+      position = ((value - @_min) * @_pxInValue)
     @_leftControl.css({
-      left: ((value - @_min) * @_pxInValue) + 1
+      left: position
     })
 
   _renderRightControl: (value) ->
-    if value == @_max
-      return
+    if value >= @_max
+      position = @_controlWidth + @_widthWithoutPaddings
+    else if value <= @leftValue()
+      position = @_controlWidth + (@_leftControl.position().left)
+    else
+      position = @_controlWidth + ((value - @_min) * @_pxInValue)
     @_rightControl.css({
-      left: @_controlWidth + ((value - @_min) * @_pxInValue) + 1
+      left: position
     })
 
   renderControl: (renderControlCallback) ->

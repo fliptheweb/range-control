@@ -300,7 +300,7 @@ class RangeControl
 class RangeControlGraph extends RangeControl
   @::PLUGINNAME = 'range-control-graph';
 
-  constructor: (@el, options) ->
+  constructor: (@el, @options) ->
 #    super
     @_renderRangeControl()
     @_initDimensions()
@@ -315,9 +315,17 @@ class RangeControlGraph extends RangeControl
     @_rangeElement = $("<canvas class='#{@PLUGINNAME}__range'></canvas>").appendTo(@el)
 
   _renderRange: ->
-    @_rangeElement.width(@_widthWithoutPaddings)
-    @_rangeElement.height(@el.height())
+    @_rangeElement[0].width = @_widthWithoutPaddings
+    @_rangeElement[0].height = @el.height()
     @canvas = @_rangeElement[0].getContext('2d')
+    height = @el.height()
+    pxInCell = @_widthWithoutPaddings / Object.keys(@options.data).length
+    i = 0
+    for cell, data of @options.data
+      @canvas.fillStyle = "rgb(#{Math.floor(Math.random() * 256)},#{Math.floor(Math.random() * 256)},#{Math.floor(Math.random() * 256)})"
+      @canvas.fillRect((pxInCell * i++), 0, pxInCell, height)
+#      console.log (pxInCell)
+
 
 
 #class RangeControl

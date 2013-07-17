@@ -392,6 +392,7 @@
 
     function RangeControlGraph(el, options) {
       this.el = el;
+      this.options = options;
       this._renderRangeControl();
       this._initDimensions();
       this._renderRange();
@@ -406,9 +407,22 @@
     };
 
     RangeControlGraph.prototype._renderRange = function() {
-      this._rangeElement.width(this._widthWithoutPaddings);
-      this._rangeElement.height(this.el.height());
-      return this.canvas = this._rangeElement[0].getContext('2d');
+      var cell, data, height, i, pxInCell, _ref, _results;
+
+      this._rangeElement[0].width = this._widthWithoutPaddings;
+      this._rangeElement[0].height = this.el.height();
+      this.canvas = this._rangeElement[0].getContext('2d');
+      height = this.el.height();
+      pxInCell = this._widthWithoutPaddings / Object.keys(this.options.data).length;
+      i = 0;
+      _ref = this.options.data;
+      _results = [];
+      for (cell in _ref) {
+        data = _ref[cell];
+        this.canvas.fillStyle = "rgb(" + (Math.floor(Math.random() * 256)) + "," + (Math.floor(Math.random() * 256)) + "," + (Math.floor(Math.random() * 256)) + ")";
+        _results.push(this.canvas.fillRect(pxInCell * i++, 0, pxInCell, height));
+      }
+      return _results;
     };
 
     return RangeControlGraph;

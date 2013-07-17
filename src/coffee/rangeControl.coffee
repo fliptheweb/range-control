@@ -50,11 +50,11 @@ class RangeControl
     @rightValue(@el.data('right-value') || @settings.rightValue || @_max)
     @_initControls()
 #   Debug info
-    console.log({
-      "min":       @_min
-      "max":       @_max
-      "pxInValue": @_pxInValue
-    })
+#    console.log({
+#      "min":       @_min
+#      "max":       @_max
+#      "pxInValue": @_pxInValue
+#    })
 
   min: (min) ->
     if min?
@@ -83,9 +83,9 @@ class RangeControl
 # @todo normalize value before render left control
   leftValue: (value) ->
     if value?
-      value = @_validateLeftValue(value)
-      @_leftValueWithoutRender(value)
-      @_renderLeftControl(value)
+      @_leftControlValue = @_validateLeftValue(value)
+      @_leftValueWithoutRender(@_leftControlValue)
+      @_renderLeftControl(@_leftControlValue)
     else
       @_leftValueWithoutRender()
 
@@ -101,9 +101,9 @@ class RangeControl
 
   rightValue: (value) ->
     if value?
-      value = @_validateRightValue(value)
-      @_rightValueWithoutRender(value)
-      @_renderRightControl(value)
+      @_rightControlValue = @_validateRightValue(value)
+      @_rightValueWithoutRender(@_rightControlValue)
+      @_renderRightControl(@_rightControlValue)
     else
       @_rightValueWithoutRender()
 
@@ -251,12 +251,16 @@ class RangeControl
       @_min
     else if value >= @rightValue()
       @rightValue()
+    else
+      value
 
   _validateRightValue: (value) ->
     if value >= @_max
       @_max
     else if value <= @leftValue()
       @leftValue()
+    else
+      value
 
   renderControl: (renderControlCallback) ->
     if renderControlCallback?

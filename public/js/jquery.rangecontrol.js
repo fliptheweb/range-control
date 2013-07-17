@@ -66,11 +66,6 @@
       this.leftValue(this.el.data('left-value') || this.settings.leftValue || this._min);
       this.rightValue(this.el.data('right-value') || this.settings.rightValue || this._max);
       this._initControls();
-      console.log({
-        "min": this._min,
-        "max": this._max,
-        "pxInValue": this._pxInValue
-      });
     }
 
     RangeControl.prototype.min = function(min) {
@@ -106,9 +101,9 @@
 
     RangeControl.prototype.leftValue = function(value) {
       if (value != null) {
-        value = this._validateLeftValue(value);
-        this._leftValueWithoutRender(value);
-        return this._renderLeftControl(value);
+        this._leftControlValue = this._validateLeftValue(value);
+        this._leftValueWithoutRender(this._leftControlValue);
+        return this._renderLeftControl(this._leftControlValue);
       } else {
         return this._leftValueWithoutRender();
       }
@@ -129,9 +124,9 @@
 
     RangeControl.prototype.rightValue = function(value) {
       if (value != null) {
-        value = this._validateRightValue(value);
-        this._rightValueWithoutRender(value);
-        return this._renderRightControl(value);
+        this._rightControlValue = this._validateRightValue(value);
+        this._rightValueWithoutRender(this._rightControlValue);
+        return this._renderRightControl(this._rightControlValue);
       } else {
         return this._rightValueWithoutRender();
       }
@@ -309,6 +304,8 @@
         return this._min;
       } else if (value >= this.rightValue()) {
         return this.rightValue();
+      } else {
+        return value;
       }
     };
 
@@ -317,6 +314,8 @@
         return this._max;
       } else if (value <= this.leftValue()) {
         return this.leftValue();
+      } else {
+        return value;
       }
     };
 

@@ -220,10 +220,13 @@ class RangeControl
       @rightValue(@_getValueByPosition(controlLeftPosition - @_controlWidth))
     @_fireChangeEvent()
 
+  # If youre using template engine - override this method
   _renderRangeControl: ->
-    @_leftControl  = @el.find(".#{@PLUGINNAME}__left")
-    @_rightControl = @el.find(".#{@PLUGINNAME}__right")
-    @_rangeElement = @el.find(".#{@PLUGINNAME}__range.is-active")
+    @_leftControl  = $("<div class='#{@PLUGINNAME}__left'></div>")
+    @_rightControl = $("<div class='#{@PLUGINNAME}__right'></div>")
+    @_rangeElement = $("<div class='#{@PLUGINNAME}__range is-active'></div>")
+    range          = $("<div class='#{@PLUGINNAME}__range'></div>")
+    @el.append(@_leftControl).append(@_rightControl).append(range).append(@_rangeElement)
 
   _renderRange: ->
     leftBorder  = ((@_leftControlValue - @_min) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)

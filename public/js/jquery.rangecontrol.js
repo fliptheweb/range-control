@@ -275,9 +275,13 @@
     };
 
     RangeControl.prototype._renderRangeControl = function() {
-      this._leftControl = this.el.find("." + this.PLUGINNAME + "__left");
-      this._rightControl = this.el.find("." + this.PLUGINNAME + "__right");
-      return this._rangeElement = this.el.find("." + this.PLUGINNAME + "__range.is-active");
+      var range;
+
+      this._leftControl = $("<div class='" + this.PLUGINNAME + "__left'></div>");
+      this._rightControl = $("<div class='" + this.PLUGINNAME + "__right'></div>");
+      this._rangeElement = $("<div class='" + this.PLUGINNAME + "__range is-active'></div>");
+      range = $("<div class='" + this.PLUGINNAME + "__range'></div>");
+      return this.el.append(this._leftControl).append(this._rightControl).append(range).append(this._rangeElement);
     };
 
     RangeControl.prototype._renderRange = function() {

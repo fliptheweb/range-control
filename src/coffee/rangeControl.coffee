@@ -89,7 +89,6 @@ class RangeControl
     else
       @_getLeftValue()
 
-
   rightValue: (value) ->
     if value?
       @_rightControlValue = @_validateRightValue(value)

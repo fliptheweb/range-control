@@ -29,6 +29,8 @@
 
     RangeControl._changeTimeout;
 
+    RangeControl.prototype.PLUGINNAME = 'range-control';
+
     RangeControl.prototype.DRAGCLASSNAME = 'is-dragged';
 
     RangeControl.prototype.keyCode = {
@@ -53,9 +55,9 @@
       this.settings = $.extend({}, this.defaultOptions, options);
       this.el.data('range-control', this);
       this._formatControlCallback = this.settings.formatControlCallback;
-      this._leftControl = this.el.find('.range-control_mini__left');
-      this._rightControl = this.el.find('.range-control_mini__right');
-      this._rangeElement = this.el.find('.range-control_mini__range.is-active');
+      this._leftControl = this.el.find("." + this.PLUGINNAME + "__left");
+      this._rightControl = this.el.find("." + this.PLUGINNAME + "__right");
+      this._rangeElement = this.el.find("." + this.PLUGINNAME + "__range.is-active");
       this.min(this.el.data('min') || this.settings.min);
       this.max(this.el.data('max') || this.settings.max);
       this.step(this.el.data('step') || this.settings.step);

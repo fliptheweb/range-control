@@ -13,6 +13,7 @@ class RangeControl
   @_rangeElement;
   @_changeTimeout;
 
+  @::PLUGINNAME    = 'range-control';
   @::DRAGCLASSNAME = 'is-dragged';
   @::keyCode = {
     LEFT:  37,
@@ -33,9 +34,9 @@ class RangeControl
     @el.data('range-control', @)
     @_formatControlCallback = @settings.formatControlCallback
 
-    @_leftControl  = @el.find('.range-control_mini__left')
-    @_rightControl = @el.find('.range-control_mini__right')
-    @_rangeElement = @el.find('.range-control_mini__range.is-active')
+    @_leftControl  = @el.find(".#{@PLUGINNAME}__left")
+    @_rightControl = @el.find(".#{@PLUGINNAME}__right")
+    @_rangeElement = @el.find(".#{@PLUGINNAME}__range.is-active")
 
     @min(@el.data('min') || @settings.min)
     @max(@el.data('max') || @settings.max)

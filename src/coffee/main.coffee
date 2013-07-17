@@ -1,4 +1,4 @@
-$('.range-control_mini').rangeControl()
+$('.range-control').rangeControl()
 
 #$('#example-1').rangeControl()
 #$('#example-1').on("change", (e, data) ->

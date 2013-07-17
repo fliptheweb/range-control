@@ -54,6 +54,7 @@
 
     function RangeControl(el, options) {
       this.el = el;
+      this.options = options;
       this.settings = $.extend({}, this.defaultOptions, options);
       this.el.data(this.PLUGINNAME, this);
       this._formatControlCallback = this.settings.formatControlCallback;
@@ -185,7 +186,7 @@
       var _this = this;
 
       return $(window).on('resize', function() {
-        return _this.rebuild();
+        return _this.render();
       });
     };
 
@@ -362,10 +363,14 @@
       }, this.settings.timeout);
     };
 
-    RangeControl.prototype.rebuild = function() {
+    RangeControl.prototype.render = function() {
       this._initDimensions();
       this.leftValue(this.leftValue());
       return this.rightValue(this.rightValue());
+    };
+
+    RangeControl.prototype.rebuild = function() {
+      return this.constructor(this.el, this.options);
     };
 
     RangeControl.prototype.destroy = function() {

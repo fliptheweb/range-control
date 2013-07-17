@@ -29,7 +29,7 @@ class RangeControl
     formatControlCallback: (value) -> value
   }
 
-  constructor: (@el, options) ->
+  constructor: (@el, @options) ->
     @settings = $.extend({}, @defaultOptions, options)
     @el.data(@PLUGINNAME, @)
     @_formatControlCallback = @settings.formatControlCallback
@@ -138,7 +138,7 @@ class RangeControl
 
   _bindResize: ->
     $(window).on 'resize', =>
-      @rebuild()
+      @render()
 
   _initDimensions: ->
     @_controlWidth         = @_leftControl.outerWidth()
@@ -284,10 +284,13 @@ class RangeControl
       @el.trigger('change', @value)
     , @settings.timeout)
 
-  rebuild: ->
+  render: ->
     @_initDimensions()
     @leftValue(@leftValue())
     @rightValue(@rightValue())
+
+  rebuild: ->
+    @constructor(@el, @options)
 
   destroy: ->
     @el.html("")

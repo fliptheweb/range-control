@@ -146,7 +146,7 @@
     };
 
     RangeControl.prototype._getValueByPosition = function(x) {
-      return this._min + parseInt(x / this._pxInValue);
+      return this._min + Math.round(x / this._pxInValue);
     };
 
     RangeControl.prototype._valueByControl = function(control, value) {

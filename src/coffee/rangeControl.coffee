@@ -80,7 +80,6 @@ class RangeControl
       'rightValue': @rightValue()
     }
 
-# @todo normalize value before render left control
   leftValue: (value) ->
     if value?
       @_leftControlValue = @_validateLeftValue(value)
@@ -118,7 +117,7 @@ class RangeControl
         @_min + ((@_rightControlValue - @_min) - (@_rightControlValue - @_min) % @_valueStep)
 
   _getValueByPosition: (x) ->
-    @_min + parseInt(x / @_pxInValue)
+    @_min + Math.round(x / @_pxInValue)
 
   _valueByControl: (control, value) ->
     if control?

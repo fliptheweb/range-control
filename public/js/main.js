@@ -4,7 +4,7 @@
 
   $('.range-control-graph').rangeControlGraph({
     data: {
-      "900": 1,
+      "50": 1,
       "1000": 1,
       "1200": 2,
       "1300": 1,

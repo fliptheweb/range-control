@@ -401,16 +401,17 @@
         return value;
       },
       colorsRange: {
-        "light-green": [0, 100],
-        "middle-green": [101, 1000],
-        "green": [1001, 10000],
-        "yellow": [10001]
+        "#e6ead4": [0, 100],
+        "#ced7a6": [101, 1000],
+        "#b4c373": [1001, 10000],
+        "#fed46d": [10001]
       }
     };
 
     function RangeControlGraph(el, options) {
       this.el = el;
       this.options = options;
+      this.settings = $.extend({}, this.defaultOptions, options);
       this._renderRangeControl();
       this._initDimensions();
       this._renderRange();
@@ -425,20 +426,53 @@
     };
 
     RangeControlGraph.prototype._renderRange = function() {
-      var cell, data, height, i, pxInCell, _ref, _results;
+      var dataSize, height, i;
 
-      this._rangeElement[0].width = this._widthWithoutPaddings;
-      this._rangeElement[0].height = this.el.height();
       this.canvas = this._rangeElement[0].getContext('2d');
+      dataSize = Object.keys(this.options.data).length;
       height = this.el.height();
-      pxInCell = this._widthWithoutPaddings / Object.keys(this.options.data).length;
-      i = 0;
-      _ref = this.options.data;
+      this.canvasScale = 30;
+      this.canvasHeight = this.el.height();
+      this.canvasWidth = dataSize * this.canvasScale;
+      this._rangeElement[0].width = dataSize * this.canvasScale;
+      this._rangeElement[0].height = this.el.height();
+      this._rangeElement.width(this._widthWithoutPaddings);
+      this._rangeElement.height(this.el.height());
+      this._renderColorRange();
+      return i = 0;
+    };
+
+    RangeControlGraph.prototype._renderColorRange = function() {
+      var color, colorRange, data, i, leftColorRange, leftRangeItem, numberOfItem, range, rightColorRange, rightRangeItem, value, _ref, _results;
+
+      this.dataColorRange = {};
+      colorRange = this.settings.colorsRange;
+      data = this.settings.data;
+      for (color in colorRange) {
+        range = colorRange[color];
+        this.dataColorRange[color] = [];
+        i = -1;
+        for (value in data) {
+          i++;
+          leftColorRange = range[0];
+          rightColorRange = range[1] != null ? range[1] : Infinity;
+          if ((leftColorRange <= value && value <= rightColorRange)) {
+            this.dataColorRange[color].push(i);
+            continue;
+          } else if (value > rightColorRange) {
+            break;
+          }
+        }
+      }
+      _ref = this.dataColorRange;
       _results = [];
-      for (cell in _ref) {
-        data = _ref[cell];
-        this.canvas.fillStyle = "rgb(" + (Math.floor(Math.random() * 256)) + "," + (Math.floor(Math.random() * 256)) + "," + (Math.floor(Math.random() * 256)) + ")";
-        _results.push(this.canvas.fillRect(pxInCell * i++, 0, pxInCell, height));
+      for (color in _ref) {
+        range = _ref[color];
+        leftRangeItem = Math.min.apply(null, range);
+        rightRangeItem = Math.max.apply(null, range);
+        numberOfItem = range.length;
+        this.canvas.fillStyle = color;
+        _results.push(this.canvas.fillRect(leftRangeItem * this.canvasScale, 0, numberOfItem * this.canvasScale, this.canvasHeight));
       }
       return _results;
     };

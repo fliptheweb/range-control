@@ -309,15 +309,16 @@ class RangeControlGraph extends RangeControl
     formatControlCallback: (value) ->
       value
     colorsRange: {
-      "light-green":  [0, 100]
-      "middle-green": [101, 1000]
-      "green":        [1001, 10000]
-      "yellow":       [10001]
+      "#e6ead4": [0, 100]
+      "#ced7a6": [101, 1000]
+      "#b4c373": [1001, 10000]
+      "#fed46d": [10001]
     }
   }
 
   constructor: (@el, @options) ->
 #    super
+    @settings = $.extend({}, @defaultOptions, options)
     @_renderRangeControl()
     @_initDimensions()
     @_renderRange()
@@ -331,16 +332,52 @@ class RangeControlGraph extends RangeControl
     @_rangeElement = $("<canvas class='#{@PLUGINNAME}__range'></canvas>").appendTo(@el)
 
   _renderRange: ->
-    @_rangeElement[0].width = @_widthWithoutPaddings
+    @canvas  = @_rangeElement[0].getContext('2d')
+    dataSize = Object.keys(@options.data).length
+    height   = @el.height()
+#    pxInCell = @_widthWithoutPaddings / dataSize
+#    @_rangeElement[0].width =  @_widthWithoutPaddings
+    @canvasScale  = 30
+    @canvasHeight = @el.height()
+    @canvasWidth  = dataSize * @canvasScale
+    @_rangeElement[0].width =  dataSize * @canvasScale
     @_rangeElement[0].height = @el.height()
-    @canvas = @_rangeElement[0].getContext('2d')
-    height = @el.height()
-    pxInCell = @_widthWithoutPaddings / Object.keys(@options.data).length
+    @_rangeElement.width(@_widthWithoutPaddings)
+    @_rangeElement.height(@el.height())
+    @_renderColorRange()
     i = 0
-    for cell, data of @options.data
-      @canvas.fillStyle = "rgb(#{Math.floor(Math.random() * 256)},#{Math.floor(Math.random() * 256)},#{Math.floor(Math.random() * 256)})"
-      @canvas.fillRect((pxInCell * i++), 0, pxInCell, height)
+#    for value, number of @options.data
+#      @canvas.fillStyle = "rgb(#{Math.floor(Math.random() * 256)},#{Math.floor(Math.random() * 256)},#{Math.floor(Math.random() * 256)})"
+#      @canvas.fillRect((@canvasScale * i++), 0, @canvasScale, height)
 #      console.log (pxInCell)
+
+  # Method use only sorted colorRange and data for best performance
+  _renderColorRange: ->
+    @dataColorRange = {}
+    colorRange = @settings.colorsRange
+    data       = @settings.data
+
+    # Collect indexes of data coinciding to range of color
+    for color, range of colorRange
+      @dataColorRange[color] = []
+      i = -1
+      for value of data
+        i++
+        leftColorRange  = range[0]
+        rightColorRange = if range[1]? then range[1] else Infinity
+        if (leftColorRange <= value <= rightColorRange)
+          @dataColorRange[color].push(i)
+          continue
+        else if (value > rightColorRange)
+          break
+
+    # Draw color ranges
+    for color, range of @dataColorRange
+      leftRangeItem  = Math.min.apply(null, range)
+      rightRangeItem = Math.max.apply(null, range)
+      numberOfItem = range.length
+      @canvas.fillStyle = color
+      @canvas.fillRect(leftRangeItem * @canvasScale, 0, numberOfItem * @canvasScale, @canvasHeight)
 
 
 
@@ -353,86 +390,6 @@ class RangeControlGraph extends RangeControl
 #
 #  initControls: ->
 #    # @todo refactor all in this method
-#    @leftControl  = @el.find(".range-control__left")
-#    @rightControl = @el.find(".range-control__right")
-#
-#    @changeControlRateText(@leftControl, @rangeTable.getRateOfCell(@rangeTable.getFirstCell()))
-#    @changeControlRateText(@rightControl, @rangeTable.getRateOfCell(@rangeTable.getLastCell()))
-#
-#    @leftControl.on  "dragstart", -> return false
-#    @rightControl.on "dragstart", -> return false
-#
-#    @leftControl.on "mousedown", (event) =>
-#      if event.which != 1
-#        return
-#      @leftControl.addClass("is-dragged")
-#      @dragged = true
-#      zeroCoordinate = @el.offset().left
-#      shiftX = event.clientX - @leftControl.offset().left
-#      leftLimit = 0
-#      rightLimit = @rightControl.offset().left - zeroCoordinate
-#
-#      $(document).on "mousemove", (event) =>
-#        @controlMoveTo(
-#          @leftControl,
-#          event.clientX,
-#          zeroCoordinate,
-#          shiftX,
-#          leftLimit,
-#          rightLimit
-#          )
-#
-#    @rightControl.on "mousedown", (event) =>
-#      if event.which != 1
-#        return
-#      @rightControl.addClass("is-dragged")
-#      @dragged = true
-#      zeroCoordinate = @el.offset().left
-#      controlWidth   = @rightControl.outerWidth()
-#      shiftX = event.clientX - @rightControl.offset().left
-#      leftLimit = @leftControl.offset().left - zeroCoordinate + @leftControl.outerWidth()
-#      rightLimit = @el.width()
-#
-#      $(document).on "mousemove", (event) =>
-#        $(document).on "mousemove", (event) =>
-#        @controlMoveTo(
-#          @rightControl,
-#          event.clientX,
-#          zeroCoordinate,
-#          shiftX,
-#          leftLimit,
-#          rightLimit
-#        )
-#
-#    @leftControl.on "mouseup", =>
-#      @dragged = false
-#      @leftControl.removeClass("is-dragged")
-#      $(document).off "mousemove"
-#
-#    @rightControl.on "mouseup", =>
-#      @dragged = false
-#      @rightControl.removeClass("is-dragged")
-#      $(document).off "mousemove"
-#
-#    $(document).on "mouseup", =>
-#      @leftControl.triggerHandler "mouseup"
-#      @rightControl.triggerHandler "mouseup"
-#
-#  controlMoveTo: (control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) ->
-#    controlWidth = control.outerWidth()
-#    leftBorderPosition = stopPoint - zeroCoordinate - shiftX
-#    rightBorderPosition = stopPoint - zeroCoordinate - shiftX + controlWidth
-#    if leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit
-#      control.css "left", leftBorderPosition
-#    if leftBorderPosition < leftLimit
-#      control.css "left", leftLimit
-#    if rightBorderPosition > rightLimit
-#      control.css "left", rightLimit - controlWidth
-#
-#    if control == @leftControl
-#      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left)
-#    if control == @rightControl
-#      @changeControlRateText control, @rangeTable.getRateByPosition(control.position().left - controlWidth)
 #
 #    # @todo extract to separate methid of rangetable
 #    @rangeTable.cells.addClass("is-disabled")

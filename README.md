@@ -5,9 +5,10 @@ $('.class').rangeControl({settings})
 $('.class').data('range-control').method()
 
 ## Settings
-* startValue (data-start-value)
-* endValue (data-end-value)
-* valueStep (data-value-step)
+* min (data-min)
+* max (data-max)
+* leftValue (data-left-value)
+* rightValue (data-right-value)
 * timeout (data-value-timeout)
 * formatControlCallback - function
 
@@ -15,9 +16,8 @@ $('.class').data('range-control').method()
 * leftValue()
 * rightValue()
 * value()
-
-## Todo
-- [ ] Version with graph
-- [ ] Draw ticks
-- [x] Bind left-right keys to change value
-- [ ] Tests
+* min()
+* max()
+* rebuild()
+* render()
+* destroy()

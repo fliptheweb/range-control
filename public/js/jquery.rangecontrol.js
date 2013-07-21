@@ -405,7 +405,8 @@
         "#ced7a6": [101, 1000],
         "#b4c373": [1001, 10000],
         "#fed46d": [10001]
-      }
+      },
+      colorCell: "#288bf0"
     };
 
     function RangeControlGraph(el, options) {
@@ -426,7 +427,7 @@
     };
 
     RangeControlGraph.prototype._renderRange = function() {
-      var dataSize, i, number, rangeVolumes, value, volume, _ref, _results;
+      var cellHeight, dataSize, i, rangeVolumes, value, volume, _ref, _results;
 
       rangeVolumes = (function() {
         var _ref, _results;
@@ -454,10 +455,10 @@
       _ref = this.options.data;
       _results = [];
       for (value in _ref) {
-        number = _ref[value];
-        this.canvas.fillStyle = "rgb(" + (Math.floor(Math.random() * 256)) + "," + (Math.floor(Math.random() * 256)) + "," + (Math.floor(Math.random() * 256)) + ")";
-        this.canvas.fillRect(this.canvasScale * i++, 0, this.canvasScale, height);
-        _results.push(console.log(pxInCell));
+        volume = _ref[value];
+        cellHeight = this.canvasHeight / this._maxRangeVolume * volume;
+        this.canvas.fillStyle = this.settings.colorCell;
+        _results.push(this.canvas.fillRect(this.canvasScale * i++, 0, this.canvasScale, cellHeight));
       }
       return _results;
     };

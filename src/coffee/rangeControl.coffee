@@ -314,6 +314,7 @@ class RangeControlGraph extends RangeControl
       "#b4c373": [1001, 10000]
       "#fed46d": [10001]
     }
+    colorCell: "#288bf0"
   }
 
   constructor: (@el, @options) ->
@@ -349,10 +350,10 @@ class RangeControlGraph extends RangeControl
     @_rangeElement.height(@el.height())
     @_renderColorRange()
     i = 0
-    for value, number of @options.data
-      @canvas.fillStyle = "rgb(#{Math.floor(Math.random() * 256)},#{Math.floor(Math.random() * 256)},#{Math.floor(Math.random() * 256)})"
-      @canvas.fillRect((@canvasScale * i++), 0, @canvasScale, height)
-      console.log (pxInCell)
+    for value, volume of @options.data
+      cellHeight = @canvasHeight / @_maxRangeVolume * volume
+      @canvas.fillStyle = @settings.colorCell
+      @canvas.fillRect((@canvasScale * i++), 0, @canvasScale, cellHeight)
 
   # Method use only sorted colorRange and data for best performance
   _renderColorRange: ->

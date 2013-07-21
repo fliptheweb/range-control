@@ -1,5 +1,24 @@
 //@ sourceMappingURL=main.map
 (function() {
+  var utilities;
+
+  utilities = {
+    shortenVolumeToName: function(volume) {
+      if (volume < 1000) {
+        return volume;
+      }
+      if (volume < 1000000) {
+        return ("" + (volume / 1000)).replace(".", ",") + " тыс.";
+      }
+      if (volume >= 1000000) {
+        return ("" + (volume / 1000000)).replace(".", ",") + " млн.";
+      }
+    },
+    splitVolumeBySpace: function(volume) {
+      return volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+  };
+
   $('.range-control').rangeControl();
 
   $('.range-control-graph').rangeControlGraph({
@@ -92,6 +111,9 @@
       "140000": 4,
       "150000": 5,
       "200000": 1
+    },
+    formatControlCallback: function(value) {
+      return utilities.shortenVolumeToName(value);
     }
   });
 

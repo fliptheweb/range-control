@@ -403,6 +403,8 @@ class RangeControlGraph extends RangeControl
 
   _formatRightControl: ->
     value = Object.keys(@options.data)[@rightValue() - 1]
+    if !value?
+      value = 0
     if @_formatControlCallback?
       @_rightControl.html(@_formatControlCallback(value))
 
@@ -498,16 +500,16 @@ class RangeControlGraph extends RangeControl
 #    cell.on "mouseleave", =>
 #      cellHoverEl.hide()
 #
-#utilities =
-#  shortenVolumeToName: (volume) ->
-#    if volume < 1000
-#      return volume
-#    if volume < 1000000
-#      return "#{volume/1000}".replace(".",",") + " тыс."
-#    if volume >= 1000000
-#      return "#{volume/1000000}".replace(".",",") + " млн."
-#  splitVolumeBySpace: (volume) ->
-#    volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+utilities =
+  shortenVolumeToName: (volume) ->
+    if volume < 1000
+      return volume
+    if volume < 1000000
+      return "#{volume/1000}".replace(".",",") + " тыс."
+    if volume >= 1000000
+      return "#{volume/1000000}".replace(".",",") + " млн."
+  splitVolumeBySpace: (volume) ->
+    volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
 $.fn.rangeControl = (options) ->
   pluginName = RangeControl.prototype.PLUGINNAME

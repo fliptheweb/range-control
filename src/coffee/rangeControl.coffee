@@ -420,16 +420,6 @@ class RangeControlGraph extends RangeControl
 #    cell.on "mouseleave", =>
 #      cellHoverEl.hide()
 #
-utilities =
-  shortenVolumeToName: (volume) ->
-    if volume < 1000
-      return volume
-    if volume < 1000000
-      return "#{volume/1000}".replace(".",",") + " тыс."
-    if volume >= 1000000
-      return "#{volume/1000000}".replace(".",",") + " млн."
-  splitVolumeBySpace: (volume) ->
-    volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")
 
 $.fn.rangeControl = (options) ->
   pluginName = RangeControl.prototype.PLUGINNAME

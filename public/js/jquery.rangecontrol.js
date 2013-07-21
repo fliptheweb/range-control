@@ -1,6 +1,6 @@
 //@ sourceMappingURL=jquery.rangecontrol.map
 (function() {
-  var RangeControl, RangeControlGraph, utilities,
+  var RangeControl, RangeControlGraph,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -533,23 +533,6 @@
     return RangeControlGraph;
 
   })(RangeControl);
-
-  utilities = {
-    shortenVolumeToName: function(volume) {
-      if (volume < 1000) {
-        return volume;
-      }
-      if (volume < 1000000) {
-        return ("" + (volume / 1000)).replace(".", ",") + " тыс.";
-      }
-      if (volume >= 1000000) {
-        return ("" + (volume / 1000000)).replace(".", ",") + " млн.";
-      }
-    },
-    splitVolumeBySpace: function(volume) {
-      return volume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    }
-  };
 
   $.fn.rangeControl = function(options) {
     var pluginName;

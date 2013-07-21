@@ -318,11 +318,19 @@ class RangeControlGraph extends RangeControl
   }
 
   constructor: (@el, @options) ->
-#    super
     @settings = $.extend({}, @defaultOptions, options)
     @_renderRangeControl()
     @_initDimensions()
     @_renderRange()
+
+    @min(0)
+    @max(Object.keys(@options.data).length)
+
+    super @el, $.extend(@settings, {
+      min: @min()
+      max: @max()
+    })
+
 
   # If youre using template engine - override this method
   _renderRangeControl: ->

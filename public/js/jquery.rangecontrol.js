@@ -416,6 +416,12 @@
       this._renderRangeControl();
       this._initDimensions();
       this._renderRange();
+      this.min(0);
+      this.max(Object.keys(this.options.data).length);
+      RangeControlGraph.__super__.constructor.call(this, this.el, $.extend(this.settings, {
+        min: this.min(),
+        max: this.max()
+      }));
     }
 
     RangeControlGraph.prototype._renderRangeControl = function() {

@@ -60,53 +60,6 @@ $experimental-support-for-svg: true;
   right: 0;
 }
 
-//.#{$b}__range {
-//  height: $control-height;
-//  margin: 0 $button-width;
-//
-//  div {
-//    float: left;
-//    height: $control-height;
-//    position: relative;
-//
-//    i {
-//      display: block;
-//      position: absolute;
-//      bottom: 0;
-//      left: 0;
-//      right: 0;
-//      background: #38a9ff;
-//      //border-top: 1px solid #288bf0;
-//    }
-//
-//    &:hover {
-//      i {
-//        background: #288bf0;
-//      }
-//    }
-//
-//    &.light-green {
-//      background: #e6ead4;
-//    }
-//    &.middle-green {
-//      @include background(#ced7a6 linear-gradient(bottom, #dee3c2 0%, #ced7a6 100%));
-//    }
-//    &.green {
-//      @include background(#b4c373 linear-gradient(bottom, #ccd69f 0%, #b4c373 100%));
-//    }
-//    &.yellow {
-//      @include background(#fed46d linear-gradient(bottom, #fee29b 0%, #fed46d 100%));
-//    }
-//
-//    &.is-disabled {
-//      background: #f6f6f6 !important;
-//      i {
-//        background: #c7c7c7;
-//      }
-//    }
-//  }
-//}
-
 //.#{$b}__cell-hover {
 //  display: none;
 //  position: absolute;
@@ -121,7 +74,7 @@ $experimental-support-for-svg: true;
 //}
 
 /**
- * Mini range-control without graph
+ * Range-control
  */
 .#{$b} {
   @extend %#{$b};

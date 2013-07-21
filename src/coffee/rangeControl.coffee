@@ -325,9 +325,11 @@ class RangeControlGraph extends RangeControl
 
     @min(0)
     @max(Object.keys(@options.data).length)
+    @leftValue(@min())
+    @rightValue(@max())
 
     super @el, $.extend(@settings, {
-      min: @min()
+      min: @min(),
       max: @max()
     })
 
@@ -390,6 +392,19 @@ class RangeControlGraph extends RangeControl
       numberOfItem = range.length
       @canvas.fillStyle = color
       @canvas.fillRect(leftRangeItem * @canvasScale, 0, numberOfItem * @canvasScale, @canvasHeight)
+
+  _formatLeftControl: ->
+    value = Object.keys(@options.data)[@leftValue() - 1]
+    if !value?
+      value = 0
+#    volume = @options.data[value]
+    if @_formatControlCallback?
+      @_leftControl.html(@_formatControlCallback(value))
+
+  _formatRightControl: ->
+    value = Object.keys(@options.data)[@rightValue() - 1]
+    if @_formatControlCallback?
+      @_rightControl.html(@_formatControlCallback(value))
 
 
 #class RangeControl

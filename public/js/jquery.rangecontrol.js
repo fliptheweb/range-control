@@ -418,6 +418,8 @@
       this._renderRange();
       this.min(0);
       this.max(Object.keys(this.options.data).length);
+      this.leftValue(this.min());
+      this.rightValue(this.max());
       RangeControlGraph.__super__.constructor.call(this, this.el, $.extend(this.settings, {
         min: this.min(),
         max: this.max()
@@ -502,6 +504,27 @@
         _results.push(this.canvas.fillRect(leftRangeItem * this.canvasScale, 0, numberOfItem * this.canvasScale, this.canvasHeight));
       }
       return _results;
+    };
+
+    RangeControlGraph.prototype._formatLeftControl = function() {
+      var value;
+
+      value = Object.keys(this.options.data)[this.leftValue() - 1];
+      if (value == null) {
+        value = 0;
+      }
+      if (this._formatControlCallback != null) {
+        return this._leftControl.html(this._formatControlCallback(value));
+      }
+    };
+
+    RangeControlGraph.prototype._formatRightControl = function() {
+      var value;
+
+      value = Object.keys(this.options.data)[this.rightValue() - 1];
+      if (this._formatControlCallback != null) {
+        return this._rightControl.html(this._formatControlCallback(value));
+      }
     };
 
     return RangeControlGraph;

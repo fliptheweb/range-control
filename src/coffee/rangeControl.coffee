@@ -353,7 +353,7 @@ class RangeControlGraph extends RangeControl
     for value, volume of @options.data
       cellHeight = @canvasHeight / @_maxRangeVolume * volume
       @canvas.fillStyle = @settings.colorCell
-      @canvas.fillRect((@canvasScale * i++), 0, @canvasScale, cellHeight)
+      @canvas.fillRect((@canvasScale * i++), @canvasHeight, @canvasScale, -cellHeight)
 
   # Method use only sorted colorRange and data for best performance
   _renderColorRange: ->

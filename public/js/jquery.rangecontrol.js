@@ -458,7 +458,7 @@
         volume = _ref[value];
         cellHeight = this.canvasHeight / this._maxRangeVolume * volume;
         this.canvas.fillStyle = this.settings.colorCell;
-        _results.push(this.canvas.fillRect(this.canvasScale * i++, 0, this.canvasScale, cellHeight));
+        _results.push(this.canvas.fillRect(this.canvasScale * i++, this.canvasHeight, this.canvasScale, -cellHeight));
       }
       return _results;
     };

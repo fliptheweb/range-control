@@ -426,11 +426,22 @@
     };
 
     RangeControlGraph.prototype._renderRange = function() {
-      var dataSize, height, i;
+      var dataSize, i, number, rangeVolumes, value, volume, _ref, _results;
 
-      this.canvas = this._rangeElement[0].getContext('2d');
+      rangeVolumes = (function() {
+        var _ref, _results;
+
+        _ref = this.options.data;
+        _results = [];
+        for (value in _ref) {
+          volume = _ref[value];
+          _results.push(volume);
+        }
+        return _results;
+      }).call(this);
+      this._maxRangeVolume = Math.max.apply(null, rangeVolumes);
       dataSize = Object.keys(this.options.data).length;
-      height = this.el.height();
+      this.canvas = this._rangeElement[0].getContext('2d');
       this.canvasScale = 30;
       this.canvasHeight = this.el.height();
       this.canvasWidth = dataSize * this.canvasScale;
@@ -439,7 +450,16 @@
       this._rangeElement.width(this._widthWithoutPaddings);
       this._rangeElement.height(this.el.height());
       this._renderColorRange();
-      return i = 0;
+      i = 0;
+      _ref = this.options.data;
+      _results = [];
+      for (value in _ref) {
+        number = _ref[value];
+        this.canvas.fillStyle = "rgb(" + (Math.floor(Math.random() * 256)) + "," + (Math.floor(Math.random() * 256)) + "," + (Math.floor(Math.random() * 256)) + ")";
+        this.canvas.fillRect(this.canvasScale * i++, 0, this.canvasScale, height);
+        _results.push(console.log(pxInCell));
+      }
+      return _results;
     };
 
     RangeControlGraph.prototype._renderColorRange = function() {

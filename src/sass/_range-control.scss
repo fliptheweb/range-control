@@ -3,6 +3,7 @@ $b: "range-control";
 $control-height:    24px;
 $button-width:      66px;
 $range-mini-height: 6px;
+$experimental-support-for-svg: true;
 
 %#{$b} {
   position: relative;

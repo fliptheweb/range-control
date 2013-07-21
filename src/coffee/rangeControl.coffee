@@ -332,9 +332,12 @@ class RangeControlGraph extends RangeControl
     @_rangeElement = $("<canvas class='#{@PLUGINNAME}__range'></canvas>").appendTo(@el)
 
   _renderRange: ->
-    @canvas  = @_rangeElement[0].getContext('2d')
+    rangeVolumes = for value, volume of @options.data
+      volume
+    @_maxRangeVolume = Math.max.apply null, rangeVolumes
+#    console.log @options.data
     dataSize = Object.keys(@options.data).length
-    height   = @el.height()
+    @canvas  = @_rangeElement[0].getContext('2d')
 #    pxInCell = @_widthWithoutPaddings / dataSize
 #    @_rangeElement[0].width =  @_widthWithoutPaddings
     @canvasScale  = 30
@@ -346,10 +349,10 @@ class RangeControlGraph extends RangeControl
     @_rangeElement.height(@el.height())
     @_renderColorRange()
     i = 0
-#    for value, number of @options.data
-#      @canvas.fillStyle = "rgb(#{Math.floor(Math.random() * 256)},#{Math.floor(Math.random() * 256)},#{Math.floor(Math.random() * 256)})"
-#      @canvas.fillRect((@canvasScale * i++), 0, @canvasScale, height)
-#      console.log (pxInCell)
+    for value, number of @options.data
+      @canvas.fillStyle = "rgb(#{Math.floor(Math.random() * 256)},#{Math.floor(Math.random() * 256)},#{Math.floor(Math.random() * 256)})"
+      @canvas.fillRect((@canvasScale * i++), 0, @canvasScale, height)
+      console.log (pxInCell)
 
   # Method use only sorted colorRange and data for best performance
   _renderColorRange: ->
@@ -378,7 +381,6 @@ class RangeControlGraph extends RangeControl
       numberOfItem = range.length
       @canvas.fillStyle = color
       @canvas.fillRect(leftRangeItem * @canvasScale, 0, numberOfItem * @canvasScale, @canvasHeight)
-
 
 
 #class RangeControl
@@ -435,20 +437,6 @@ class RangeControlGraph extends RangeControl
 #      @colorizeCell cell
 #      @bindHoverToCell cell
 #
-#  colorizeCell: (cell) ->
-#    # @todo extract to options
-#    colorRanges =
-#      "light-green":  [0, 100]
-#      "middle-green": [101, 1000]
-#      "green":        [1001, 10000]
-#      "yellow":       [10001]
-#
-#    for colorRange of colorRanges
-#      leftColorRange  = colorRanges[colorRange][0]
-#      rightColorRange = colorRanges[colorRange][1]
-#      if (leftColorRange <= cell.data("rate") <= rightColorRange) || (leftColorRange <= cell.data("rate") && !rightColorRange)
-#        cell.addClass(colorRange)
-#        break
 #
 #  getRateOfCell: (cell) ->
 #    cell.data("rate")

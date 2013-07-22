@@ -117,4 +117,8 @@
     }
   });
 
+  $('.range-control-graph').on('change', function(e, data) {
+    return console.log(data);
+  });
+
 }).call(this);

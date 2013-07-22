@@ -281,7 +281,7 @@ class RangeControl
   _fireChangeEvent: ->
     clearTimeout(@_changeTimeout)
     @_changeTimeout = setTimeout( =>
-      @el.trigger('change', @value)
+      @el.trigger('change', @value())
     , @settings.timeout)
 
   render: ->
@@ -367,23 +367,24 @@ class RangeControlGraph extends RangeControl
 
   # Method use only sorted colorRange and data for best performance
   _renderColorRange: ->
-    @dataColorRange = {}
-    colorRange = @settings.colorsRange
-    data       = @settings.data
+    if !@dataColorRange?
+      @dataColorRange = {}
+      colorRange = @settings.colorsRange
+      data       = @settings.data
 
-    # Collect indexes of data coinciding to range of color
-    for color, range of colorRange
-      @dataColorRange[color] = []
-      i = -1
-      for value of data
-        i++
-        leftColorRange  = range[0]
-        rightColorRange = if range[1]? then range[1] else Infinity
-        if (leftColorRange <= value <= rightColorRange)
-          @dataColorRange[color].push(i)
-          continue
-        else if (value > rightColorRange)
-          break
+      # Collect indexes of data coinciding to range of color
+      for color, range of colorRange
+        @dataColorRange[color] = []
+        i = -1
+        for value of data
+          i++
+          leftColorRange  = range[0]
+          rightColorRange = if range[1]? then range[1] else Infinity
+          if (leftColorRange <= value <= rightColorRange)
+            @dataColorRange[color].push(i)
+            continue
+          else if (value > rightColorRange)
+            break
 
     # Draw color ranges
     for color, range of @dataColorRange
@@ -394,19 +395,27 @@ class RangeControlGraph extends RangeControl
       @canvas.fillRect(leftRangeItem * @canvasScale, 0, numberOfItem * @canvasScale, @canvasHeight)
 
   _formatLeftControl: ->
-    value = Object.keys(@options.data)[@leftValue() - 1]
-    if !value?
-      value = 0
+    value = @_getLeftValue()
 #    volume = @options.data[value]
     if @_formatControlCallback?
       @_leftControl.html(@_formatControlCallback(value))
 
   _formatRightControl: ->
-    value = Object.keys(@options.data)[@rightValue() - 1]
-    if !value?
-      value = 0
+    value = @_getRightValue()
     if @_formatControlCallback?
       @_rightControl.html(@_formatControlCallback(value))
+
+  _getLeftValue: ->
+    value = Object.keys(@options.data)[@_leftControlValue - 1]
+    if !value?
+      value = 0
+    value
+
+  _getRightValue: ->
+    value = Object.keys(@options.data)[@_rightControlValue - 1]
+    if !value?
+      value = 0
+    value
 
 
 #  bindHoverToCell: (cell) ->

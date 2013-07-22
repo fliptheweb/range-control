@@ -359,7 +359,7 @@
 
       clearTimeout(this._changeTimeout);
       return this._changeTimeout = setTimeout(function() {
-        return _this.el.trigger('change', _this.value);
+        return _this.el.trigger('change', _this.value());
       }, this.settings.timeout);
     };
 
@@ -474,22 +474,24 @@
     RangeControlGraph.prototype._renderColorRange = function() {
       var color, colorRange, data, i, leftColorRange, leftRangeItem, numberOfItem, range, rightColorRange, rightRangeItem, value, _ref, _results;
 
-      this.dataColorRange = {};
-      colorRange = this.settings.colorsRange;
-      data = this.settings.data;
-      for (color in colorRange) {
-        range = colorRange[color];
-        this.dataColorRange[color] = [];
-        i = -1;
-        for (value in data) {
-          i++;
-          leftColorRange = range[0];
-          rightColorRange = range[1] != null ? range[1] : Infinity;
-          if ((leftColorRange <= value && value <= rightColorRange)) {
-            this.dataColorRange[color].push(i);
-            continue;
-          } else if (value > rightColorRange) {
-            break;
+      if (this.dataColorRange == null) {
+        this.dataColorRange = {};
+        colorRange = this.settings.colorsRange;
+        data = this.settings.data;
+        for (color in colorRange) {
+          range = colorRange[color];
+          this.dataColorRange[color] = [];
+          i = -1;
+          for (value in data) {
+            i++;
+            leftColorRange = range[0];
+            rightColorRange = range[1] != null ? range[1] : Infinity;
+            if ((leftColorRange <= value && value <= rightColorRange)) {
+              this.dataColorRange[color].push(i);
+              continue;
+            } else if (value > rightColorRange) {
+              break;
+            }
           }
         }
       }
@@ -509,10 +511,7 @@
     RangeControlGraph.prototype._formatLeftControl = function() {
       var value;
 
-      value = Object.keys(this.options.data)[this.leftValue() - 1];
-      if (value == null) {
-        value = 0;
-      }
+      value = this._getLeftValue();
       if (this._formatControlCallback != null) {
         return this._leftControl.html(this._formatControlCallback(value));
       }
@@ -521,13 +520,30 @@
     RangeControlGraph.prototype._formatRightControl = function() {
       var value;
 
-      value = Object.keys(this.options.data)[this.rightValue() - 1];
-      if (value == null) {
-        value = 0;
-      }
+      value = this._getRightValue();
       if (this._formatControlCallback != null) {
         return this._rightControl.html(this._formatControlCallback(value));
       }
+    };
+
+    RangeControlGraph.prototype._getLeftValue = function() {
+      var value;
+
+      value = Object.keys(this.options.data)[this._leftControlValue - 1];
+      if (value == null) {
+        value = 0;
+      }
+      return value;
+    };
+
+    RangeControlGraph.prototype._getRightValue = function() {
+      var value;
+
+      value = Object.keys(this.options.data)[this._rightControlValue - 1];
+      if (value == null) {
+        value = 0;
+      }
+      return value;
     };
 
     return RangeControlGraph;

@@ -16,6 +16,9 @@ $('.range-control-graph').rangeControlGraph({
     utilities.shortenVolumeToName(value)
 })
 
+$('.range-control-graph').on 'change', (e, data) ->
+  console.log(data)
+
 #$('#example-1').rangeControl()
 #$('#example-1').on("change", (e, data) ->
 #  console.log(data)

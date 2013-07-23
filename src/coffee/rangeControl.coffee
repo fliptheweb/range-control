@@ -409,13 +409,13 @@ class RangeControlGraph extends RangeControl
     value = Object.keys(@options.data)[@_leftControlValue - 1]
     if !value?
       value = 0
-    value
+    parseInt(value)
 
   _getRightValue: ->
     value = Object.keys(@options.data)[@_rightControlValue - 1]
     if !value?
       value = 0
-    value
+    parseInt(value)
 
 #  _getValueByPosition: (x) ->
 #    console.log @_min + Math.round(x / @_pxInValue)

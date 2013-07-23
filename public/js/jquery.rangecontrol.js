@@ -533,7 +533,7 @@
       if (value == null) {
         value = 0;
       }
-      return value;
+      return parseInt(value);
     };
 
     RangeControlGraph.prototype._getRightValue = function() {
@@ -543,7 +543,7 @@
       if (value == null) {
         value = 0;
       }
-      return value;
+      return parseInt(value);
     };
 
     return RangeControlGraph;

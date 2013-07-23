@@ -341,25 +341,27 @@ class RangeControlGraph extends RangeControl
     @_leftControl  = $("<button class='#{@PLUGINNAME}__left'></button>").appendTo(@el)
     @_rightControl = $("<button class='#{@PLUGINNAME}__right'></button>").appendTo(@el)
     @_rangeElement = $("<canvas class='#{@PLUGINNAME}__range'></canvas>").appendTo(@el)
+    @_rangeGreyWrap = $("<div class='#{@PLUGINNAME}__wrap-range-grey'></div>")
+    @_rangeGreyElement = $("<canvas class='#{@PLUGINNAME}__range-grey'></canvas>").appendTo(@_rangeGreyWrap)
+    @_rangeGreyWrap.appendTo(@el)
+
 
   _renderRange: ->
     rangeVolumes = for value, volume of @options.data
       volume
     @_maxRangeVolume = Math.max.apply null, rangeVolumes
-#    console.log @options.data
     dataSize = Object.keys(@options.data).length
     @canvas  = @_rangeElement[0].getContext('2d')
-#    pxInCell = @_widthWithoutPaddings / dataSize
-#    @_rangeElement[0].width =  @_widthWithoutPaddings
     @canvasScale  = 30
     @canvasHeight = @el.height()
     @canvasWidth  = dataSize * @canvasScale
     @_rangeElement[0].width =  dataSize * @canvasScale
     @_rangeElement[0].height = @el.height()
     @_rangeElement.width(@_widthWithoutPaddings)
-#    @_rangeElement.height(@el.height())
+
     @_renderColorRange()
     @_renderRangeCells()
+    @_renderGreyRange()
 
   # Method use only sorted colorRange and data for best performance
   _renderColorRange: ->
@@ -382,13 +384,15 @@ class RangeControlGraph extends RangeControl
           else if (value > rightColorRange)
             break
 
-    # Draw color ranges
+    @_drawColorRange(@canvas)
+
+  _drawColorRange: (canvasElement, grey = false)->
     for color, range of @dataColorRange
       leftRangeItem  = Math.min.apply(null, range)
       rightRangeItem = Math.max.apply(null, range)
       numberOfItem = range.length
-      @canvas.fillStyle = color
-      @canvas.fillRect(leftRangeItem * @canvasScale, 0, numberOfItem * @canvasScale, @canvasHeight)
+      canvasElement.fillStyle = color
+      canvasElement.fillRect(leftRangeItem * @canvasScale, 0, numberOfItem * @canvasScale, @canvasHeight)
 
   _renderRangeCells: ->
     i = 0
@@ -396,6 +400,20 @@ class RangeControlGraph extends RangeControl
       cellHeight = @canvasHeight / @_maxRangeVolume * volume
       @canvas.fillStyle = @settings.colorCell
       @canvas.fillRect((@canvasScale * i++), @canvasHeight, @canvasScale, -cellHeight)
+
+  _renderGreyRange: ->
+    @greyCanvas = @_rangeGreyElement[0].getContext('2d')
+    @_rangeGreyElement[0].width =  @_rangeElement[0].width
+    @_rangeGreyElement[0].height = @_rangeElement[0].height
+    @_rangeGreyElement.width(@_widthWithoutPaddings)
+
+    # copy color canvas
+    imageData = @canvas.getImageData(0, 0, @_rangeElement[0].width - 1, @_rangeElement[0].height - 1);
+    @greyCanvas.putImageData(imageData, 0, 0);
+
+#    @_drawColorRange(@greyCanvas)
+
+
 
   _formatLeftControl: ->
     value = @_getLeftValue()

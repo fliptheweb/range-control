@@ -431,7 +431,10 @@
       this.el.children().remove();
       this._leftControl = $("<button class='" + this.PLUGINNAME + "__left'></button>").appendTo(this.el);
       this._rightControl = $("<button class='" + this.PLUGINNAME + "__right'></button>").appendTo(this.el);
-      return this._rangeElement = $("<canvas class='" + this.PLUGINNAME + "__range'></canvas>").appendTo(this.el);
+      this._rangeElement = $("<canvas class='" + this.PLUGINNAME + "__range'></canvas>").appendTo(this.el);
+      this._rangeGreyWrap = $("<div class='" + this.PLUGINNAME + "__wrap-range-grey'></div>");
+      this._rangeGreyElement = $("<canvas class='" + this.PLUGINNAME + "__range-grey'></canvas>").appendTo(this._rangeGreyWrap);
+      return this._rangeGreyWrap.appendTo(this.el);
     };
 
     RangeControlGraph.prototype._renderRange = function() {
@@ -458,11 +461,12 @@
       this._rangeElement[0].height = this.el.height();
       this._rangeElement.width(this._widthWithoutPaddings);
       this._renderColorRange();
-      return this._renderRangeCells();
+      this._renderRangeCells();
+      return this._renderGreyRange();
     };
 
     RangeControlGraph.prototype._renderColorRange = function() {
-      var color, colorRange, data, i, leftColorRange, leftRangeItem, numberOfItem, range, rightColorRange, rightRangeItem, value, _ref, _results;
+      var color, colorRange, data, i, leftColorRange, range, rightColorRange, value;
 
       if (this.dataColorRange == null) {
         this.dataColorRange = {};
@@ -485,6 +489,15 @@
           }
         }
       }
+      return this._drawColorRange(this.canvas);
+    };
+
+    RangeControlGraph.prototype._drawColorRange = function(canvasElement, grey) {
+      var color, leftRangeItem, numberOfItem, range, rightRangeItem, _ref, _results;
+
+      if (grey == null) {
+        grey = false;
+      }
       _ref = this.dataColorRange;
       _results = [];
       for (color in _ref) {
@@ -492,8 +505,8 @@
         leftRangeItem = Math.min.apply(null, range);
         rightRangeItem = Math.max.apply(null, range);
         numberOfItem = range.length;
-        this.canvas.fillStyle = color;
-        _results.push(this.canvas.fillRect(leftRangeItem * this.canvasScale, 0, numberOfItem * this.canvasScale, this.canvasHeight));
+        canvasElement.fillStyle = color;
+        _results.push(canvasElement.fillRect(leftRangeItem * this.canvasScale, 0, numberOfItem * this.canvasScale, this.canvasHeight));
       }
       return _results;
     };
@@ -511,6 +524,17 @@
         _results.push(this.canvas.fillRect(this.canvasScale * i++, this.canvasHeight, this.canvasScale, -cellHeight));
       }
       return _results;
+    };
+
+    RangeControlGraph.prototype._renderGreyRange = function() {
+      var imageData;
+
+      this.greyCanvas = this._rangeGreyElement[0].getContext('2d');
+      this._rangeGreyElement[0].width = this._rangeElement[0].width;
+      this._rangeGreyElement[0].height = this._rangeElement[0].height;
+      this._rangeGreyElement.width(this._widthWithoutPaddings);
+      imageData = this.canvas.getImageData(0, 0, this._rangeElement[0].width - 1, this._rangeElement[0].height - 1);
+      return this.greyCanvas.putImageData(imageData, 0, 0);
     };
 
     RangeControlGraph.prototype._formatLeftControl = function() {

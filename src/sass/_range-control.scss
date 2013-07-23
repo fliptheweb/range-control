@@ -128,6 +128,18 @@ $experimental-support-for-svg: true;
   @extend %#{$b}__right;
 }
 
-.#{$b}-graph__range {
+.#{$b}-graph__range,
+.#{$b}-graph__range-grey {
   height: $control-height;
+}
+
+.#{$b}-graph__range-grey {
+  margin-left: $button-width;
+}
+
+.#{$b}-graph__wrap-range-grey {
+  height: $control-height;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }

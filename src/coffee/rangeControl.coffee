@@ -362,6 +362,7 @@ class RangeControlGraph extends RangeControl
     @_renderColorRange()
     @_renderRangeCells()
     @_renderGreyRange()
+    @_renderRangeWrap()
 
   # Method use only sorted colorRange and data for best performance
   _renderColorRange: ->
@@ -408,8 +409,25 @@ class RangeControlGraph extends RangeControl
     @_rangeGreyElement.width(@_widthWithoutPaddings)
 
     # copy color canvas
-    imageData = @canvas.getImageData(0, 0, @_rangeElement[0].width - 1, @_rangeElement[0].height - 1)
+    imageData = @canvas.getImageData(0, 0, @_rangeElement[0].width, @_rangeElement[0].height)
+    console.log imageData
+
+    data = imageData.data
+    for i in [0..(data.length-1)] by 4
+      brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2]
+      data[i]     = brightness
+      data[i + 1] = brightness
+      data[i + 2] = brightness
+
     @greyCanvas.putImageData(imageData, 0, 0)
+
+  _renderRangeWrap: ->
+    leftBorder  = ((@_leftControlValue - @_min) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
+    rightBorder = ((@_rightControlValue - @_min) * @_pxInValue) + @_controlWidth + (@_controlWidth / 2)
+
+    @_rangeGreyWrap.css({
+      'width':  leftBorder
+    })
 
 #    @_drawColorRange(@greyCanvas)
 

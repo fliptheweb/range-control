@@ -462,7 +462,8 @@
       this._rangeElement.width(this._widthWithoutPaddings);
       this._renderColorRange();
       this._renderRangeCells();
-      return this._renderGreyRange();
+      this._renderGreyRange();
+      return this._renderRangeWrap();
     };
 
     RangeControlGraph.prototype._renderColorRange = function() {
@@ -527,14 +528,32 @@
     };
 
     RangeControlGraph.prototype._renderGreyRange = function() {
-      var imageData;
+      var brightness, data, i, imageData, _i, _ref;
 
       this.greyCanvas = this._rangeGreyElement[0].getContext('2d');
       this._rangeGreyElement[0].width = this._rangeElement[0].width;
       this._rangeGreyElement[0].height = this._rangeElement[0].height;
       this._rangeGreyElement.width(this._widthWithoutPaddings);
-      imageData = this.canvas.getImageData(0, 0, this._rangeElement[0].width - 1, this._rangeElement[0].height - 1);
+      imageData = this.canvas.getImageData(0, 0, this._rangeElement[0].width, this._rangeElement[0].height);
+      console.log(imageData);
+      data = imageData.data;
+      for (i = _i = 0, _ref = data.length - 1; _i <= _ref; i = _i += 4) {
+        brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
+        data[i] = brightness;
+        data[i + 1] = brightness;
+        data[i + 2] = brightness;
+      }
       return this.greyCanvas.putImageData(imageData, 0, 0);
+    };
+
+    RangeControlGraph.prototype._renderRangeWrap = function() {
+      var leftBorder, rightBorder;
+
+      leftBorder = ((this._leftControlValue - this._min) * this._pxInValue) + this._controlWidth - (this._controlWidth / 2);
+      rightBorder = ((this._rightControlValue - this._min) * this._pxInValue) + this._controlWidth + (this._controlWidth / 2);
+      return this._rangeGreyWrap.css({
+        'width': leftBorder
+      });
     };
 
     RangeControlGraph.prototype._formatLeftControl = function() {

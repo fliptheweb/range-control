@@ -127,3 +127,7 @@ $experimental-support-for-svg: true;
 .#{$b}-graph__right {
   @extend %#{$b}__right;
 }
+
+.#{$b}-graph__range {
+  height: $control-height;
+}

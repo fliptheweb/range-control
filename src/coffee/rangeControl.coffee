@@ -357,7 +357,7 @@ class RangeControlGraph extends RangeControl
     @_rangeElement[0].width =  dataSize * @canvasScale
     @_rangeElement[0].height = @el.height()
     @_rangeElement.width(@_widthWithoutPaddings)
-    @_rangeElement.height(@el.height())
+#    @_rangeElement.height(@el.height())
     @_renderColorRange()
     @_renderRangeCells()
 

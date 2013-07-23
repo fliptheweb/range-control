@@ -138,3 +138,7 @@
   -moz-box-shadow: inset 0 0 3px rgba(246, 246, 246, 0.35);
   box-shadow: inset 0 0 3px rgba(246, 246, 246, 0.35);
 }
+
+.range-control-graph__range {
+  height: 24px;
+}

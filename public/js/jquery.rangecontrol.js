@@ -457,7 +457,6 @@
       this._rangeElement[0].width = dataSize * this.canvasScale;
       this._rangeElement[0].height = this.el.height();
       this._rangeElement.width(this._widthWithoutPaddings);
-      this._rangeElement.height(this.el.height());
       this._renderColorRange();
       return this._renderRangeCells();
     };

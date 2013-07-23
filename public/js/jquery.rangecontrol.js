@@ -588,7 +588,8 @@
     };
 
     RangeControlGraph.prototype._drawRangeHover = function(value) {
-      return this.canvasHover.clearRect(0, 0, this._rangeElement[0].width, this._rangeElement[0].height);
+      this.canvasHover.clearRect(0, 0, this._rangeElement[0].width, this._rangeElement[0].height);
+      return this._renderRangeCell(value, this.getVolumeByValue(value));
     };
 
     RangeControlGraph.prototype._formatLeftControl = function() {

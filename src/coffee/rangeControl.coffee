@@ -460,6 +460,7 @@ class RangeControlGraph extends RangeControl
 
   _drawRangeHover: (value) ->
     @canvasHover.clearRect(0, 0, @_rangeElement[0].width, @_rangeElement[0].height)
+    @_renderRangeCell(value, @getVolumeByValue(value))
 
   _formatLeftControl: ->
     value = @_getLeftValue()
@@ -486,8 +487,6 @@ class RangeControlGraph extends RangeControl
 
   getVolumeByValue: (value) ->
     @options.data[value]
-
-
 
   testCanvasSupport: ->
     !!document.createElement('canvas').getContext

@@ -145,13 +145,30 @@
 }
 
 .range-control-graph__range-grey {
-  margin-left: 66px;
+  margin: 0 66px;
 }
 
-.range-control-graph__wrap-range-grey {
+.range-control-graph__wrap-range-grey-left, .range-control-graph__wrap-range-grey-right {
   height: 24px;
   position: absolute;
-  left: 0;
   bottom: 0;
   overflow: hidden;
+}
+.range-control-graph__wrap-range-grey-left canvas, .range-control-graph__wrap-range-grey-right canvas {
+  position: absolute;
+  bottom: 0;
+}
+
+.range-control-graph__wrap-range-grey-left {
+  left: 0;
+}
+.range-control-graph__wrap-range-grey-left canvas {
+  left: 0;
+}
+
+.range-control-graph__wrap-range-grey-right {
+  right: 0;
+}
+.range-control-graph__wrap-range-grey-right canvas {
+  right: 0;
 }

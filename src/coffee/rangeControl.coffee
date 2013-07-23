@@ -341,9 +341,12 @@ class RangeControlGraph extends RangeControl
     @_leftControl  = $("<button class='#{@PLUGINNAME}__left'></button>").appendTo(@el)
     @_rightControl = $("<button class='#{@PLUGINNAME}__right'></button>").appendTo(@el)
     @_rangeElement = $("<canvas class='#{@PLUGINNAME}__range'></canvas>").appendTo(@el)
-    @_rangeGreyWrap = $("<div class='#{@PLUGINNAME}__wrap-range-grey'></div>")
-    @_rangeGreyElement = $("<canvas class='#{@PLUGINNAME}__range-grey'></canvas>").appendTo(@_rangeGreyWrap)
-    @_rangeGreyWrap.appendTo(@el)
+    @_rangeGreyWrapLeft     = $("<div class='#{@PLUGINNAME}__wrap-range-grey-left'></div>")
+    @_rangeGreyElementLeft  = $("<canvas class='#{@PLUGINNAME}__range-grey'></canvas>").appendTo(@_rangeGreyWrapLeft)
+    @_rangeGreyWrapRight    = $("<div class='#{@PLUGINNAME}__wrap-range-grey-right'></div>")
+    @_rangeGreyElementRight = $("<canvas class='#{@PLUGINNAME}__range-grey'></canvas>").appendTo(@_rangeGreyWrapRight)
+    @_rangeGreyWrapLeft.appendTo(@el)
+    @_rangeGreyWrapRight.appendTo(@el)
 
 
   _renderRange: ->
@@ -362,7 +365,7 @@ class RangeControlGraph extends RangeControl
     @_renderColorRange()
     @_renderRangeCells()
     @_renderGreyRange()
-    @_renderRangeWrap()
+    @_renderRangeWraps()
 
   # Method use only sorted colorRange and data for best performance
   _renderColorRange: ->
@@ -385,15 +388,15 @@ class RangeControlGraph extends RangeControl
           else if (value > rightColorRange)
             break
 
-    @_drawColorRange(@canvas)
+    @_drawColorRange()
 
-  _drawColorRange: (canvasElement, grey = false)->
+  _drawColorRange: ->
     for color, range of @dataColorRange
       leftRangeItem  = Math.min.apply(null, range)
       rightRangeItem = Math.max.apply(null, range)
       numberOfItem = range.length
-      canvasElement.fillStyle = color
-      canvasElement.fillRect(leftRangeItem * @canvasScale, 0, numberOfItem * @canvasScale, @canvasHeight)
+      @canvas.fillStyle = color
+      @canvas.fillRect(leftRangeItem * @canvasScale, 0, numberOfItem * @canvasScale, @canvasHeight)
 
   _renderRangeCells: ->
     i = 0
@@ -403,10 +406,15 @@ class RangeControlGraph extends RangeControl
       @canvas.fillRect((@canvasScale * i++), @canvasHeight, @canvasScale, -cellHeight)
 
   _renderGreyRange: ->
-    @greyCanvas = @_rangeGreyElement[0].getContext('2d')
-    @_rangeGreyElement[0].width =  @_rangeElement[0].width
-    @_rangeGreyElement[0].height = @_rangeElement[0].height
-    @_rangeGreyElement.width(@_widthWithoutPaddings)
+    @greyCanvasLeft = @_rangeGreyElementLeft[0].getContext('2d')
+    @_rangeGreyElementLeft[0].width =  @_rangeElement[0].width
+    @_rangeGreyElementLeft[0].height = @_rangeElement[0].height
+    @_rangeGreyElementLeft.width(@_widthWithoutPaddings)
+
+    @greyCanvasRight = @_rangeGreyElementRight[0].getContext('2d')
+    @_rangeGreyElementRight[0].width =  @_rangeElement[0].width
+    @_rangeGreyElementRight[0].height = @_rangeElement[0].height
+    @_rangeGreyElementRight.width(@_widthWithoutPaddings)
 
     # copy color canvas
     imageData = @canvas.getImageData(0, 0, @_rangeElement[0].width, @_rangeElement[0].height)
@@ -419,14 +427,18 @@ class RangeControlGraph extends RangeControl
       data[i + 1] = brightness
       data[i + 2] = brightness
 
-    @greyCanvas.putImageData(imageData, 0, 0)
+    @greyCanvasLeft.putImageData(imageData, 0, 0)
+    @greyCanvasRight.putImageData(imageData, 0, 0)
 
-  _renderRangeWrap: ->
-    leftBorder  = ((@_leftControlValue - @_min) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
-    rightBorder = ((@_rightControlValue - @_min) * @_pxInValue) + @_controlWidth + (@_controlWidth / 2)
+  _renderRangeWraps: ->
+    leftWidth  = ((@_leftControlValue - @_min) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
+    rightWidth = @_widthWithoutPaddings - ((@_rightControlValue - @_min) * @_pxInValue) + @_controlWidth + (@_controlWidth / 2)
 
-    @_rangeGreyWrap.css({
-      'width':  leftBorder
+    @_rangeGreyWrapLeft.css({
+      'width':  leftWidth
+    })
+    @_rangeGreyWrapRight.css({
+      'width':  rightWidth
     })
 
 #    @_drawColorRange(@greyCanvas)

@@ -432,9 +432,12 @@
       this._leftControl = $("<button class='" + this.PLUGINNAME + "__left'></button>").appendTo(this.el);
       this._rightControl = $("<button class='" + this.PLUGINNAME + "__right'></button>").appendTo(this.el);
       this._rangeElement = $("<canvas class='" + this.PLUGINNAME + "__range'></canvas>").appendTo(this.el);
-      this._rangeGreyWrap = $("<div class='" + this.PLUGINNAME + "__wrap-range-grey'></div>");
-      this._rangeGreyElement = $("<canvas class='" + this.PLUGINNAME + "__range-grey'></canvas>").appendTo(this._rangeGreyWrap);
-      return this._rangeGreyWrap.appendTo(this.el);
+      this._rangeGreyWrapLeft = $("<div class='" + this.PLUGINNAME + "__wrap-range-grey-left'></div>");
+      this._rangeGreyElementLeft = $("<canvas class='" + this.PLUGINNAME + "__range-grey'></canvas>").appendTo(this._rangeGreyWrapLeft);
+      this._rangeGreyWrapRight = $("<div class='" + this.PLUGINNAME + "__wrap-range-grey-right'></div>");
+      this._rangeGreyElementRight = $("<canvas class='" + this.PLUGINNAME + "__range-grey'></canvas>").appendTo(this._rangeGreyWrapRight);
+      this._rangeGreyWrapLeft.appendTo(this.el);
+      return this._rangeGreyWrapRight.appendTo(this.el);
     };
 
     RangeControlGraph.prototype._renderRange = function() {
@@ -463,7 +466,7 @@
       this._renderColorRange();
       this._renderRangeCells();
       this._renderGreyRange();
-      return this._renderRangeWrap();
+      return this._renderRangeWraps();
     };
 
     RangeControlGraph.prototype._renderColorRange = function() {
@@ -490,15 +493,12 @@
           }
         }
       }
-      return this._drawColorRange(this.canvas);
+      return this._drawColorRange();
     };
 
-    RangeControlGraph.prototype._drawColorRange = function(canvasElement, grey) {
+    RangeControlGraph.prototype._drawColorRange = function() {
       var color, leftRangeItem, numberOfItem, range, rightRangeItem, _ref, _results;
 
-      if (grey == null) {
-        grey = false;
-      }
       _ref = this.dataColorRange;
       _results = [];
       for (color in _ref) {
@@ -506,8 +506,8 @@
         leftRangeItem = Math.min.apply(null, range);
         rightRangeItem = Math.max.apply(null, range);
         numberOfItem = range.length;
-        canvasElement.fillStyle = color;
-        _results.push(canvasElement.fillRect(leftRangeItem * this.canvasScale, 0, numberOfItem * this.canvasScale, this.canvasHeight));
+        this.canvas.fillStyle = color;
+        _results.push(this.canvas.fillRect(leftRangeItem * this.canvasScale, 0, numberOfItem * this.canvasScale, this.canvasHeight));
       }
       return _results;
     };
@@ -530,10 +530,14 @@
     RangeControlGraph.prototype._renderGreyRange = function() {
       var brightness, data, i, imageData, _i, _ref;
 
-      this.greyCanvas = this._rangeGreyElement[0].getContext('2d');
-      this._rangeGreyElement[0].width = this._rangeElement[0].width;
-      this._rangeGreyElement[0].height = this._rangeElement[0].height;
-      this._rangeGreyElement.width(this._widthWithoutPaddings);
+      this.greyCanvasLeft = this._rangeGreyElementLeft[0].getContext('2d');
+      this._rangeGreyElementLeft[0].width = this._rangeElement[0].width;
+      this._rangeGreyElementLeft[0].height = this._rangeElement[0].height;
+      this._rangeGreyElementLeft.width(this._widthWithoutPaddings);
+      this.greyCanvasRight = this._rangeGreyElementRight[0].getContext('2d');
+      this._rangeGreyElementRight[0].width = this._rangeElement[0].width;
+      this._rangeGreyElementRight[0].height = this._rangeElement[0].height;
+      this._rangeGreyElementRight.width(this._widthWithoutPaddings);
       imageData = this.canvas.getImageData(0, 0, this._rangeElement[0].width, this._rangeElement[0].height);
       console.log(imageData);
       data = imageData.data;
@@ -543,16 +547,20 @@
         data[i + 1] = brightness;
         data[i + 2] = brightness;
       }
-      return this.greyCanvas.putImageData(imageData, 0, 0);
+      this.greyCanvasLeft.putImageData(imageData, 0, 0);
+      return this.greyCanvasRight.putImageData(imageData, 0, 0);
     };
 
-    RangeControlGraph.prototype._renderRangeWrap = function() {
-      var leftBorder, rightBorder;
+    RangeControlGraph.prototype._renderRangeWraps = function() {
+      var leftWidth, rightWidth;
 
-      leftBorder = ((this._leftControlValue - this._min) * this._pxInValue) + this._controlWidth - (this._controlWidth / 2);
-      rightBorder = ((this._rightControlValue - this._min) * this._pxInValue) + this._controlWidth + (this._controlWidth / 2);
-      return this._rangeGreyWrap.css({
-        'width': leftBorder
+      leftWidth = ((this._leftControlValue - this._min) * this._pxInValue) + this._controlWidth - (this._controlWidth / 2);
+      rightWidth = this._widthWithoutPaddings - ((this._rightControlValue - this._min) * this._pxInValue) + this._controlWidth + (this._controlWidth / 2);
+      this._rangeGreyWrapLeft.css({
+        'width': leftWidth
+      });
+      return this._rangeGreyWrapRight.css({
+        'width': rightWidth
       });
     };
 

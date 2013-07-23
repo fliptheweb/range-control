@@ -134,13 +134,34 @@ $experimental-support-for-svg: true;
 }
 
 .#{$b}-graph__range-grey {
-  margin-left: $button-width;
+  margin: 0 $button-width;
 }
 
-.#{$b}-graph__wrap-range-grey {
+%#{$b}-graph__wrap-range-grey {
   height: $control-height;
   position: absolute;
-  left: 0;
   bottom: 0;
   overflow: hidden;
+
+  canvas {
+    position: absolute;
+    bottom: 0;
+  }
+}
+
+.#{$b}-graph__wrap-range-grey-left {
+  @extend %#{$b}-graph__wrap-range-grey;
+  left: 0;
+
+  canvas {
+    left: 0;
+  }
+}
+.#{$b}-graph__wrap-range-grey-right {
+  @extend %#{$b}-graph__wrap-range-grey;
+  right: 0;
+
+  canvas {
+    right: 0;
+  }
 }

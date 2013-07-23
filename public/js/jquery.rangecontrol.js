@@ -95,8 +95,8 @@
 
     RangeControl.prototype.value = function() {
       return {
-        'leftValue': this.leftValue(),
-        'rightValue': this.rightValue()
+        'leftValue': this._getLeftValue(),
+        'rightValue': this._getRightValue()
       };
     };
 
@@ -249,8 +249,8 @@
         _this._leftControl.triggerHandler('mouseup');
         return _this._rightControl.triggerHandler('mouseup');
       });
-      this._renderLeftControl(this.leftValue());
-      this._renderRightControl(this.rightValue());
+      this._renderLeftControl(this._leftControlValue);
+      this._renderRightControl(this._rightControlValue);
       return this._bindControlKeys();
     };
 

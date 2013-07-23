@@ -73,8 +73,8 @@ class RangeControl
 
   value: ->
     {
-      'leftValue':  @leftValue()
-      'rightValue': @rightValue()
+      'leftValue':  @_getLeftValue()
+      'rightValue': @_getRightValue()
     }
 
   leftValue: (value) ->
@@ -200,8 +200,8 @@ class RangeControl
       @_rightControl.triggerHandler 'mouseup'
 
     # set init position
-    @_renderLeftControl(@leftValue())
-    @_renderRightControl(@rightValue())
+    @_renderLeftControl(@_leftControlValue)
+    @_renderRightControl(@_rightControlValue)
     @_bindControlKeys()
 
   _controlMoveTo: (control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) ->

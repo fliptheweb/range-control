@@ -151,12 +151,12 @@
 .range-control-graph__wrap-range-grey-left, .range-control-graph__wrap-range-grey-right {
   height: 24px;
   position: absolute;
-  bottom: 0;
+  top: 1px;
   overflow: hidden;
 }
 .range-control-graph__wrap-range-grey-left canvas, .range-control-graph__wrap-range-grey-right canvas {
   position: absolute;
-  bottom: 0;
+  top: 0;
 }
 
 .range-control-graph__wrap-range-grey-left {

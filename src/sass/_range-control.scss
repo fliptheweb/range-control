@@ -140,12 +140,12 @@ $experimental-support-for-svg: true;
 %#{$b}-graph__wrap-range-grey {
   height: $control-height;
   position: absolute;
-  bottom: 0;
+  top: 1px;
   overflow: hidden;
 
   canvas {
     position: absolute;
-    bottom: 0;
+    top: 0;
   }
 }
 

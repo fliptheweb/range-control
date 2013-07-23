@@ -321,8 +321,8 @@
     RangeControl.prototype._validateLeftValue = function(value) {
       if (value <= this._min) {
         return this._min;
-      } else if (value >= this.rightValue()) {
-        return this.rightValue();
+      } else if (value >= this._rightControlValue) {
+        return this._rightControlValue;
       } else {
         return value;
       }
@@ -331,8 +331,8 @@
     RangeControl.prototype._validateRightValue = function(value) {
       if (value >= this._max) {
         return this._max;
-      } else if (value <= this.leftValue()) {
-        return this.leftValue();
+      } else if (value <= this._leftControlValue) {
+        return this._leftControlValue;
       } else {
         return value;
       }

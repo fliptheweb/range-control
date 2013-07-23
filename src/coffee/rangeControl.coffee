@@ -254,16 +254,16 @@ class RangeControl
   _validateLeftValue: (value) ->
     if value <= @_min
       @_min
-    else if value >= @rightValue()
-      @rightValue()
+    else if value >= @_rightControlValue
+      @_rightControlValue
     else
       value
 
   _validateRightValue: (value) ->
     if value >= @_max
       @_max
-    else if value <= @leftValue()
-      @leftValue()
+    else if value <= @_leftControlValue
+      @_leftControlValue
     else
       value
 
@@ -416,6 +416,10 @@ class RangeControlGraph extends RangeControl
     if !value?
       value = 0
     value
+
+#  _getValueByPosition: (x) ->
+#    console.log @_min + Math.round(x / @_pxInValue)
+#    @_min + Math.round(x / @_pxInValue)
 
 
 #  bindHoverToCell: (cell) ->

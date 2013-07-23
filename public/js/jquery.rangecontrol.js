@@ -435,7 +435,7 @@
     };
 
     RangeControlGraph.prototype._renderRange = function() {
-      var cellHeight, dataSize, i, rangeVolumes, value, volume, _ref, _results;
+      var dataSize, rangeVolumes, value, volume;
 
       rangeVolumes = (function() {
         var _ref, _results;
@@ -459,16 +459,7 @@
       this._rangeElement.width(this._widthWithoutPaddings);
       this._rangeElement.height(this.el.height());
       this._renderColorRange();
-      i = 0;
-      _ref = this.options.data;
-      _results = [];
-      for (value in _ref) {
-        volume = _ref[value];
-        cellHeight = this.canvasHeight / this._maxRangeVolume * volume;
-        this.canvas.fillStyle = this.settings.colorCell;
-        _results.push(this.canvas.fillRect(this.canvasScale * i++, this.canvasHeight, this.canvasScale, -cellHeight));
-      }
-      return _results;
+      return this._renderRangeCells();
     };
 
     RangeControlGraph.prototype._renderColorRange = function() {
@@ -504,6 +495,21 @@
         numberOfItem = range.length;
         this.canvas.fillStyle = color;
         _results.push(this.canvas.fillRect(leftRangeItem * this.canvasScale, 0, numberOfItem * this.canvasScale, this.canvasHeight));
+      }
+      return _results;
+    };
+
+    RangeControlGraph.prototype._renderRangeCells = function() {
+      var cellHeight, i, value, volume, _ref, _results;
+
+      i = 0;
+      _ref = this.options.data;
+      _results = [];
+      for (value in _ref) {
+        volume = _ref[value];
+        cellHeight = this.canvasHeight / this._maxRangeVolume * volume;
+        this.canvas.fillStyle = this.settings.colorCell;
+        _results.push(this.canvas.fillRect(this.canvasScale * i++, this.canvasHeight, this.canvasScale, -cellHeight));
       }
       return _results;
     };
@@ -544,6 +550,10 @@
         value = 0;
       }
       return parseInt(value);
+    };
+
+    RangeControlGraph.prototype.getVolumeByValue = function(value) {
+      return this.options.data[value];
     };
 
     return RangeControlGraph;

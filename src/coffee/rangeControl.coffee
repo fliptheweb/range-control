@@ -359,11 +359,7 @@ class RangeControlGraph extends RangeControl
     @_rangeElement.width(@_widthWithoutPaddings)
     @_rangeElement.height(@el.height())
     @_renderColorRange()
-    i = 0
-    for value, volume of @options.data
-      cellHeight = @canvasHeight / @_maxRangeVolume * volume
-      @canvas.fillStyle = @settings.colorCell
-      @canvas.fillRect((@canvasScale * i++), @canvasHeight, @canvasScale, -cellHeight)
+    @_renderRangeCells()
 
   # Method use only sorted colorRange and data for best performance
   _renderColorRange: ->
@@ -394,6 +390,13 @@ class RangeControlGraph extends RangeControl
       @canvas.fillStyle = color
       @canvas.fillRect(leftRangeItem * @canvasScale, 0, numberOfItem * @canvasScale, @canvasHeight)
 
+  _renderRangeCells: ->
+    i = 0
+    for value, volume of @options.data
+      cellHeight = @canvasHeight / @_maxRangeVolume * volume
+      @canvas.fillStyle = @settings.colorCell
+      @canvas.fillRect((@canvasScale * i++), @canvasHeight, @canvasScale, -cellHeight)
+
   _formatLeftControl: ->
     value = @_getLeftValue()
 #    volume = @options.data[value]
@@ -416,6 +419,9 @@ class RangeControlGraph extends RangeControl
     if !value?
       value = 0
     parseInt(value)
+
+  getVolumeByValue: (value) ->
+    @options.data[value]
 
 #  _getValueByPosition: (x) ->
 #    console.log @_min + Math.round(x / @_pxInValue)

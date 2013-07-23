@@ -418,7 +418,6 @@ class RangeControlGraph extends RangeControl
 
     # copy color canvas
     imageData = @canvas.getImageData(0, 0, @_rangeElement[0].width, @_rangeElement[0].height)
-    console.log imageData
 
     data = imageData.data
     for i in [0..(data.length-1)] by 4
@@ -432,7 +431,7 @@ class RangeControlGraph extends RangeControl
 
   _renderRangeWraps: ->
     leftWidth  = ((@_leftControlValue - @_min) * @_pxInValue) + @_controlWidth - (@_controlWidth / 2)
-    rightWidth = @_widthWithoutPaddings - ((@_rightControlValue - @_min) * @_pxInValue) + @_controlWidth + (@_controlWidth / 2)
+    rightWidth = @_width - ((@_rightControlValue - @_min) * @_pxInValue + @_controlWidth + (@_controlWidth / 2))
 
     @_rangeGreyWrapLeft.css({
       'width':  leftWidth

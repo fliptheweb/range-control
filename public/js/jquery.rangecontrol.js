@@ -539,7 +539,6 @@
       this._rangeGreyElementRight[0].height = this._rangeElement[0].height;
       this._rangeGreyElementRight.width(this._widthWithoutPaddings);
       imageData = this.canvas.getImageData(0, 0, this._rangeElement[0].width, this._rangeElement[0].height);
-      console.log(imageData);
       data = imageData.data;
       for (i = _i = 0, _ref = data.length - 1; _i <= _ref; i = _i += 4) {
         brightness = 0.34 * data[i] + 0.5 * data[i + 1] + 0.16 * data[i + 2];
@@ -555,7 +554,7 @@
       var leftWidth, rightWidth;
 
       leftWidth = ((this._leftControlValue - this._min) * this._pxInValue) + this._controlWidth - (this._controlWidth / 2);
-      rightWidth = this._widthWithoutPaddings - ((this._rightControlValue - this._min) * this._pxInValue) + this._controlWidth + (this._controlWidth / 2);
+      rightWidth = this._width - ((this._rightControlValue - this._min) * this._pxInValue + this._controlWidth + (this._controlWidth / 2));
       this._rangeGreyWrapLeft.css({
         'width': leftWidth
       });

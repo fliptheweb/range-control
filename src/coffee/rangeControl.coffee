@@ -408,8 +408,8 @@ class RangeControlGraph extends RangeControl
     @_rangeGreyElement.width(@_widthWithoutPaddings)
 
     # copy color canvas
-    imageData = @canvas.getImageData(0, 0, @_rangeElement[0].width - 1, @_rangeElement[0].height - 1);
-    @greyCanvas.putImageData(imageData, 0, 0);
+    imageData = @canvas.getImageData(0, 0, @_rangeElement[0].width - 1, @_rangeElement[0].height - 1)
+    @greyCanvas.putImageData(imageData, 0, 0)
 
 #    @_drawColorRange(@greyCanvas)
 
@@ -440,6 +440,9 @@ class RangeControlGraph extends RangeControl
 
   getVolumeByValue: (value) ->
     @options.data[value]
+
+  testCanvasSupport: ->
+    !!document.createElement('canvas').getContext
 
 #  _getValueByPosition: (x) ->
 #    console.log @_min + Math.round(x / @_pxInValue)

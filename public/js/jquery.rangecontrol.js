@@ -579,6 +579,10 @@
       return this.options.data[value];
     };
 
+    RangeControlGraph.prototype.testCanvasSupport = function() {
+      return !!document.createElement('canvas').getContext;
+    };
+
     return RangeControlGraph;
 
   })(RangeControl);

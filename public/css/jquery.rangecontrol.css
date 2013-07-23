@@ -140,8 +140,15 @@
 }
 
 .range-control-graph__range,
+.range-control-graph__range-hover,
 .range-control-graph__range-grey {
   height: 24px;
+}
+
+.range-control-graph__range-hover {
+  position: absolute;
+  top: 1px;
+  left: 66px;
 }
 
 .range-control-graph__range-grey {

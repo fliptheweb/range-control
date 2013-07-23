@@ -341,6 +341,7 @@ class RangeControlGraph extends RangeControl
     @_leftControl  = $("<button class='#{@PLUGINNAME}__left'></button>").appendTo(@el)
     @_rightControl = $("<button class='#{@PLUGINNAME}__right'></button>").appendTo(@el)
     @_rangeElement = $("<canvas class='#{@PLUGINNAME}__range'></canvas>").appendTo(@el)
+    @_rangeElementHover = $("<canvas class='#{@PLUGINNAME}__range-hover'></canvas>").appendTo(@el)
     @_rangeGreyWrapLeft     = $("<div class='#{@PLUGINNAME}__wrap-range-grey-left'></div>")
     @_rangeGreyElementLeft  = $("<canvas class='#{@PLUGINNAME}__range-grey'></canvas>").appendTo(@_rangeGreyWrapLeft)
     @_rangeGreyWrapRight    = $("<div class='#{@PLUGINNAME}__wrap-range-grey-right'></div>")
@@ -366,6 +367,7 @@ class RangeControlGraph extends RangeControl
     @_renderRangeCells()
     @_renderGreyRange()
     @_renderRangeWraps()
+    @_renderRangeHover()
 
   # Method use only sorted colorRange and data for best performance
   _renderColorRange: ->
@@ -400,10 +402,15 @@ class RangeControlGraph extends RangeControl
 
   _renderRangeCells: ->
     i = 0
+    @canvas.fillStyle = @settings.colorCell
     for value, volume of @options.data
-      cellHeight = @canvasHeight / @_maxRangeVolume * volume
-      @canvas.fillStyle = @settings.colorCell
-      @canvas.fillRect((@canvasScale * i++), @canvasHeight, @canvasScale, -cellHeight)
+      @_renderRangeCell(i++, volume)
+#      cellHeight = @canvasHeight / @_maxRangeVolume * volume
+#      @canvas.fillRect((@canvasScale * i++), @canvasHeight, @canvasScale, -cellHeight)
+
+  _renderRangeCell: (i, volume)->
+    cellHeight = @canvasHeight / @_maxRangeVolume * volume
+    @canvas.fillRect((@canvasScale * i), @canvasHeight, @canvasScale, -cellHeight)
 
   _renderGreyRange: ->
     @greyCanvasLeft = @_rangeGreyElementLeft[0].getContext('2d')
@@ -440,9 +447,19 @@ class RangeControlGraph extends RangeControl
       'width':  rightWidth
     })
 
-#    @_drawColorRange(@greyCanvas)
+  _renderRangeHover: ->
+    @canvasHover = @_rangeElementHover[0].getContext('2d')
+    @_rangeElementHover[0].width =  @_rangeElement[0].width
+    @_rangeElementHover[0].height = @_rangeElement[0].height
+    @_rangeElementHover.width(@_widthWithoutPaddings)
 
+    @_rangeElementHover.on "mousemove", (e) =>
+      x = e.offsetX
+      y = e.offsetY
+      @_drawRangeHover(@_getValueByPosition(x))
 
+  _drawRangeHover: (value) ->
+    @canvasHover.clearRect(0, 0, @_rangeElement[0].width, @_rangeElement[0].height)
 
   _formatLeftControl: ->
     value = @_getLeftValue()
@@ -469,6 +486,8 @@ class RangeControlGraph extends RangeControl
 
   getVolumeByValue: (value) ->
     @options.data[value]
+
+
 
   testCanvasSupport: ->
     !!document.createElement('canvas').getContext

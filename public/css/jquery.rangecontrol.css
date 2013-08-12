@@ -23,7 +23,7 @@
   position: absolute;
   z-index: 1;
   top: 0;
-  bottom: -1px;
+  bottom: 0;
   background-color: #d7d7d7;
   color: #7c7c7c;
   font-family: Arial, Tahoma, sans-serif;
@@ -139,6 +139,10 @@
   box-shadow: inset 0 0 3px rgba(246, 246, 246, 0.35);
 }
 
+.range-control-graph__range {
+  margin-top: -1px;
+}
+
 .range-control-graph__range,
 .range-control-graph__range-hover,
 .range-control-graph__range-grey {
@@ -158,7 +162,7 @@
 .range-control-graph__wrap-range-grey-left, .range-control-graph__wrap-range-grey-right {
   height: 24px;
   position: absolute;
-  top: 1px;
+  top: 0;
   overflow: hidden;
 }
 .range-control-graph__wrap-range-grey-left canvas, .range-control-graph__wrap-range-grey-right canvas {

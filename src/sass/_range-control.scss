@@ -19,7 +19,7 @@ $experimental-support-for-svg: true;
   position: absolute;
   z-index: 1;
   top: 0;
-  bottom: -1px;
+  bottom: 0;
   background-color: #d7d7d7;
   color: #7c7c7c;
   font-family: Arial, Tahoma, sans-serif;
@@ -128,6 +128,10 @@ $experimental-support-for-svg: true;
   @extend %#{$b}__right;
 }
 
+.#{$b}-graph__range {
+  margin-top: -1px;
+}
+
 .#{$b}-graph__range,
 .#{$b}-graph__range-hover,
 .#{$b}-graph__range-grey {
@@ -147,7 +151,7 @@ $experimental-support-for-svg: true;
 %#{$b}-graph__wrap-range-grey {
   height: $control-height;
   position: absolute;
-  top: 1px;
+  top: 0;
   overflow: hidden;
 
   canvas {

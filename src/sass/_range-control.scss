@@ -24,7 +24,7 @@ $experimental-support-for-svg: true;
   color: #7c7c7c;
   font-family: Arial, Tahoma, sans-serif;
   font-size: 11px;
-  line-height: $control-height;
+  line-height: $control-height - 1;
   text-align: center;
   cursor: pointer;
   white-space: nowrap;

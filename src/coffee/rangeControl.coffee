@@ -286,8 +286,8 @@ class RangeControl
 
   render: ->
     @_initDimensions()
-    @leftValue(@leftValue())
-    @rightValue(@rightValue())
+    @leftValue(@_leftControlValue)
+    @rightValue(@_rightControlValue)
 
   rebuild: (options = @options)->
     @constructor(@el, options)
@@ -455,7 +455,7 @@ class RangeControlGraph extends RangeControl
 
     @_rangeElementHover.on "mousemove", (e) =>
       x = e.offsetX
-      y = e.offsetY
+#      y = e.offsetY
       @_drawRangeHover(@_getValueByPosition(x))
 
   _drawRangeHover: (value) ->

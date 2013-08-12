@@ -165,7 +165,6 @@
     RangeControl.prototype._bindControlKeys = function() {
       var control, controls, _i, _len, _results,
         _this = this;
-
       controls = [this._leftControl, this._rightControl];
       _results = [];
       for (_i = 0, _len = controls.length; _i < _len; _i++) {
@@ -184,7 +183,6 @@
 
     RangeControl.prototype._bindResize = function() {
       var _this = this;
-
       return $(window).on('resize', function() {
         return _this.render();
       });
@@ -200,7 +198,6 @@
     RangeControl.prototype._initControls = function() {
       var control, controls, _i, _len,
         _this = this;
-
       controls = [this._leftControl, this._rightControl];
       for (_i = 0, _len = controls.length; _i < _len; _i++) {
         control = controls[_i];
@@ -215,7 +212,6 @@
       }
       this._leftControl.on('mousedown', function(event) {
         var leftLimit, rightLimit, shiftX, zeroCoordinate;
-
         if (event.which !== 1) {
           return;
         }
@@ -231,7 +227,6 @@
       });
       this._rightControl.on('mousedown', function(event) {
         var leftLimit, rightLimit, shiftX, zeroCoordinate;
-
         if (event.which !== 1) {
           return;
         }
@@ -256,7 +251,6 @@
 
     RangeControl.prototype._controlMoveTo = function(control, stopPoint, zeroCoordinate, shiftX, leftLimit, rightLimit) {
       var controlLeftPosition, leftBorderPosition, rightBorderPosition;
-
       leftBorderPosition = stopPoint - zeroCoordinate - shiftX;
       rightBorderPosition = stopPoint - zeroCoordinate - shiftX + this._controlWidth;
       if (leftBorderPosition >= leftLimit && rightBorderPosition < rightLimit) {
@@ -279,7 +273,6 @@
 
     RangeControl.prototype._renderRangeControl = function() {
       var range;
-
       this.el.addClass(this.PLUGINNAME);
       this.el.children().remove();
       this._leftControl = $("<button class='" + this.PLUGINNAME + "__left'></button>");
@@ -291,7 +284,6 @@
 
     RangeControl.prototype._renderRange = function() {
       var leftBorder, rightBorder;
-
       leftBorder = ((this._leftControlValue - this._min) * this._pxInValue) + this._controlWidth - (this._controlWidth / 2);
       rightBorder = ((this._rightControlValue - this._min) * this._pxInValue) + this._controlWidth + (this._controlWidth / 2);
       return this._rangeElement.css({
@@ -302,7 +294,6 @@
 
     RangeControl.prototype._renderLeftControl = function(value) {
       var position;
-
       position = (value - this._min) * this._pxInValue;
       return this._leftControl.css({
         left: position
@@ -311,7 +302,6 @@
 
     RangeControl.prototype._renderRightControl = function(value) {
       var position;
-
       position = this._controlWidth + ((value - this._min) * this._pxInValue);
       return this._rightControl.css({
         left: position
@@ -356,7 +346,6 @@
 
     RangeControl.prototype._fireChangeEvent = function() {
       var _this = this;
-
       clearTimeout(this._changeTimeout);
       return this._changeTimeout = setTimeout(function() {
         return _this.el.trigger('change', _this.value());
@@ -365,8 +354,8 @@
 
     RangeControl.prototype.render = function() {
       this._initDimensions();
-      this.leftValue(this.leftValue());
-      return this.rightValue(this.rightValue());
+      this.leftValue(this._leftControlValue);
+      return this.rightValue(this._rightControlValue);
     };
 
     RangeControl.prototype.rebuild = function(options) {
@@ -443,10 +432,8 @@
 
     RangeControlGraph.prototype._renderRange = function() {
       var dataSize, rangeVolumes, value, volume;
-
       rangeVolumes = (function() {
         var _ref, _results;
-
         _ref = this.options.data;
         _results = [];
         for (value in _ref) {
@@ -473,7 +460,6 @@
 
     RangeControlGraph.prototype._renderColorRange = function() {
       var color, colorRange, data, i, leftColorRange, range, rightColorRange, value;
-
       if (this.dataColorRange == null) {
         this.dataColorRange = {};
         colorRange = this.settings.colorsRange;
@@ -500,7 +486,6 @@
 
     RangeControlGraph.prototype._drawColorRange = function() {
       var color, leftRangeItem, numberOfItem, range, rightRangeItem, _ref, _results;
-
       _ref = this.dataColorRange;
       _results = [];
       for (color in _ref) {
@@ -516,7 +501,6 @@
 
     RangeControlGraph.prototype._renderRangeCells = function() {
       var i, value, volume, _ref, _results;
-
       i = 0;
       this.canvas.fillStyle = this.settings.colorCell;
       _ref = this.options.data;
@@ -530,14 +514,12 @@
 
     RangeControlGraph.prototype._renderRangeCell = function(i, volume) {
       var cellHeight;
-
       cellHeight = this.canvasHeight / this._maxRangeVolume * volume;
       return this.canvas.fillRect(this.canvasScale * i, this.canvasHeight, this.canvasScale, -cellHeight);
     };
 
     RangeControlGraph.prototype._renderGreyRange = function() {
       var brightness, data, i, imageData, _i, _ref;
-
       this.greyCanvasLeft = this._rangeGreyElementLeft[0].getContext('2d');
       this._rangeGreyElementLeft[0].width = this._rangeElement[0].width;
       this._rangeGreyElementLeft[0].height = this._rangeElement[0].height;
@@ -560,7 +542,6 @@
 
     RangeControlGraph.prototype._renderRangeWraps = function() {
       var leftWidth, rightWidth;
-
       leftWidth = ((this._leftControlValue - this._min) * this._pxInValue) + this._controlWidth - (this._controlWidth / 2);
       rightWidth = this._width - ((this._rightControlValue - this._min) * this._pxInValue + this._controlWidth + (this._controlWidth / 2));
       this._rangeGreyWrapLeft.css({
@@ -573,16 +554,13 @@
 
     RangeControlGraph.prototype._renderRangeHover = function() {
       var _this = this;
-
       this.canvasHover = this._rangeElementHover[0].getContext('2d');
       this._rangeElementHover[0].width = this._rangeElement[0].width;
       this._rangeElementHover[0].height = this._rangeElement[0].height;
       this._rangeElementHover.width(this._widthWithoutPaddings);
       return this._rangeElementHover.on("mousemove", function(e) {
-        var x, y;
-
+        var x;
         x = e.offsetX;
-        y = e.offsetY;
         return _this._drawRangeHover(_this._getValueByPosition(x));
       });
     };
@@ -594,7 +572,6 @@
 
     RangeControlGraph.prototype._formatLeftControl = function() {
       var value;
-
       value = this._getLeftValue();
       if (this._formatControlCallback != null) {
         return this._leftControl.html(this._formatControlCallback(value));
@@ -603,7 +580,6 @@
 
     RangeControlGraph.prototype._formatRightControl = function() {
       var value;
-
       value = this._getRightValue();
       if (this._formatControlCallback != null) {
         return this._rightControl.html(this._formatControlCallback(value));
@@ -612,7 +588,6 @@
 
     RangeControlGraph.prototype._getLeftValue = function() {
       var value;
-
       value = Object.keys(this.options.data)[this._leftControlValue - 1];
       if (value == null) {
         value = 0;
@@ -622,7 +597,6 @@
 
     RangeControlGraph.prototype._getRightValue = function() {
       var value;
-
       value = Object.keys(this.options.data)[this._rightControlValue - 1];
       if (value == null) {
         value = 0;
@@ -644,7 +618,6 @@
 
   $.fn.rangeControl = function(options) {
     var pluginName;
-
     pluginName = RangeControl.prototype.PLUGINNAME;
     return this.each(function() {
       if ($(this).data(pluginName) === void 0) {
@@ -657,7 +630,6 @@
 
   $.fn.rangeControlGraph = function(options) {
     var pluginName;
-
     pluginName = RangeControlGraph.prototype.PLUGINNAME;
     return this.each(function() {
       if ($(this).data(pluginName) === void 0) {

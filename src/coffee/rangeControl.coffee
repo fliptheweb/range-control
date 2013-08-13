@@ -117,7 +117,6 @@ class RangeControl
         if value?
           @leftValue(value)
         else
-#          console.log @_getLeftValue(), @_leftControlValue
 #          @_getLeftValue()
            @_leftControlValue
       else if control[0] == @_rightControl[0]

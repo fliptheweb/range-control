@@ -117,12 +117,15 @@ class RangeControl
         if value?
           @leftValue(value)
         else
-          @leftValue()
+#          console.log @_getLeftValue(), @_leftControlValue
+#          @_getLeftValue()
+           @_leftControlValue
       else if control[0] == @_rightControl[0]
         if value?
           @rightValue(value)
         else
-          @rightValue()
+#          @_getRightValue()
+          @_rightControlValue
 
   _getPositionByValue: (x) ->
 

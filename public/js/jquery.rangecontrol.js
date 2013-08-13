@@ -148,13 +148,13 @@
           if (value != null) {
             return this.leftValue(value);
           } else {
-            return this.leftValue();
+            return this._leftControlValue;
           }
         } else if (control[0] === this._rightControl[0]) {
           if (value != null) {
             return this.rightValue(value);
           } else {
-            return this.rightValue();
+            return this._rightControlValue;
           }
         }
       }

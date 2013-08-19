@@ -183,3 +183,16 @@
 .range-control-graph__wrap-range-grey-right canvas {
   right: 0;
 }
+
+.range-control-graph__hover {
+  display: none;
+  position: absolute;
+  top: -17px;
+  height: 14px;
+  padding-left: 2px;
+  color: rgba(61, 61, 61, 0.7);
+  border-left: 1px solid #838383;
+  font-size: 11px;
+  line-height: 10px;
+  width: 100px;
+}

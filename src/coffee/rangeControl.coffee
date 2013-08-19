@@ -460,8 +460,10 @@ class RangeControlGraph extends RangeControl
 #      y = e.offsetY
       @_drawRangeHover(@_getValueByPosition(x))
 
+
   _drawRangeHover: (value) ->
     @canvasHover.clearRect(0, 0, @_rangeElement[0].width, @_rangeElement[0].height)
+    console.log value
     @_renderRangeCell(value, @getVolumeByValue(value))
 
   _formatLeftControl: ->

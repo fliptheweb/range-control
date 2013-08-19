@@ -567,6 +567,7 @@
 
     RangeControlGraph.prototype._drawRangeHover = function(value) {
       this.canvasHover.clearRect(0, 0, this._rangeElement[0].width, this._rangeElement[0].height);
+      console.log(value);
       return this._renderRangeCell(value, this.getVolumeByValue(value));
     };
 

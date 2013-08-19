@@ -160,7 +160,13 @@
       }
     };
 
-    RangeControl.prototype._getPositionByValue = function(x) {};
+    RangeControl.prototype._getPositionByValue = function(x) {
+      return x * this._pxInValue;
+    };
+
+    RangeControl.prototype._getPositionWithControlByValue = function(x) {
+      return this._getPositionByValue(x) + this._controlWidth;
+    };
 
     RangeControl.prototype._bindControlKeys = function() {
       var control, controls, _i, _len, _results,
@@ -426,6 +432,7 @@
       this._rangeGreyElementLeft = $("<canvas class='" + this.PLUGINNAME + "__range-grey'></canvas>").appendTo(this._rangeGreyWrapLeft);
       this._rangeGreyWrapRight = $("<div class='" + this.PLUGINNAME + "__wrap-range-grey-right'></div>");
       this._rangeGreyElementRight = $("<canvas class='" + this.PLUGINNAME + "__range-grey'></canvas>").appendTo(this._rangeGreyWrapRight);
+      this._hoverElement = $("<div class='" + this.PLUGINNAME + "__hover'>111</div>").appendTo(this.el);
       this._rangeGreyWrapLeft.appendTo(this.el);
       return this._rangeGreyWrapRight.appendTo(this.el);
     };
@@ -558,17 +565,29 @@
       this._rangeElementHover[0].width = this._rangeElement[0].width;
       this._rangeElementHover[0].height = this._rangeElement[0].height;
       this._rangeElementHover.width(this._widthWithoutPaddings);
-      return this._rangeElementHover.on("mousemove", function(e) {
-        var x;
+      this._rangeElementHover.on("mousemove", function(e) {
+        var value, x;
         x = e.offsetX;
-        return _this._drawRangeHover(_this._getValueByPosition(x));
+        value = _this._getValueByPosition(x);
+        _this._drawRangeHover(value);
+        _this._hoverElement.show().css({
+          left: _this._getPositionWithControlByValue(value)
+        });
+        return _this._hoverElement.text(_this._getVolumeByIndexNumber(value));
+      });
+      return this._rangeElementHover.on("mouseout", function(e) {
+        _this._clearRangeHover();
+        return _this._hoverElement.hide();
       });
     };
 
     RangeControlGraph.prototype._drawRangeHover = function(value) {
-      this.canvasHover.clearRect(0, 0, this._rangeElement[0].width, this._rangeElement[0].height);
-      console.log(value);
+      this._clearRangeHover();
       return this._renderRangeCell(value, this.getVolumeByValue(value));
+    };
+
+    RangeControlGraph.prototype._clearRangeHover = function() {
+      return this.canvasHover.clearRect(0, 0, this._rangeElement[0].width, this._rangeElement[0].height);
     };
 
     RangeControlGraph.prototype._formatLeftControl = function() {
@@ -588,17 +607,16 @@
     };
 
     RangeControlGraph.prototype._getLeftValue = function() {
-      var value;
-      value = Object.keys(this.options.data)[this._leftControlValue - 1];
-      if (value == null) {
-        value = 0;
-      }
-      return parseInt(value);
+      return this._getValueByIndexNumber(this._leftControlValue);
     };
 
     RangeControlGraph.prototype._getRightValue = function() {
+      return this._getValueByIndexNumber(this._rightControlValue);
+    };
+
+    RangeControlGraph.prototype._getValueByIndexNumber = function(i) {
       var value;
-      value = Object.keys(this.options.data)[this._rightControlValue - 1];
+      value = Object.keys(this.options.data)[i - 1];
       if (value == null) {
         value = 0;
       }
@@ -607,6 +625,10 @@
 
     RangeControlGraph.prototype.getVolumeByValue = function(value) {
       return this.options.data[value];
+    };
+
+    RangeControlGraph.prototype._getVolumeByIndexNumber = function(i) {
+      return this.getVolumeByValue(this._getValueByIndexNumber(i));
     };
 
     RangeControlGraph.prototype.testCanvasSupport = function() {

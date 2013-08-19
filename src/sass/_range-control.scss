@@ -166,7 +166,7 @@ $experimental-support-for-svg: true;
 }
 
 .#{$b}-graph__hover {
-  display: none;
+  //display: none;
   position: absolute;
   top: -17px;
   height: 14px;

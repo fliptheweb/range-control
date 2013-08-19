@@ -127,6 +127,10 @@ class RangeControl
           @_rightControlValue
 
   _getPositionByValue: (x) ->
+    x * @_pxInValue
+
+  _getPositionWithControlByValue: (x) ->
+    @_getPositionByValue(x) + @_controlWidth
 
   _bindControlKeys: ->
     controls = [@_leftControl, @_rightControl]
@@ -348,6 +352,7 @@ class RangeControlGraph extends RangeControl
     @_rangeGreyElementLeft  = $("<canvas class='#{@PLUGINNAME}__range-grey'></canvas>").appendTo(@_rangeGreyWrapLeft)
     @_rangeGreyWrapRight    = $("<div class='#{@PLUGINNAME}__wrap-range-grey-right'></div>")
     @_rangeGreyElementRight = $("<canvas class='#{@PLUGINNAME}__range-grey'></canvas>").appendTo(@_rangeGreyWrapRight)
+    @_hoverElement = $("<div class='#{@PLUGINNAME}__hover'>111</div>").appendTo(@el)
     @_rangeGreyWrapLeft.appendTo(@el)
     @_rangeGreyWrapRight.appendTo(@el)
 
@@ -458,13 +463,23 @@ class RangeControlGraph extends RangeControl
     @_rangeElementHover.on "mousemove", (e) =>
       x = e.offsetX
 #      y = e.offsetY
-      @_drawRangeHover(@_getValueByPosition(x))
+      value = @_getValueByPosition(x)
+      @_drawRangeHover(value)
+      @_hoverElement.show().css(
+        left: @_getPositionWithControlByValue(value)
+      )
+      @_hoverElement.text(@_getVolumeByIndexNumber(value))
 
+    @_rangeElementHover.on "mouseout", (e) =>
+      @_clearRangeHover()
+      @_hoverElement.hide()
 
   _drawRangeHover: (value) ->
-    @canvasHover.clearRect(0, 0, @_rangeElement[0].width, @_rangeElement[0].height)
-    console.log value
+    @_clearRangeHover()
     @_renderRangeCell(value, @getVolumeByValue(value))
+
+  _clearRangeHover: ->
+    @canvasHover.clearRect(0, 0, @_rangeElement[0].width, @_rangeElement[0].height)
 
   _formatLeftControl: ->
     value = @_getLeftValue()
@@ -478,19 +493,22 @@ class RangeControlGraph extends RangeControl
       @_rightControl.html(@_formatControlCallback(value))
 
   _getLeftValue: ->
-    value = Object.keys(@options.data)[@_leftControlValue - 1]
-    if !value?
-      value = 0
-    parseInt(value)
+    @_getValueByIndexNumber(@_leftControlValue)
 
   _getRightValue: ->
-    value = Object.keys(@options.data)[@_rightControlValue - 1]
+    @_getValueByIndexNumber(@_rightControlValue)
+
+  _getValueByIndexNumber: (i) ->
+    value = Object.keys(@options.data)[i - 1]
     if !value?
       value = 0
     parseInt(value)
 
   getVolumeByValue: (value) ->
     @options.data[value]
+
+  _getVolumeByIndexNumber: (i) ->
+    @getVolumeByValue(@_getValueByIndexNumber(i))
 
   testCanvasSupport: ->
     !!document.createElement('canvas').getContext

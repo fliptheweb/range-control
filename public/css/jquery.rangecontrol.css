@@ -185,7 +185,6 @@
 }
 
 .range-control-graph__hover {
-  display: none;
   position: absolute;
   top: -17px;
   height: 14px;

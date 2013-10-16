@@ -5,6 +5,7 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   RangeControl = (function() {
+
     RangeControl._min;
 
     RangeControl._max;
@@ -246,6 +247,12 @@
           return _this._controlMoveTo(_this._rightControl, event.clientX, zeroCoordinate, shiftX, leftLimit, rightLimit);
         });
       });
+      this._leftControl.on('click', function() {
+        return false;
+      });
+      this._rightControl.on('click', function() {
+        return false;
+      });
       $(document).on('mouseup', function() {
         _this._leftControl.triggerHandler('mouseup');
         return _this._rightControl.triggerHandler('mouseup');
@@ -381,6 +388,7 @@
   })();
 
   RangeControlGraph = (function(_super) {
+
     __extends(RangeControlGraph, _super);
 
     RangeControlGraph.prototype.PLUGINNAME = 'range-control-graph';

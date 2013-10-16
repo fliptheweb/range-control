@@ -201,6 +201,9 @@ class RangeControl
           rightLimit
         )
 
+    @_leftControl.on 'click', => false
+    @_rightControl.on 'click', => false
+
     $(document).on 'mouseup', =>
       @_leftControl.triggerHandler  'mouseup'
       @_rightControl.triggerHandler 'mouseup'

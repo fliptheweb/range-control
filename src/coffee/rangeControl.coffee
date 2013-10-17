@@ -534,17 +534,21 @@ class RangeControlGraph extends RangeControl
 #
 
 $.fn.rangeControl = (options) ->
-  pluginName = RangeControl.prototype.PLUGINNAME
-  this.each ->
+	controls = []
+	pluginName = RangeControl.prototype.PLUGINNAME
+	this.each ->
     if $(this).data(pluginName) == undefined
-      new RangeControl($(this), options)
+      controls.push(new RangeControl($(this), options))
     else
-      $(this).data(pluginName)
+      controls.push($(this).data(pluginName))
+	return controls
 
 $.fn.rangeControlGraph = (options) ->
+  controls = []
   pluginName = RangeControlGraph.prototype.PLUGINNAME
   this.each ->
     if $(this).data(pluginName) == undefined
-      new RangeControlGraph($(this), options)
+      controls.push(new RangeControlGraph($(this), options))
     else
-      $(this).data(pluginName)
+      controls.push($(this).data(pluginName))
+  return controls

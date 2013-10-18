@@ -334,13 +334,14 @@ class RangeControlGraph extends RangeControl
 
     @min(0)
     @max(Object.keys(@options.data).length)
-    @leftValue(@min())
-    @rightValue(@max())
 
     super @el, $.extend(@settings, {
       min: @min(),
       max: @max()
     })
+
+    @leftValue(@_getIndexNumberByValue(@el.data('left-value')) || @min())
+    @rightValue(@_getIndexNumberByValue(@el.data('right-value')) || @max())
 
 
   # If youre using template engine - override this method
@@ -507,6 +508,9 @@ class RangeControlGraph extends RangeControl
       value = 0
     parseInt(value)
 
+  _getIndexNumberByValue: (value) ->
+    Object.keys(@options.data).indexOf(value.toString()) + 1
+
   getVolumeByValue: (value) ->
     @options.data[value]
 
@@ -532,6 +536,9 @@ class RangeControlGraph extends RangeControl
 #    cell.on "mouseleave", =>
 #      cellHoverEl.hide()
 #
+
+$.fn.testCanvasSupport = (options) ->
+	!!document.createElement('canvas').getContext
 
 $.fn.rangeControl = (options) ->
 	controls = []

@@ -201,6 +201,9 @@ class RangeControl
           rightLimit
         )
 
+    @_leftControl.on 'click', => false
+    @_rightControl.on 'click', => false
+
     $(document).on 'mouseup', =>
       @_leftControl.triggerHandler  'mouseup'
       @_rightControl.triggerHandler 'mouseup'
@@ -331,13 +334,14 @@ class RangeControlGraph extends RangeControl
 
     @min(0)
     @max(Object.keys(@options.data).length)
-    @leftValue(@min())
-    @rightValue(@max())
 
     super @el, $.extend(@settings, {
       min: @min(),
       max: @max()
     })
+
+    @leftValue(@_getIndexNumberByValue(@el.data('left-value')) || @min())
+    @rightValue(@_getIndexNumberByValue(@el.data('right-value')) || @max())
 
 
   # If youre using template engine - override this method
@@ -504,6 +508,9 @@ class RangeControlGraph extends RangeControl
       value = 0
     parseInt(value)
 
+  _getIndexNumberByValue: (value) ->
+    Object.keys(@options.data).indexOf(value.toString()) + 1
+
   getVolumeByValue: (value) ->
     @options.data[value]
 
@@ -530,18 +537,25 @@ class RangeControlGraph extends RangeControl
 #      cellHoverEl.hide()
 #
 
+$.fn.testCanvasSupport = (options) ->
+	!!document.createElement('canvas').getContext
+
 $.fn.rangeControl = (options) ->
-  pluginName = RangeControl.prototype.PLUGINNAME
-  this.each ->
+	controls = []
+	pluginName = RangeControl.prototype.PLUGINNAME
+	this.each ->
     if $(this).data(pluginName) == undefined
-      new RangeControl($(this), options)
+      controls.push(new RangeControl($(this), options))
     else
-      $(this).data(pluginName)
+      controls.push($(this).data(pluginName))
+	return controls
 
 $.fn.rangeControlGraph = (options) ->
+  controls = []
   pluginName = RangeControlGraph.prototype.PLUGINNAME
   this.each ->
     if $(this).data(pluginName) == undefined
-      new RangeControlGraph($(this), options)
+      controls.push(new RangeControlGraph($(this), options))
     else
-      $(this).data(pluginName)
+      controls.push($(this).data(pluginName))
+  return controls
